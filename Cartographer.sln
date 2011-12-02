@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartographer", "src\Cartographer\Cartographer.csproj", "{07E1EBA2-D308-44D3-BBEF-B195BB2051F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartographer.Tests", "src\Cartographer.Tests\Cartographer.Tests.csproj", "{892DAC45-3AD9-4E13-B630-C981792A3F1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{07E1EBA2-D308-44D3-BBEF-B195BB2051F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07E1EBA2-D308-44D3-BBEF-B195BB2051F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07E1EBA2-D308-44D3-BBEF-B195BB2051F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{892DAC45-3AD9-4E13-B630-C981792A3F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{892DAC45-3AD9-4E13-B630-C981792A3F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{892DAC45-3AD9-4E13-B630-C981792A3F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{892DAC45-3AD9-4E13-B630-C981792A3F1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
