@@ -1,9 +1,8 @@
-using System;
-
 namespace Cartographer
 {
-	public interface IMappingBuilder
+	using System;
 
+	public interface IMappingBuilder
 	{
 		Delegate BuildMapping(TypeModel source, TypeModel target);
 	}

@@ -1,9 +1,8 @@
-using System;
-
 namespace Cartographer
 {
-	public interface ITypeModelBuilder
+	using System;
 
+	public interface ITypeModelBuilder
 	{
 		TypeModel BuildModel(Type type);
 	}

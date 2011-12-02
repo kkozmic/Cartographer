@@ -1,9 +1,8 @@
-using System;
-
 namespace Cartographer
 {
-	public interface ITypeMapper
+	using System;
 
+	public interface ITypeMapper
 	{
 		Type GetTargetType(Type sourceType, Type requestedTargetType);
 	}

@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections.Concurrent;
-
-namespace Cartographer
+﻿namespace Cartographer
 {
-	public class Mapper : IMapper
+	using System;
+	using System.Collections.Concurrent;
+
+	public class Mapper: IMapper
 	{
-		private readonly IMappingBuilder mappingBuilder;
+		readonly IMappingBuilder mappingBuilder;
 
-		private readonly ConcurrentDictionary<Tuple<Type, Type>, Delegate> mappins =
-			new ConcurrentDictionary<Tuple<Type, Type>, Delegate>();
+		readonly ConcurrentDictionary<Tuple<Type, Type>, Delegate> mappins = new ConcurrentDictionary<Tuple<Type, Type>, Delegate>();
 
-		private readonly ITypeModelBuilder modelBuilder;
-		private readonly ITypeMapper typeMapper;
+		readonly ITypeModelBuilder modelBuilder;
+		readonly ITypeMapper typeMapper;
 
 
 		public Mapper(ITypeMapper typeMapper, ITypeModelBuilder modelBuilder, IMappingBuilder mappingBuilder)
-
 		{
 			this.typeMapper = typeMapper;
-
 			this.modelBuilder = modelBuilder;
-
 			this.mappingBuilder = mappingBuilder;
 		}
 
 
 		public TResult Convert<TResult>(object source)
-
 		{
 			var sourceType = source.GetType();
 
@@ -38,8 +33,7 @@ namespace Cartographer
 		}
 
 
-		private Delegate CreateMapping(Tuple<Type, Type> arg)
-
+		Delegate CreateMapping(Tuple<Type, Type> arg)
 		{
 			var sourceModel = modelBuilder.BuildModel(arg.Item1);
 

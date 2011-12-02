@@ -1,7 +1,4 @@
 namespace Cartographer
 {
-	public class TypeModel
-
-	{
-	}
+	public class TypeModel {}
 }
