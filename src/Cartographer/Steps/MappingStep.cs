@@ -1,7 +1,4 @@
 namespace Cartographer.Steps
 {
-	public abstract class MappingStep
-	{
-		
-	}
+	public abstract class MappingStep {}
 }

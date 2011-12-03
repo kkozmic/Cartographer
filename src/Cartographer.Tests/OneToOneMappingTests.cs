@@ -1,6 +1,7 @@
 ﻿namespace CartographerTests
 {
 	using Cartographer;
+	using Cartographer.Visitors;
 
 	using CartographerTests.Types;
 
@@ -12,7 +13,20 @@
 
 		public OneToOneMappingTests()
 		{
-			mapper = new Mapper(new TypeMapper(), new TypeModelBuilder(), new MappingBuilder(new MatchByNameMappingPattern()), new MappingCompiler());
+			mapper = new Mapper(
+				new TypeMapper(),
+				new TypeModelBuilder(),
+				new MappingBuilder(new MatchByNameMappingPattern(), new MatchByNameFlattenMappingPattern()),
+				new MappingCompiler(new AssignVisitor(), new AssignChainVisitor()));
+		}
+
+		[Fact]
+		public void Can_flatten_Foo_Bar_to_FooBar()
+		{
+			var dto = mapper.Convert<AccountDto>(new Account { Number = "abc123", Owner = new Person { Id = 42 } });
+
+			Assert.Equal(42, dto.OwnerId);
+			Assert.Equal("abc123", dto.Number);
 		}
 
 		[Fact]

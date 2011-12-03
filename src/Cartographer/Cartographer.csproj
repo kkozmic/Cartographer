@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssignChainVisitor.cs" />
+    <Compile Include="Visitors\AssignVisitor.cs" />
     <Compile Include="IMappingCompiler.cs" />
     <Compile Include="IMappingPattern.cs" />
+    <Compile Include="IMappingVisitor.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMappingBuilder.cs" />
@@ -51,9 +54,11 @@
     <Compile Include="MappingCompiler.cs" />
     <Compile Include="MappingContext.cs" />
     <Compile Include="MappingStrategy.cs" />
+    <Compile Include="MatchByNameFlattenMappingPattern.cs" />
     <Compile Include="MatchByNameMappingPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\Assign.cs" />
+    <Compile Include="Steps\AssignChain.cs" />
     <Compile Include="Steps\MappingStep.cs" />
     <Compile Include="TypeMapper.cs" />
     <Compile Include="TypeModel.cs" />

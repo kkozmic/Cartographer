@@ -1,7 +1,5 @@
 namespace Cartographer
 {
-	using System;
-
 	public class MappingBuilder: IMappingBuilder
 	{
 		readonly IMappingPattern[] patterns;

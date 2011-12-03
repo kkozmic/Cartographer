@@ -11,7 +11,7 @@ namespace Cartographer
 			foreach (var targetProperty in strategy.Target.Properties)
 			{
 				var sourceProperty = strategy.Source.Properties.FirstOrDefault(p => p.Name == targetProperty.Name);
-				if(sourceProperty != null)
+				if (sourceProperty != null)
 				{
 					strategy.AddMappingStep(new Assign(targetProperty, sourceProperty));
 				}
