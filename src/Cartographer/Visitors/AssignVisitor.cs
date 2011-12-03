@@ -4,10 +4,10 @@ namespace Cartographer.Visitors
 
 	public class AssignVisitor: IMappingVisitor<Assign>
 	{
-		public void Visit(Assign step, object source, object target, MappingContext context, MappingStrategy strategy)
+		public void Visit(Assign step, MappingContext context)
 		{
-			var value = step.SourceProperty.GetValue(source, null);
-			step.TargetProperty.SetValue(target, value, null);
+			var value = step.SourceProperty.GetValue(context.SourceInstance, null);
+			step.TargetProperty.SetValue(context.TargetInstance, value, null);
 		}
 	}
 }

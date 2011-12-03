@@ -1,12 +1,12 @@
-namespace Cartographer
+namespace Cartographer.Visitors
 {
 	using Cartographer.Steps;
 
 	public class AssignChainVisitor: IMappingVisitor<AssignChain>
 	{
-		public void Visit(AssignChain step, object source, object target, MappingContext context, MappingStrategy strategy)
+		public void Visit(AssignChain step, MappingContext context)
 		{
-			var value = source;
+			var value = context.SourceInstance;
 			foreach (var property in step.SourcePropertyChain)
 			{
 				value = property.GetValue(value, null);
@@ -17,7 +17,7 @@ namespace Cartographer
 			}
 			if (value != null)
 			{
-				step.TargetProperty.SetValue(target, value, null);
+				step.TargetProperty.SetValue(context.TargetInstance, value, null);
 			}
 		}
 	}

@@ -28,11 +28,11 @@
 			var sourceType = source.GetType();
 
 			var targetType = typeMapper.GetTargetType(sourceType, typeof (TResult));
-			var mappingContext = new MappingContext { TargetType = targetType };
+			var mappingContext = new MappingContext { TargetType = targetType, SourceInstance = source };
 
 			dynamic mapper = mappins.GetOrAdd(Tuple.Create(sourceType, targetType), CreateMapping);
 
-			return mapper.Invoke(source, mappingContext);
+			return mapper.Invoke(mappingContext);
 		}
 
 

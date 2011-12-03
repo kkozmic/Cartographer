@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssignChainVisitor.cs" />
+    <Compile Include="Visitors\AssignChainVisitor.cs" />
     <Compile Include="Visitors\AssignVisitor.cs" />
     <Compile Include="IMappingCompiler.cs" />
     <Compile Include="IMappingPattern.cs" />

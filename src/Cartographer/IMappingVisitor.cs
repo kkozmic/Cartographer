@@ -4,6 +4,6 @@ namespace Cartographer
 
 	public interface IMappingVisitor<TStep> where TStep: MappingStep
 	{
-		void Visit(TStep step, object source, object target, MappingContext context, MappingStrategy strategy);
+		void Visit(TStep step, MappingContext context);
 	}
 }

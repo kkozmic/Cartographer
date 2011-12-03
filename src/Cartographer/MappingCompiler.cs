@@ -19,7 +19,7 @@ namespace Cartographer
 
 		public Delegate Compile(MappingStrategy strategy)
 		{
-			return new Func<object, MappingContext, dynamic>((s, c) => Map(s, c, strategy));
+			return new Func<MappingContext, dynamic>(c => Map(c, strategy));
 		}
 
 		void AddVisitor<TStep>(IMappingVisitor<TStep> visitor) where TStep: MappingStep
@@ -37,20 +37,21 @@ namespace Cartographer
 			return (IMappingVisitor<TStep>)visitor;
 		}
 
-		object Map(object source, MappingContext context, MappingStrategy strategy)
+		object Map(MappingContext context, MappingStrategy strategy)
 		{
 			var target = Activator.CreateInstance(context.TargetType);
+			context.TargetInstance = target;
 			foreach (dynamic step in strategy.MappingSteps)
 			{
-				Visit(step, target, source, context, strategy);
+				Visit(step, context);
 			}
 			return target;
 		}
 
-		void Visit<TStep>(TStep step, object target, object source, MappingContext context, MappingStrategy strategy) where TStep: MappingStep
+		void Visit<TStep>(TStep step, MappingContext context) where TStep: MappingStep
 		{
 			var visitor = GetVisitor<TStep>();
-			visitor.Visit(step, source, target, context, strategy);
+			visitor.Visit(step, context);
 		}
 	}
 }
