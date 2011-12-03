@@ -46,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OneToOneMappingTests.cs" />
     <Compile Include="Types\Account.cs" />
+    <Compile Include="Types\Account2Dto.cs" />
     <Compile Include="Types\AccountDto.cs" />
     <Compile Include="Types\Person.cs" />
     <Compile Include="Types\User.cs" />

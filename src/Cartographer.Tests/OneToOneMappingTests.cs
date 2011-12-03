@@ -30,6 +30,14 @@
 		}
 
 		[Fact]
+		public void Can_handle_nulls_on_flattening_path()
+		{
+			var dto = mapper.Convert<Account2Dto>(new Account { Number = "abc123", Owner = null });
+			Assert.Equal(null, dto.OwnerId);
+			Assert.Equal("abc123", dto.Number);
+		}
+
+		[Fact]
 		public void Can_map_one_to_one_type_with_string_properties()
 		{
 			var dto = mapper.Convert<UserDto>(new User { FirstName = "Stefan", LastName = "Mucha" });

@@ -4,8 +4,8 @@ namespace Cartographer
 
 	public class MappingContext
 	{
-		public Type TargetType { get; set; }
-		public object TargetInstance { get; set; }
 		public object SourceInstance { get; set; }
+		public object TargetInstance { get; set; }
+		public Type TargetType { get; set; }
 	}
 }
