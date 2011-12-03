@@ -4,27 +4,21 @@ namespace Cartographer
 
 	public class MappingBuilder: IMappingBuilder
 	{
-		public Delegate BuildMapping(TypeModel source, TypeModel target)
+		readonly IMappingPattern[] patterns;
+
+		public MappingBuilder(params IMappingPattern[] patterns)
 		{
-			return new Func<object, MappingContext, dynamic>(Map);
+			this.patterns = patterns;
 		}
 
-		private dynamic Map(object source, MappingContext context)
+		public MappingStrategy BuildMappingStrategy(TypeModel source, TypeModel target)
 		{
-			var sourceType = source.GetType();
-			var targetType = context.TargetType;
-
-			var target = Activator.CreateInstance(targetType);
-
-			foreach (var targetProperty in targetType.GetProperties())
+			var strategy = new MappingStrategy { Source = source, Target = target };
+			foreach (var pattern in patterns)
 			{
-				var sourceProperty = sourceType.GetProperty(targetProperty.Name);
-				if( sourceProperty == null) continue;
-
-				var value = sourceProperty.GetValue(source, null);
-				targetProperty.SetValue(target, value, null);
+				pattern.Contribute(strategy);
 			}
-			return target;
+			return strategy;
 		}
 	}
 }

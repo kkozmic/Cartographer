@@ -6,6 +6,7 @@
 	public class Mapper: IMapper
 	{
 		readonly IMappingBuilder mappingBuilder;
+		readonly IMappingCompiler mappingCompiler;
 
 		readonly ConcurrentDictionary<Tuple<Type, Type>, Delegate> mappins = new ConcurrentDictionary<Tuple<Type, Type>, Delegate>();
 
@@ -13,11 +14,12 @@
 		readonly ITypeMapper typeMapper;
 
 
-		public Mapper(ITypeMapper typeMapper, ITypeModelBuilder modelBuilder, IMappingBuilder mappingBuilder)
+		public Mapper(ITypeMapper typeMapper, ITypeModelBuilder modelBuilder, IMappingBuilder mappingBuilder, IMappingCompiler mappingCompiler)
 		{
 			this.typeMapper = typeMapper;
 			this.modelBuilder = modelBuilder;
 			this.mappingBuilder = mappingBuilder;
+			this.mappingCompiler = mappingCompiler;
 		}
 
 
@@ -37,11 +39,10 @@
 		Delegate CreateMapping(Tuple<Type, Type> arg)
 		{
 			var sourceModel = modelBuilder.BuildModel(arg.Item1);
-
 			var targetModel = modelBuilder.BuildModel(arg.Item2);
 
-
-			return mappingBuilder.BuildMapping(sourceModel, targetModel);
+			var mappingStrategy = mappingBuilder.BuildMappingStrategy(sourceModel, targetModel);
+			return mappingCompiler.Compile(mappingStrategy);
 		}
 	}
 }

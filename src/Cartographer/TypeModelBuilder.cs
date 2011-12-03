@@ -6,7 +6,11 @@ namespace Cartographer
 	{
 		public TypeModel BuildModel(Type type)
 		{
-			return new TypeModel();
+			return new TypeModel
+			       {
+			       	Properties = type.GetProperties(),
+			       	Type = type
+			       };
 		}
 	}
 }

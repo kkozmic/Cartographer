@@ -40,14 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMappingCompiler.cs" />
+    <Compile Include="IMappingPattern.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMappingBuilder.cs" />
     <Compile Include="ITypeMapper.cs" />
     <Compile Include="ITypeModelBuilder.cs" />
     <Compile Include="MappingBuilder.cs" />
+    <Compile Include="MappingCompiler.cs" />
     <Compile Include="MappingContext.cs" />
+    <Compile Include="MappingStrategy.cs" />
+    <Compile Include="MatchByNameMappingPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\Assign.cs" />
+    <Compile Include="Steps\MappingStep.cs" />
     <Compile Include="TypeMapper.cs" />
     <Compile Include="TypeModel.cs" />
     <Compile Include="TypeModelBuilder.cs" />

@@ -12,7 +12,7 @@
 
 		public OneToOneMappingTests()
 		{
-			mapper = new Mapper(new TypeMapper(), new TypeModelBuilder(), new MappingBuilder());
+			mapper = new Mapper(new TypeMapper(), new TypeModelBuilder(), new MappingBuilder(new MatchByNameMappingPattern()), new MappingCompiler());
 		}
 
 		[Fact]
