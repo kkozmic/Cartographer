@@ -45,8 +45,12 @@
     <Compile Include="IMappingBuilder.cs" />
     <Compile Include="ITypeMapper.cs" />
     <Compile Include="ITypeModelBuilder.cs" />
+    <Compile Include="MappingBuilder.cs" />
+    <Compile Include="MappingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeMapper.cs" />
     <Compile Include="TypeModel.cs" />
+    <Compile Include="TypeModelBuilder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
