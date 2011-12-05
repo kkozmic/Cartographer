@@ -1,5 +1,7 @@
 namespace Cartographer.Steps
 {
+	using System;
+	using System.Linq.Expressions;
 	using System.Reflection;
 
 	public class Assign: MappingStep
@@ -13,14 +15,44 @@ namespace Cartographer.Steps
 			this.sourceProperty = sourceProperty;
 		}
 
+		public override PropertyInfo[] SourcePropertiesUsed
+		{
+			get { return new[] { SourceProperty }; }
+		}
+
 		public PropertyInfo SourceProperty
 		{
 			get { return sourceProperty; }
 		}
 
+		public override Type SourceValueType
+		{
+			get { return SourceProperty.PropertyType; }
+		}
+
+		public override PropertyInfo[] TargetPropertiesUsed
+		{
+			get { return new[] { TargetProperty }; }
+		}
+
 		public PropertyInfo TargetProperty
 		{
 			get { return targetProperty; }
+		}
+
+		public override Type TargetValueType
+		{
+			get { return targetProperty.PropertyType; }
+		}
+
+		public override Expression BuildGetSourceValueExpression(MappingContext context)
+		{
+			return Expression.Property(context.SourceParameter, sourceProperty);
+		}
+
+		public override Expression BuildSetTargetValueExpression(MappingContext context)
+		{
+			return Expression.Call(context.TargetParameter, targetProperty.GetSetMethod(), context.ValueParameter);
 		}
 	}
 }

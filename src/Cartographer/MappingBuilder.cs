@@ -1,22 +1,38 @@
 namespace Cartographer
 {
+	using Cartographer.Steps;
+
 	public class MappingBuilder: IMappingBuilder
 	{
-		readonly IMappingPattern[] patterns;
+		readonly IConversionPattern[] conversionPatterns;
+		readonly IMappingPattern[] mappingPatterns;
 
-		public MappingBuilder(params IMappingPattern[] patterns)
+		public MappingBuilder(IConversionPattern[] conversionPatterns, params IMappingPattern[] mappingPatterns)
 		{
-			this.patterns = patterns;
+			this.conversionPatterns = conversionPatterns;
+			this.mappingPatterns = mappingPatterns;
 		}
 
 		public MappingStrategy BuildMappingStrategy(TypeModel source, TypeModel target)
 		{
-			var strategy = new MappingStrategy { Source = source, Target = target };
-			foreach (var pattern in patterns)
+			var strategy = new MappingStrategy(source, target);
+			foreach (var pattern in mappingPatterns)
 			{
 				pattern.Contribute(strategy);
 			}
+			foreach (var mappingStep in strategy.MappingSteps)
+			{
+				ApplyConverter(mappingStep);
+			}
 			return strategy;
+		}
+
+		void ApplyConverter(MappingStep mapping)
+		{
+			foreach (var pattern in conversionPatterns)
+			{
+				pattern.Apply(mapping);
+			}
 		}
 	}
 }

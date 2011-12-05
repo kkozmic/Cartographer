@@ -1,0 +1,1 @@
+- have an extension point to approve or reject mappings that weren't pre-cached.

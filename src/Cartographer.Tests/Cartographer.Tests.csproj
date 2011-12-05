@@ -48,8 +48,12 @@
     <Compile Include="Types\Account.cs" />
     <Compile Include="Types\Account2Dto.cs" />
     <Compile Include="Types\AccountDto.cs" />
+    <Compile Include="Types\Address.cs" />
+    <Compile Include="Types\AddressDto.cs" />
     <Compile Include="Types\Person.cs" />
     <Compile Include="Types\User.cs" />
+    <Compile Include="Types\User2.cs" />
+    <Compile Include="Types\User2Dto.cs" />
     <Compile Include="Types\UserDto.cs" />
   </ItemGroup>
   <ItemGroup>

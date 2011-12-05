@@ -13,7 +13,9 @@ namespace Cartographer
 				var sourceProperty = strategy.Source.Properties.FirstOrDefault(p => p.Name == targetProperty.Name);
 				if (sourceProperty != null)
 				{
-					strategy.AddMappingStep(new Assign(targetProperty, sourceProperty));
+					var assign = new Assign(targetProperty, sourceProperty);
+
+					strategy.AddMappingStep(assign);
 				}
 			}
 		}

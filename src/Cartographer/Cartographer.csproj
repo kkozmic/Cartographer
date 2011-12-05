@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConversionPattern.cs" />
+    <Compile Include="MapConversionPattern.cs" />
+    <Compile Include="Steps\ConversionStep.cs" />
+    <Compile Include="Steps\MapConversionStep.cs" />
     <Compile Include="Visitors\AssignChainVisitor.cs" />
     <Compile Include="Visitors\AssignVisitor.cs" />
     <Compile Include="IMappingCompiler.cs" />

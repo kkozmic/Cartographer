@@ -2,6 +2,7 @@ namespace Cartographer
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq.Expressions;
 
 	using Cartographer.Steps;
 
@@ -27,31 +28,58 @@ namespace Cartographer
 			visitors.Add(typeof (TStep), visitor);
 		}
 
-		IMappingVisitor<TStep> GetVisitor<TStep>() where TStep: MappingStep
-		{
-			object visitor;
-			if (visitors.TryGetValue(typeof (TStep), out visitor) == false)
-			{
-				throw new NotSupportedException(string.Format("Step {0} is not supported.", typeof (TStep)));
-			}
-			return (IMappingVisitor<TStep>)visitor;
-		}
-
 		object Map(MappingContext context, MappingStrategy strategy)
 		{
 			var target = Activator.CreateInstance(context.TargetType);
+			context.SourceParameter = Expression.Parameter(context.SourceType, "source");
+			context.TargetParameter = Expression.Parameter(context.TargetType, "target");
+			context.MapperParameter = Expression.Parameter(typeof (IMapper), "mapper");
 			context.TargetInstance = target;
-			foreach (dynamic step in strategy.MappingSteps)
+			foreach (var step in strategy.MappingSteps)
 			{
-				Visit(step, context);
+				context.ValueParameter = Expression.Parameter(step.SourceValueType, "value");
+				dynamic getter = BuildGetter(context, step);
+				var value = getter.Invoke((dynamic)context.SourceInstance, (dynamic)context.TargetInstance, context.Mapper);
+				if (step.Conversion != null)
+				{
+					dynamic converter = BuildConverter(context, step);
+					value = converter.Invoke(value, (dynamic)context.TargetInstance, context.Mapper);
+				}
+				context.ValueParameter = Expression.Parameter(step.TargetValueType, "value");
+				dynamic setter = BuildSetter(context, step);
+				setter.Invoke(value, (dynamic)context.TargetInstance, context.Mapper);
 			}
 			return target;
 		}
 
-		void Visit<TStep>(TStep step, MappingContext context) where TStep: MappingStep
+		static Delegate BuildConverter(MappingContext context, MappingStep step)
 		{
-			var visitor = GetVisitor<TStep>();
-			visitor.Visit(step, context);
+			var body = step.Conversion.BuildConversionExpression(context, step);
+			var lambda = Expression.Lambda(body,
+			                               context.ValueParameter,
+			                               context.TargetParameter,
+			                               context.MapperParameter);
+			return lambda.Compile();
+		}
+
+		static Delegate BuildGetter(MappingContext context, MappingStep step)
+		{
+			var body = step.BuildGetSourceValueExpression(context);
+			var lambda = Expression.Lambda(body,
+			                               context.SourceParameter,
+			                               context.TargetParameter,
+			                               context.MapperParameter);
+			return lambda.Compile();
+		}
+
+		static Delegate BuildSetter(MappingContext context, MappingStep step)
+		{
+			var body = step.BuildSetTargetValueExpression(context);
+			var lambda = Expression.Lambda(body,
+			                               context.ValueParameter,
+			                               context.TargetParameter,
+			                               context.MapperParameter);
+			return lambda.Compile();
 		}
 	}
 }
