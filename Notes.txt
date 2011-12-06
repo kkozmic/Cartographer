@@ -1,3 +1,6 @@
-- add an extension point to approve or reject mappings that weren't pre-cached.
+- make instantiation of target part of the delegate
+- allow non-default constructors
+- add an extension point to approve or reject mappings that weren't pre-cached
 - add ability to provide configuration parameters to mappers
 - add ability to provide configuration values
+- add ability to log the mapping path so that it can be inspected for errors

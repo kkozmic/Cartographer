@@ -34,52 +34,25 @@ namespace Cartographer
 			context.SourceParameter = Expression.Parameter(context.SourceType, "source");
 			context.TargetParameter = Expression.Parameter(context.TargetType, "target");
 			context.MapperParameter = Expression.Parameter(typeof (IMapper), "mapper");
+			// TODO: we'll also need some 'context'/'arguments' parameter too
 			context.TargetInstance = target;
+			var body = new List<Expression>();
 			foreach (var step in strategy.MappingSteps)
 			{
-				context.ValueParameter = Expression.Parameter(step.SourceValueType, "value");
-				dynamic getter = BuildGetter(context, step);
-				var value = getter.Invoke((dynamic)context.SourceInstance, (dynamic)context.TargetInstance, context.Mapper);
+				context.ValueParameter = step.BuildGetSourceValueExpression(context);
 				if (step.Conversion != null)
 				{
-					dynamic converter = BuildConverter(context, step);
-					value = converter.Invoke(value, (dynamic)context.TargetInstance, context.Mapper);
+					context.ValueParameter = step.Conversion.BuildConversionExpression(context, step);
 				}
-				context.ValueParameter = Expression.Parameter(step.TargetValueType, "value");
-				dynamic setter = BuildSetter(context, step);
-				setter.Invoke(value, (dynamic)context.TargetInstance, context.Mapper);
+				body.Add(step.BuildSetTargetValueExpression(context));
 			}
+
+			var lambda = Expression.Lambda(Expression.Block(body), string.Format("{0} to {1} Converter", context.SourceType.Name, context.TargetType.Name),
+			                               new[] { context.SourceParameter, context.TargetParameter, context.MapperParameter });
+			dynamic @delegate = lambda.Compile();
+
+			@delegate.Invoke((dynamic)context.SourceInstance, (dynamic)context.TargetInstance, context.Mapper);
 			return target;
-		}
-
-		static Delegate BuildConverter(MappingContext context, MappingStep step)
-		{
-			var body = step.Conversion.BuildConversionExpression(context, step);
-			var lambda = Expression.Lambda(body,
-			                               context.ValueParameter,
-			                               context.TargetParameter,
-			                               context.MapperParameter);
-			return lambda.Compile();
-		}
-
-		static Delegate BuildGetter(MappingContext context, MappingStep step)
-		{
-			var body = step.BuildGetSourceValueExpression(context);
-			var lambda = Expression.Lambda(body,
-			                               context.SourceParameter,
-			                               context.TargetParameter,
-			                               context.MapperParameter);
-			return lambda.Compile();
-		}
-
-		static Delegate BuildSetter(MappingContext context, MappingStep step)
-		{
-			var body = step.BuildSetTargetValueExpression(context);
-			var lambda = Expression.Lambda(body,
-			                               context.ValueParameter,
-			                               context.TargetParameter,
-			                               context.MapperParameter);
-			return lambda.Compile();
 		}
 	}
 }

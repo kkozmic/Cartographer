@@ -20,6 +20,6 @@ namespace Cartographer
 		public ParameterExpression TargetParameter { get; set; }
 		public Type TargetType { get; set; }
 
-		public ParameterExpression ValueParameter { get; set; }
+		public Expression ValueParameter { get; set; }
 	}
 }
