@@ -59,7 +59,8 @@ namespace Cartographer.Steps
 
 		public override Expression BuildSetTargetValueExpression(MappingContext context)
 		{
-			return Expression.Call(context.TargetParameter, targetProperty.GetSetMethod(), context.ValueParameter);
+			var property = Expression.Property(context.TargetParameter, targetProperty);
+			return Expression.Assign(property, context.ValueParameter);
 		}
 	}
 }
