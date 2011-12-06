@@ -15,12 +15,7 @@ namespace Cartographer.Steps
 			this.sourceProperty = sourceProperty;
 		}
 
-		public override PropertyInfo[] SourcePropertiesUsed
-		{
-			get { return new[] { SourceProperty }; }
-		}
-
-		public PropertyInfo SourceProperty
+		public override PropertyInfo SourceProperty
 		{
 			get { return sourceProperty; }
 		}
@@ -30,12 +25,7 @@ namespace Cartographer.Steps
 			get { return SourceProperty.PropertyType; }
 		}
 
-		public override PropertyInfo[] TargetPropertiesUsed
-		{
-			get { return new[] { TargetProperty }; }
-		}
-
-		public PropertyInfo TargetProperty
+		public override PropertyInfo TargetProperty
 		{
 			get { return targetProperty; }
 		}

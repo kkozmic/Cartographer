@@ -6,10 +6,10 @@ namespace Cartographer.Steps
 
 	public abstract class MappingStep
 	{
-		public abstract PropertyInfo[] SourcePropertiesUsed { get; }
+		public abstract PropertyInfo SourceProperty { get; }
 
 		public abstract Type SourceValueType { get; }
-		public abstract PropertyInfo[] TargetPropertiesUsed { get; }
+		public abstract PropertyInfo TargetProperty { get; }
 		public abstract Type TargetValueType { get; }
 
 		public ConversionStep Conversion { get; set; }

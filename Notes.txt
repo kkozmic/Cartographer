@@ -1,4 +1,4 @@
-- make instantiation of target part of the delegate
+- add support for collection mapping
 - allow non-default constructors
 - add an extension point to approve or reject mappings that weren't pre-cached
 - add ability to provide configuration parameters to mappers

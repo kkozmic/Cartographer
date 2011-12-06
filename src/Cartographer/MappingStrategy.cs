@@ -38,12 +38,12 @@ namespace Cartographer
 
 		public PropertyInfo[] UnusedSourceProperties
 		{
-			get { return Source.Properties.Except(mappingSteps.SelectMany(s => s.SourcePropertiesUsed)).ToArray(); }
+			get { return Source.Properties.Except(mappingSteps.Select(s => s.SourceProperty)).ToArray(); }
 		}
 
 		public PropertyInfo[] UnusedTargetProperties
 		{
-			get { return Target.Properties.Except(mappingSteps.SelectMany(s => s.TargetPropertiesUsed)).ToArray(); }
+			get { return Target.Properties.Except(mappingSteps.Select(s => s.TargetProperty)).ToArray(); }
 		}
 
 		public Expression ValueExpression { get; set; }
