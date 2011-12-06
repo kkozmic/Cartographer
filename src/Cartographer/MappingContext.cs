@@ -6,9 +6,9 @@ namespace Cartographer
 	public class MappingContext
 	{
 		public IMapper Mapper { get; set; }
-		public ParameterExpression MapperParameter { get; set; }
+		public Expression MapperExpression { get; set; }
 		public object SourceInstance { get; set; }
-		public ParameterExpression SourceParameter { get; set; }
+		public ParameterExpression SourceExpression { get; set; }
 
 		public Type SourceType
 		{
@@ -17,9 +17,11 @@ namespace Cartographer
 
 		public object TargetInstance { get; set; }
 
-		public ParameterExpression TargetParameter { get; set; }
+		public ParameterExpression TargetExpression { get; set; }
 		public Type TargetType { get; set; }
 
-		public Expression ValueParameter { get; set; }
+		public Expression ValueExpression { get; set; }
+
+		public ParameterExpression ContextExpression { get; set; }
 	}
 }

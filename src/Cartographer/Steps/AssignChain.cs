@@ -48,7 +48,7 @@ namespace Cartographer.Steps
 
 		public override Expression BuildGetSourceValueExpression(MappingContext context)
 		{
-			Expression expression = context.SourceParameter;
+			Expression expression = context.SourceExpression;
 			for (var i = 0; i < sourcePropertyChain.Length; i++)
 			{
 				expression = Expression.Property(expression, sourcePropertyChain[i]);
@@ -59,8 +59,8 @@ namespace Cartographer.Steps
 
 		public override Expression BuildSetTargetValueExpression(MappingContext context)
 		{
-			var property = Expression.Property(context.TargetParameter, targetProperty);
-			return Expression.Assign(property, context.ValueParameter);
+			var property = Expression.Property(context.TargetExpression, targetProperty);
+			return Expression.Assign(property, context.ValueExpression);
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿namespace CartographerTests
 {
 	using Cartographer;
-	using Cartographer.Visitors;
 
 	using CartographerTests.Types;
 
@@ -17,7 +16,7 @@
 				new TypeMapper(),
 				new TypeModelBuilder(),
 				new MappingBuilder(new IConversionPattern[] { new MapConversionPattern() }, new MatchByNameMappingPattern(), new MatchByNameFlattenMappingPattern()),
-				new MappingCompiler(new AssignVisitor(), new AssignChainVisitor()));
+				new MappingCompiler());
 		}
 
 		[Fact]

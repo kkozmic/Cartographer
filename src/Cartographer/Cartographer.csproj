@@ -41,14 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IConversionPattern.cs" />
+    <Compile Include="Internal\MappingContextMeta.cs" />
     <Compile Include="MapConversionPattern.cs" />
     <Compile Include="Steps\ConversionStep.cs" />
     <Compile Include="Steps\MapConversionStep.cs" />
-    <Compile Include="Visitors\AssignChainVisitor.cs" />
-    <Compile Include="Visitors\AssignVisitor.cs" />
     <Compile Include="IMappingCompiler.cs" />
     <Compile Include="IMappingPattern.cs" />
-    <Compile Include="IMappingVisitor.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMappingBuilder.cs" />
@@ -67,6 +65,9 @@
     <Compile Include="TypeMapper.cs" />
     <Compile Include="TypeModel.cs" />
     <Compile Include="TypeModelBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Visitors\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

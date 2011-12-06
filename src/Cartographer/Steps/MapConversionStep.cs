@@ -15,7 +15,7 @@ namespace Cartographer.Steps
 				return callExpression;
 			}
 			var method = callExpression.Method.GetGenericMethodDefinition().MakeGenericMethod(step.TargetValueType);
-			return Expression.Call(context.MapperParameter, method, context.ValueParameter);
+			return Expression.Call(context.MapperExpression, method, context.ValueExpression);
 		}
 	}
 }
