@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MappingKey.cs" />
     <Compile Include="IConversionPattern.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />
     <Compile Include="MapConversionPattern.cs" />

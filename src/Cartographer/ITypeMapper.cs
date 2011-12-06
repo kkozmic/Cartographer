@@ -4,6 +4,6 @@ namespace Cartographer
 
 	public interface ITypeMapper
 	{
-		Type GetTargetType(Type sourceType, Type requestedTargetType);
+		MappingKey GetMappingKey(Type sourceInstanceType, Type requestedTargetType);
 	}
 }
