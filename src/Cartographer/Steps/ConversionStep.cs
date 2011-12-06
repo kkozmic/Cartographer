@@ -4,6 +4,6 @@ namespace Cartographer.Steps
 
 	public abstract class ConversionStep
 	{
-		public abstract Expression BuildConversionExpression(MappingContext context, MappingStep step);
+		public abstract Expression BuildConversionExpression(MappingStrategy context, MappingStep step);
 	}
 }

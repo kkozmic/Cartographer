@@ -45,12 +45,12 @@ namespace Cartographer.Steps
 			get { return targetProperty.PropertyType; }
 		}
 
-		public override Expression BuildGetSourceValueExpression(MappingContext context)
+		public override Expression BuildGetSourceValueExpression(MappingStrategy context)
 		{
 			return Expression.Property(context.SourceExpression, sourceProperty);
 		}
 
-		public override Expression BuildSetTargetValueExpression(MappingContext context)
+		public override Expression BuildSetTargetValueExpression(MappingStrategy context)
 		{
 			var property = Expression.Property(context.TargetExpression, targetProperty);
 			return Expression.Assign(property, context.ValueExpression);

@@ -8,39 +8,46 @@ namespace Cartographer
 
 	public class MappingCompiler: IMappingCompiler
 	{
-
 		public Delegate Compile(MappingStrategy strategy)
 		{
-			return new Func<MappingContext, dynamic>(c => Map(c, strategy));
+			var body = new List<Expression>();
+			InitSource(strategy, body);
+			InitTarget(strategy, body);
+			GenerateMapping(strategy, body);
+			var lambda = GenerateLambda(strategy, body);
+			return lambda.Compile();
 		}
 
-		object Map(MappingContext context, MappingStrategy strategy)
+		static LambdaExpression GenerateLambda(MappingStrategy strategy, List<Expression> body)
 		{
-			var body = new List<Expression>();
-			
-			context.ContextExpression = Expression.Parameter(typeof(MappingContext), "context");
-			context.SourceExpression = Expression.Variable(context.SourceType, "source");
-			context.TargetExpression = Expression.Variable(context.TargetType, "target");
-			context.MapperExpression = Expression.Property(context.ContextExpression, MappingContextMeta.Mapper);
+			var lambda = Expression.Lambda(Expression.Block(new[] { strategy.TargetExpression, strategy.SourceExpression }, body),
+			                               string.Format("{0} to {1} Converter", strategy.Source.Type.Name, strategy.Target.Type.Name),
+			                               new[] { strategy.ContextExpression });
+			return lambda;
+		}
 
-			body.Add(Expression.Assign(context.SourceExpression, Expression.Convert(Expression.Property(context.ContextExpression, MappingContextMeta.SourceInstance), context.SourceType)));
-
-			body.Add(Expression.Assign(context.TargetExpression, Expression.New(context.TargetType)));
+		static void GenerateMapping(MappingStrategy strategy, List<Expression> body)
+		{
 			foreach (var step in strategy.MappingSteps)
 			{
-				context.ValueExpression = step.BuildGetSourceValueExpression(context);
+				strategy.ValueExpression = step.BuildGetSourceValueExpression(strategy);
 				if (step.Conversion != null)
 				{
-					context.ValueExpression = step.Conversion.BuildConversionExpression(context, step);
+					strategy.ValueExpression = step.Conversion.BuildConversionExpression(strategy, step);
 				}
-				body.Add(step.BuildSetTargetValueExpression(context));
+				body.Add(step.BuildSetTargetValueExpression(strategy));
 			}
-			body.Add(context.TargetExpression);
-			var lambda = Expression.Lambda(Expression.Block(new[] { context.TargetExpression,context.SourceExpression }, body), string.Format("{0} to {1} Converter", context.SourceType.Name, context.TargetType.Name),
-			                               new[] { context.ContextExpression });
-			dynamic @delegate = lambda.Compile();
+			body.Add(strategy.TargetExpression);
+		}
 
-			return @delegate.Invoke(context);
+		static void InitSource(MappingStrategy strategy, List<Expression> body)
+		{
+			body.Add(Expression.Assign(strategy.SourceExpression, Expression.Convert(Expression.Property(strategy.ContextExpression, MappingContextMeta.SourceInstance), strategy.Source.Type)));
+		}
+
+		static void InitTarget(MappingStrategy strategy, List<Expression> body)
+		{
+			body.Add(Expression.Assign(strategy.TargetExpression, Expression.New(strategy.Target.Type)));
 		}
 	}
 }

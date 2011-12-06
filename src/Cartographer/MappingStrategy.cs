@@ -2,8 +2,10 @@ namespace Cartographer
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Linq.Expressions;
 	using System.Reflection;
 
+	using Cartographer.Internal;
 	using Cartographer.Steps;
 
 	public class MappingStrategy
@@ -14,7 +16,15 @@ namespace Cartographer
 		{
 			Source = source;
 			Target = target;
+
+			ContextExpression = Expression.Parameter(typeof (MappingContext), "context");
+			SourceExpression = Expression.Variable(Source.Type, "source");
+			TargetExpression = Expression.Variable(Target.Type, "target");
+			MapperExpression = Expression.Property(ContextExpression, MappingContextMeta.Mapper);
 		}
+
+		public ParameterExpression ContextExpression { get; set; }
+		public Expression MapperExpression { get; set; }
 
 		public IEnumerable<MappingStep> MappingSteps
 		{
@@ -22,7 +32,9 @@ namespace Cartographer
 		}
 
 		public TypeModel Source { get; private set; }
+		public ParameterExpression SourceExpression { get; set; }
 		public TypeModel Target { get; private set; }
+		public ParameterExpression TargetExpression { get; set; }
 
 		public PropertyInfo[] UnusedSourceProperties
 		{
@@ -33,6 +45,8 @@ namespace Cartographer
 		{
 			get { return Target.Properties.Except(mappingSteps.SelectMany(s => s.TargetPropertiesUsed)).ToArray(); }
 		}
+
+		public Expression ValueExpression { get; set; }
 
 		public void AddMappingStep(MappingStep mappingStep)
 		{
