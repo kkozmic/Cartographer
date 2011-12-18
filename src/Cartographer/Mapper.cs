@@ -6,13 +6,14 @@
 	public class Mapper: IMapper
 	{
 		readonly IMappingBuilder mappingBuilder;
+
 		readonly IMappingCompiler mappingCompiler;
 
 		readonly ConcurrentDictionary<MappingKey, Delegate> mappins = new ConcurrentDictionary<MappingKey, Delegate>();
 
 		readonly ITypeModelBuilder modelBuilder;
-		readonly ITypeMapper typeMapper;
 
+		readonly ITypeMapper typeMapper;
 
 		public Mapper(ITypeMapper typeMapper, ITypeModelBuilder modelBuilder, IMappingBuilder mappingBuilder, IMappingCompiler mappingCompiler)
 		{
@@ -22,19 +23,18 @@
 			this.mappingCompiler = mappingCompiler;
 		}
 
-
 		public TResult Convert<TResult>(object source)
 		{
-			var sourceType = source.GetType();
+			var key = typeMapper.GetMappingKey(source.GetType(), typeof (TResult));
+			var mapper = (Func<MappingContext, TResult>)mappins.GetOrAdd(key, CreateMapping);
 
-			var key = typeMapper.GetMappingKey(sourceType, typeof (TResult));
-
-			dynamic mapper = mappins.GetOrAdd(key, CreateMapping);
-			var mappingContext = new MappingContext { TargetType = key.Target, SourceInstance = source, Mapper = this };
-
-			return mapper.Invoke(mappingContext);
+			return mapper.Invoke(new MappingContext
+			                     {
+			                     	TargetType = key.Target,
+			                     	SourceInstance = source,
+			                     	Mapper = this
+			                     });
 		}
-
 
 		Delegate CreateMapping(MappingKey arg)
 		{

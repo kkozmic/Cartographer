@@ -7,6 +7,7 @@ namespace Cartographer.Steps
 	public class Assign: MappingStep
 	{
 		readonly PropertyInfo sourceProperty;
+
 		readonly PropertyInfo targetProperty;
 
 		public Assign(PropertyInfo targetProperty, PropertyInfo sourceProperty)

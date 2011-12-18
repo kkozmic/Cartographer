@@ -4,7 +4,6 @@ namespace Cartographer
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Reflection;
-
 	using Cartographer.Internal;
 	using Cartographer.Steps;
 
@@ -24,6 +23,7 @@ namespace Cartographer
 		}
 
 		public ParameterExpression ContextExpression { get; private set; }
+
 		public Expression MapperExpression { get; private set; }
 
 		public IEnumerable<MappingStep> MappingSteps
@@ -32,8 +32,11 @@ namespace Cartographer
 		}
 
 		public TypeModel Source { get; private set; }
+
 		public ParameterExpression SourceExpression { get; private set; }
+
 		public TypeModel Target { get; private set; }
+
 		public ParameterExpression TargetExpression { get; private set; }
 
 		public PropertyInfo[] UnusedSourceProperties

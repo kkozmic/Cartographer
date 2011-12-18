@@ -1,9 +1,7 @@
 ﻿namespace CartographerTests
 {
 	using Cartographer;
-
 	using CartographerTests.Types;
-
 	using Xunit;
 
 	public class OneToOneMappingTests
@@ -15,7 +13,8 @@
 			mapper = new Mapper(
 				new TypeMapper(),
 				new TypeModelBuilder(),
-				new MappingBuilder(new IConversionPattern[] { new MapConversionPattern() }, new MatchByNameMappingPattern(), new MatchByNameFlattenMappingPattern()),
+				new MappingBuilder(new IConversionPattern[] { new MapConversionPattern(), new CollectionConversionPattern(), },
+				                   new MatchByNameMappingPattern(), new MatchByNameFlattenMappingPattern()),
 				new MappingCompiler());
 		}
 
@@ -34,6 +33,30 @@
 			var dto = mapper.Convert<Account2Dto>(new Account { Number = "abc123", Owner = null });
 			Assert.Equal(null, dto.OwnerId);
 			Assert.Equal("abc123", dto.Number);
+		}
+
+		[Fact]
+		public void Can_map_collections()
+		{
+			var dto = mapper.Convert<OrderDto>(new Order
+			                                   {
+			                                   	OrderLines = new[]
+			                                   	             {
+			                                   	             	new OrderLine
+			                                   	             	{
+			                                   	             		ItemId = 1,
+			                                   	             		ItemName = "The Ring"
+			                                   	             	},
+			                                   	             	new OrderLine
+			                                   	             	{
+			                                   	             		ItemId = 2,
+			                                   	             		ItemName = "A dagger"
+			                                   	             	}
+			                                   	             }
+			                                   });
+
+			Assert.Equal(2, dto.OrderLines.Length);
+			Assert.Equal("A dagger", dto.OrderLines[1].ItemName);
 		}
 
 		[Fact]

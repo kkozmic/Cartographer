@@ -5,6 +5,7 @@ namespace Cartographer
 	public class MappingContext
 	{
 		public IMapper Mapper { get; set; }
+
 		public object SourceInstance { get; set; }
 
 		public Type SourceType

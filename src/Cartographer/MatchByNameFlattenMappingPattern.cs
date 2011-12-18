@@ -4,7 +4,6 @@ namespace Cartographer
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Reflection;
-
 	using Cartographer.Steps;
 
 	public class MatchByNameFlattenMappingPattern: IMappingPattern

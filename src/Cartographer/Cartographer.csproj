@@ -40,10 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionConversionPattern.cs" />
+    <Compile Include="Helpers\CollectionConversionHelper.cs" />
+    <Compile Include="Internal\CollectionExtensions.cs" />
     <Compile Include="MappingKey.cs" />
     <Compile Include="IConversionPattern.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />
     <Compile Include="MapConversionPattern.cs" />
+    <Compile Include="Steps\CollectionConversionStep.cs" />
     <Compile Include="Steps\ConversionStep.cs" />
     <Compile Include="Steps\MapConversionStep.cs" />
     <Compile Include="IMappingCompiler.cs" />

@@ -5,6 +5,7 @@ namespace Cartographer
 	public class MappingBuilder: IMappingBuilder
 	{
 		readonly IConversionPattern[] conversionPatterns;
+
 		readonly IMappingPattern[] mappingPatterns;
 
 		public MappingBuilder(IConversionPattern[] conversionPatterns, params IMappingPattern[] mappingPatterns)

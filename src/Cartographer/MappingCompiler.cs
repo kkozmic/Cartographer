@@ -3,7 +3,6 @@ namespace Cartographer
 	using System;
 	using System.Collections.Generic;
 	using System.Linq.Expressions;
-
 	using Cartographer.Internal;
 
 	public class MappingCompiler: IMappingCompiler

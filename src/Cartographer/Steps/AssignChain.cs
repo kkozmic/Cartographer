@@ -8,6 +8,7 @@ namespace Cartographer.Steps
 	public class AssignChain: MappingStep
 	{
 		readonly PropertyInfo[] sourcePropertyChain;
+
 		readonly PropertyInfo targetProperty;
 
 		public AssignChain(PropertyInfo targetProperty, PropertyInfo[] sourcePropertyChain)

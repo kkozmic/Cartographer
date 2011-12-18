@@ -11,6 +11,7 @@
 		}
 
 		public Type Source { get; private set; }
+
 		public Type Target { get; private set; }
 
 		public override bool Equals(object obj)
@@ -27,17 +28,17 @@
 			return other.Source == Source && other.Target == Target;
 		}
 
-		public override string ToString()
-		{
-			return string.Format("{0} -> {1}", Source, Target);
-		}
-
 		public override int GetHashCode()
 		{
 			unchecked
 			{
 				return (Source.GetHashCode()*397) ^ Target.GetHashCode();
 			}
+		}
+
+		public override string ToString()
+		{
+			return string.Format("{0} -> {1}", Source, Target);
 		}
 	}
 }

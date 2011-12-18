@@ -50,6 +50,10 @@
     <Compile Include="Types\AccountDto.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Types\AddressDto.cs" />
+    <Compile Include="Types\Order.cs" />
+    <Compile Include="Types\OrderDto.cs" />
+    <Compile Include="Types\OrderLine.cs" />
+    <Compile Include="Types\OrderLineDto.cs" />
     <Compile Include="Types\Person.cs" />
     <Compile Include="Types\User.cs" />
     <Compile Include="Types\User2.cs" />
