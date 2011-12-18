@@ -27,3 +27,10 @@ you write
 ```csharp
 var orderDto = mapper.Convert<OrderDto>(order);
 ```
+
+And cartographer compiles that to something that's pretty much like the code above (with addition of some error checking so that if something goes wrong, you'll know exactly what and why*).
+
+
+
+
+*This part is not implemented yet, but will be part of the first public release.
