@@ -10,7 +10,7 @@ This tends to be a very mundane, repetitive and boring code - one that's a perfe
 
 Using a set of out of the box conventions, as well as custom ones, supplied by you it compiles code that does the mapping for you, so that instead of writing:
 
-```csharp
+```java
 var orderDto = new OrderDto
                {
                	OrderLines = Array.ConvertAll(order.OrderLines, ol => new OrderLineDto
@@ -24,7 +24,7 @@ var orderDto = new OrderDto
 
 you write
 
-```csharp
+```java
 var orderDto = mapper.Convert<OrderDto>(order);
 ```
 
