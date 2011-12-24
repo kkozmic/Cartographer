@@ -36,12 +36,18 @@
 			                     });
 		}
 
-		Delegate CreateMapping(MappingKey arg)
+		MappingStrategy BuildStrategy(MappingKey arg)
 		{
 			var sourceModel = modelBuilder.BuildModel(arg.Source);
 			var targetModel = modelBuilder.BuildModel(arg.Target);
 
 			var mappingStrategy = mappingBuilder.BuildMappingStrategy(sourceModel, targetModel);
+			return mappingStrategy;
+		}
+
+		Delegate CreateMapping(MappingKey arg)
+		{
+			var mappingStrategy = BuildStrategy(arg);
 			return mappingCompiler.Compile(mappingStrategy);
 		}
 	}

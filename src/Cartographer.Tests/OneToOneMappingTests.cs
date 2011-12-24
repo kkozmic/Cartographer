@@ -1,5 +1,6 @@
 ﻿namespace CartographerTests
 {
+	using System;
 	using Cartographer;
 	using CartographerTests.Types;
 	using Xunit;
@@ -13,7 +14,7 @@
 			mapper = new Mapper(
 				new TypeMapper(),
 				new TypeModelBuilder(),
-				new MappingBuilder(new IConversionPattern[] { new MapConversionPattern(), new CollectionConversionPattern(), },
+				new MappingBuilder(new MappingDescriptor(Console.Out), new IConversionPattern[] { new MapConversionPattern(), new CollectionConversionPattern(), },
 				                   new MatchByNameMappingPattern(), new MatchByNameFlattenMappingPattern()),
 				new MappingCompiler());
 		}

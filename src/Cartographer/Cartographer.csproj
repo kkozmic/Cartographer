@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="CollectionConversionPattern.cs" />
     <Compile Include="Helpers\CollectionConversionHelper.cs" />
+    <Compile Include="IMappingDescriptor.cs" />
     <Compile Include="Internal\CollectionExtensions.cs" />
+    <Compile Include="MappingDescriptor.cs" />
     <Compile Include="MappingKey.cs" />
     <Compile Include="IConversionPattern.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />

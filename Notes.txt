@@ -6,3 +6,4 @@
 - add ability to provide configuration values
 - add ability to log the mapping path so that it can be inspected for errors
 - add ability to map into a pre-existing object
+- add ability to map into interfaces (w/o providing implementation)

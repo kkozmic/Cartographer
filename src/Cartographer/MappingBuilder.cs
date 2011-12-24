@@ -4,19 +4,22 @@ namespace Cartographer
 
 	public class MappingBuilder: IMappingBuilder
 	{
+		readonly IMappingDescriptor descriptor;
+
 		readonly IConversionPattern[] conversionPatterns;
 
 		readonly IMappingPattern[] mappingPatterns;
 
-		public MappingBuilder(IConversionPattern[] conversionPatterns, params IMappingPattern[] mappingPatterns)
+		public MappingBuilder(IMappingDescriptor descriptor, IConversionPattern[] conversionPatterns, params IMappingPattern[] mappingPatterns)
 		{
+			this.descriptor = descriptor;
 			this.conversionPatterns = conversionPatterns;
 			this.mappingPatterns = mappingPatterns;
 		}
 
 		public MappingStrategy BuildMappingStrategy(TypeModel source, TypeModel target)
 		{
-			var strategy = new MappingStrategy(source, target);
+			var strategy = new MappingStrategy(source, target, descriptor);
 			foreach (var pattern in mappingPatterns)
 			{
 				pattern.Contribute(strategy);

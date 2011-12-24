@@ -11,8 +11,9 @@ namespace Cartographer
 	{
 		readonly IList<MappingStep> mappingSteps = new List<MappingStep>();
 
-		public MappingStrategy(TypeModel source, TypeModel target)
+		public MappingStrategy(TypeModel source, TypeModel target, IMappingDescriptor descriptor)
 		{
+			Descriptor = descriptor;
 			Source = source;
 			Target = target;
 
@@ -23,6 +24,8 @@ namespace Cartographer
 		}
 
 		public ParameterExpression ContextExpression { get; private set; }
+
+		public IMappingDescriptor Descriptor { get; private set; }
 
 		public Expression MapperExpression { get; private set; }
 
