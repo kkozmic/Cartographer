@@ -8,7 +8,13 @@ Trying to build a loosely coupled application in a strongly typed, type oriented
 
 This tends to be a very mundane, repetitive and boring code - one that's a perfect candidate for automatization, and that's where Cartographer steps in.
 
-Using a set of out of the box conventions, as well as custom ones, supplied by you it compiles code that does the mapping for you, so that instead of writing:
+Using a set of out of the box conventions, as well as custom ones, supplied by you it compiles code that does the mapping for you, so that you write:
+
+```java
+var orderDto = mapper.Convert<OrderDto>(order);
+```
+
+instead of:
 
 ```java
 var orderDto = new OrderDto
@@ -20,12 +26,6 @@ var orderDto = new OrderDto
                	                                                      }),
                	// usually quite a few other properties like that
                };
-```
-
-you write
-
-```java
-var orderDto = mapper.Convert<OrderDto>(order);
 ```
 
 And cartographer compiles that to something that's pretty much like the code above (with addition of some error checking so that if something goes wrong, you'll know exactly what and why*).
