@@ -4,9 +4,9 @@ namespace Cartographer
 
 	public class MappingBuilder: IMappingBuilder
 	{
-		readonly IMappingDescriptor descriptor;
-
 		readonly IConversionPattern[] conversionPatterns;
+
+		readonly IMappingDescriptor descriptor;
 
 		readonly IMappingPattern[] mappingPatterns;
 

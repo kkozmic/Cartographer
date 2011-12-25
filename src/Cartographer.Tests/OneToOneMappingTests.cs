@@ -28,7 +28,7 @@
 			Assert.Equal("abc123", dto.Number);
 		}
 
-		[Fact(Skip = "This is a more complex problem than appears at first sight. A rule for handling this needs to be carefully thought through")]
+		[Fact]
 		public void Can_handle_nulls_on_flattening_path()
 		{
 			var dto = mapper.Convert<Account2Dto>(new Account { Number = "abc123", Owner = null });
