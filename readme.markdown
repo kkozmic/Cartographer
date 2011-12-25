@@ -60,7 +60,7 @@ Mapping for CartographerTests.Types.OrderLine => CartographerTests.Types.OrderLi
 
 ## Compiled mapping
 
-Cartographer compiles the mapping rather than interpreting them each time using Reflection. Compilation of the mappings can happen in batches(*) and asynchronously(*) to ensure optimal startup performance of your app.
+Cartographer compiles the mapping rather than interpreting them each time using Reflection. Compilation of the mappings can happen in batches(\*) and asynchronously(\*) to ensure optimal startup performance of your app.
 
 ## Structure
 
