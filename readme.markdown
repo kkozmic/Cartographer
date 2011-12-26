@@ -73,4 +73,4 @@ Cartographer requires you to follow certain structure when working with it. This
 Cartographer offers extension points for every step of the way, so you can quite easily extend and customize the way it works.
 
 
-*This part is not implemented yet, but will be part of the 1.0 release.
+*\*This part is not implemented yet, but will be part of the 1.0 release.*
