@@ -1,4 +1,4 @@
-namespace Cartographer
+namespace Cartographer.Compiler
 {
 	using System;
 	using System.Collections.Generic;

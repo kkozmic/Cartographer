@@ -2,6 +2,7 @@ namespace Cartographer.Steps
 {
 	using System;
 	using System.Linq.Expressions;
+	using Cartographer.Compiler;
 
 	public class MapConversionStep: ConversionStep
 	{

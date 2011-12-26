@@ -40,36 +40,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollectionConversionPattern.cs" />
+    <Compile Include="Compiler\IConversionPattern.cs" />
+    <Compile Include="Compiler\IMappingCompiler.cs" />
+    <Compile Include="Compiler\IMappingDescriptor.cs" />
+    <Compile Include="Compiler\IMappingPattern.cs" />
+    <Compile Include="Compiler\IMappingStrategyBuilder.cs" />
+    <Compile Include="Compiler\ITypeMapper.cs" />
+    <Compile Include="Compiler\MappingCompiler.cs" />
+    <Compile Include="Compiler\MappingDescriptor.cs" />
+    <Compile Include="Compiler\MappingKey.cs" />
+    <Compile Include="Compiler\MappingStrategy.cs" />
+    <Compile Include="Compiler\MappingStrategyBuilder.cs" />
+    <Compile Include="Compiler\TypeMapper.cs" />
     <Compile Include="Helpers\CollectionConversionHelper.cs" />
-    <Compile Include="IMappingDescriptor.cs" />
     <Compile Include="Internal\CollectionExtensions.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
-    <Compile Include="MappingDescriptor.cs" />
-    <Compile Include="MappingKey.cs" />
-    <Compile Include="IConversionPattern.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />
-    <Compile Include="MapConversionPattern.cs" />
+    <Compile Include="Patterns\CollectionConversionPattern.cs" />
+    <Compile Include="Patterns\MapConversionPattern.cs" />
+    <Compile Include="Patterns\MatchByNameFlattenMappingPattern.cs" />
+    <Compile Include="Patterns\MatchByNameMappingPattern.cs" />
     <Compile Include="Steps\CollectionConversionStep.cs" />
     <Compile Include="Steps\ConversionStep.cs" />
     <Compile Include="Steps\MapConversionStep.cs" />
-    <Compile Include="IMappingCompiler.cs" />
-    <Compile Include="IMappingPattern.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="IMapper.cs" />
-    <Compile Include="IMappingBuilder.cs" />
-    <Compile Include="ITypeMapper.cs" />
-    <Compile Include="MappingBuilder.cs" />
-    <Compile Include="MappingCompiler.cs" />
     <Compile Include="MappingContext.cs" />
-    <Compile Include="MappingStrategy.cs" />
-    <Compile Include="MatchByNameFlattenMappingPattern.cs" />
-    <Compile Include="MatchByNameMappingPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\Assign.cs" />
     <Compile Include="Steps\AssignChain.cs" />
     <Compile Include="Steps\MappingStep.cs" />
-    <Compile Include="TypeMapper.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

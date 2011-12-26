@@ -1,9 +1,9 @@
-namespace Cartographer
+namespace Cartographer.Compiler
 {
 	using System;
 	using Cartographer.Steps;
 
-	public class MappingBuilder: IMappingBuilder
+	public class MappingStrategyBuilder: IMappingStrategyBuilder
 	{
 		readonly IConversionPattern[] conversionPatterns;
 
@@ -11,7 +11,7 @@ namespace Cartographer
 
 		readonly IMappingPattern[] mappingPatterns;
 
-		public MappingBuilder(IMappingDescriptor descriptor, IConversionPattern[] conversionPatterns, params IMappingPattern[] mappingPatterns)
+		public MappingStrategyBuilder(IMappingDescriptor descriptor, IConversionPattern[] conversionPatterns, params IMappingPattern[] mappingPatterns)
 		{
 			this.descriptor = descriptor;
 			this.conversionPatterns = conversionPatterns;

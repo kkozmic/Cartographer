@@ -1,6 +1,7 @@
-namespace Cartographer
+namespace Cartographer.Patterns
 {
 	using System.Linq;
+	using Cartographer.Compiler;
 	using Cartographer.Steps;
 
 	public class MatchByNameMappingPattern: IMappingPattern

@@ -1,5 +1,6 @@
-namespace Cartographer
+namespace Cartographer.Patterns
 {
+	using Cartographer.Compiler;
 	using Cartographer.Steps;
 
 	public class MapConversionPattern: IConversionPattern

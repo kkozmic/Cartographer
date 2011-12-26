@@ -1,9 +1,10 @@
-namespace Cartographer
+namespace Cartographer.Patterns
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Reflection;
+	using Cartographer.Compiler;
 	using Cartographer.Steps;
 
 	public class MatchByNameFlattenMappingPattern: IMappingPattern

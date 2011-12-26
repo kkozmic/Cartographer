@@ -1,6 +1,7 @@
 namespace Cartographer.Steps
 {
 	using System.Linq.Expressions;
+	using Cartographer.Compiler;
 
 	public abstract class ConversionStep
 	{

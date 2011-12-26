@@ -1,8 +1,8 @@
-namespace Cartographer
+namespace Cartographer.Compiler
 {
 	using System;
 
-	public interface IMappingBuilder
+	public interface IMappingStrategyBuilder
 	{
 		MappingStrategy BuildMappingStrategy(Type source, Type target);
 	}

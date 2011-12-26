@@ -3,6 +3,7 @@ namespace Cartographer.Steps
 	using System;
 	using System.Linq.Expressions;
 	using System.Reflection;
+	using Cartographer.Compiler;
 
 	public abstract class MappingStep
 	{

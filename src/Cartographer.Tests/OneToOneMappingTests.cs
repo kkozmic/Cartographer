@@ -2,6 +2,8 @@
 {
 	using System;
 	using Cartographer;
+	using Cartographer.Compiler;
+	using Cartographer.Patterns;
 	using CartographerTests.Types;
 	using Xunit;
 
@@ -13,8 +15,8 @@
 		{
 			mapper = new Mapper(
 				new TypeMapper(),
-				new MappingBuilder(new MappingDescriptor(Console.Out), new IConversionPattern[] { new MapConversionPattern(), new CollectionConversionPattern(), },
-				                   new MatchByNameMappingPattern(), new MatchByNameFlattenMappingPattern()),
+				new MappingStrategyBuilder(new MappingDescriptor(Console.Out), new IConversionPattern[] { new MapConversionPattern(), new CollectionConversionPattern(), },
+				                           new MatchByNameMappingPattern(), new MatchByNameFlattenMappingPattern()),
 				new MappingCompiler());
 		}
 

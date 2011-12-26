@@ -1,6 +1,7 @@
-namespace Cartographer
+namespace Cartographer.Patterns
 {
 	using System;
+	using Cartographer.Compiler;
 	using Cartographer.Internal;
 	using Cartographer.Steps;
 

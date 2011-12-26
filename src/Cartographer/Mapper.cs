@@ -2,21 +2,22 @@
 {
 	using System;
 	using System.Collections.Concurrent;
+	using Cartographer.Compiler;
 
 	public class Mapper: IMapper
 	{
-		readonly IMappingBuilder mappingBuilder;
-
 		readonly IMappingCompiler mappingCompiler;
+
+		readonly IMappingStrategyBuilder mappingStrategyBuilder;
 
 		readonly ConcurrentDictionary<MappingKey, Delegate> mappins = new ConcurrentDictionary<MappingKey, Delegate>();
 
 		readonly ITypeMapper typeMapper;
 
-		public Mapper(ITypeMapper typeMapper, IMappingBuilder mappingBuilder, IMappingCompiler mappingCompiler)
+		public Mapper(ITypeMapper typeMapper, IMappingStrategyBuilder mappingStrategyBuilder, IMappingCompiler mappingCompiler)
 		{
 			this.typeMapper = typeMapper;
-			this.mappingBuilder = mappingBuilder;
+			this.mappingStrategyBuilder = mappingStrategyBuilder;
 			this.mappingCompiler = mappingCompiler;
 		}
 
@@ -35,7 +36,7 @@
 
 		MappingStrategy BuildStrategy(MappingKey arg)
 		{
-			var mappingStrategy = mappingBuilder.BuildMappingStrategy(arg.Source, arg.Target);
+			var mappingStrategy = mappingStrategyBuilder.BuildMappingStrategy(arg.Source, arg.Target);
 			return mappingStrategy;
 		}
 

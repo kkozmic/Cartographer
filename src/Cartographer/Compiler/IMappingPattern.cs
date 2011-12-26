@@ -1,4 +1,4 @@
-namespace Cartographer
+namespace Cartographer.Compiler
 {
 	public interface IMappingPattern
 	{
