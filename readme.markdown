@@ -80,7 +80,7 @@ Cartographer offers extension points for every step of the way, so you can quite
 
 ### Acknowledgements
 
-Cartographer would not exist without the following tools that inspired and influenced some of it's design and features (in no particular order):
+Cartographer would not exist without the following tools that inspired and influenced some of its design and features (in no particular order):
 
 - [Castle DynamicProxy](http://docs.castleproject.org/Tools.DynamicProxy.ashx)
 - [Castle Windsor](http://docs.castleproject.org/Windsor.MainPage.ashx)
