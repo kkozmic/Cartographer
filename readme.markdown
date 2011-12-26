@@ -89,3 +89,4 @@ Cartographer would not exist without the following tools that inspired and influ
 - [NSubstitute](http://nsubstitute.github.com/)
 - [FluentNHibernate](http://fluentnhibernate.org/)
 - [NHibernate](http://nhforge.org/Default.aspx)
+- [ApprovalTests](http://approvaltests.sourceforge.net/)
