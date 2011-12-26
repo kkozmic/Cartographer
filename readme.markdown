@@ -1,3 +1,6 @@
+Cartographer
+========
+
 # What is Cartographer?
 
 Cartographer is a convention driven .NET library for mapping objects to objects with strong emphasis on ease of use, extensibility, traceability and structure.
@@ -74,3 +77,15 @@ Cartographer offers extension points for every step of the way, so you can quite
 
 
 *\*This part is not implemented yet, but will be part of the 1.0 release.*
+
+### Acknowledgements
+
+Cartographer would not exist without the following tools that inspired and influenced some of it's design and features (in no particular order):
+
+- [Castle DynamicProxy](http://docs.castleproject.org/Tools.DynamicProxy.ashx)
+- [Castle Windsor](http://docs.castleproject.org/Windsor.MainPage.ashx)
+- [Autofac](http://autofac.org)
+- [Automapper](http://automapper.org/)
+- [NSubstitute](http://nsubstitute.github.com/)
+- [FluentNHibernate](http://fluentnhibernate.org/)
+- [NHibernate](http://nhforge.org/Default.aspx)
