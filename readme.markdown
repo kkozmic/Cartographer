@@ -78,6 +78,7 @@ Cartographer offers extension points for every step of the way, so you can quite
 
 *\*This part is not implemented yet, but will be part of the 1.0 release.*
 
+========
 ### Acknowledgements
 
 Cartographer would not exist without the following tools that inspired and influenced some of its design and features (in no particular order):
