@@ -13,7 +13,6 @@
 		{
 			mapper = new Mapper(
 				new TypeMapper(),
-				new TypeModelBuilder(),
 				new MappingBuilder(new MappingDescriptor(Console.Out),
 				                   new IConversionPattern[] { new MapConversionPattern(), new CollectionConversionPattern(), },
 				                   new MatchByNameMappingPattern(), new MatchByNameFlattenMappingPattern()),

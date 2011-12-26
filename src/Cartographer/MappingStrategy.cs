@@ -1,5 +1,6 @@
 namespace Cartographer
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
@@ -11,15 +12,15 @@ namespace Cartographer
 	{
 		readonly IList<MappingStep> mappingSteps = new List<MappingStep>();
 
-		public MappingStrategy(TypeModel source, TypeModel target, IMappingDescriptor descriptor)
+		public MappingStrategy(Type source, Type target, IMappingDescriptor descriptor)
 		{
 			Descriptor = descriptor;
 			Source = source;
 			Target = target;
 
 			ContextExpression = Expression.Parameter(typeof (MappingContext), "context");
-			SourceExpression = Expression.Variable(Source.Type, "source");
-			TargetExpression = Expression.Variable(Target.Type, "target");
+			SourceExpression = Expression.Variable(Source, "source");
+			TargetExpression = Expression.Variable(Target, "target");
 			MapperExpression = Expression.Property(ContextExpression, MappingContextMeta.Mapper);
 		}
 
@@ -34,22 +35,22 @@ namespace Cartographer
 			get { return mappingSteps; }
 		}
 
-		public TypeModel Source { get; private set; }
+		public Type Source { get; private set; }
 
 		public ParameterExpression SourceExpression { get; private set; }
 
-		public TypeModel Target { get; private set; }
+		public Type Target { get; private set; }
 
 		public ParameterExpression TargetExpression { get; private set; }
 
 		public PropertyInfo[] UnusedSourceProperties
 		{
-			get { return Source.Properties.Except(mappingSteps.Select(s => s.SourceProperty)).ToArray(); }
+			get { return Source.GetProperties().Except(mappingSteps.Select(s => s.SourceProperty)).ToArray(); }
 		}
 
 		public PropertyInfo[] UnusedTargetProperties
 		{
-			get { return Target.Properties.Except(mappingSteps.Select(s => s.TargetProperty)).ToArray(); }
+			get { return Target.GetProperties().Except(mappingSteps.Select(s => s.TargetProperty)).ToArray(); }
 		}
 
 		public Expression ValueExpression { get; set; }

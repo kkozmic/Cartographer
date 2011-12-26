@@ -10,9 +10,9 @@ namespace Cartographer
 	{
 		public void Contribute(MappingStrategy strategy)
 		{
-			foreach (var targetProperty in strategy.Target.Properties)
+			foreach (var targetProperty in strategy.Target.GetProperties())
 			{
-				var sourcePropertyChain = BuildPropertyChain(targetProperty, strategy.Source.Properties);
+				var sourcePropertyChain = BuildPropertyChain(targetProperty, strategy.Source.GetProperties());
 				if (sourcePropertyChain.Length > 1)
 				{
 					strategy.AddMappingStep(new AssignChain(targetProperty, sourcePropertyChain));

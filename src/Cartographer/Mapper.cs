@@ -11,14 +11,11 @@
 
 		readonly ConcurrentDictionary<MappingKey, Delegate> mappins = new ConcurrentDictionary<MappingKey, Delegate>();
 
-		readonly ITypeModelBuilder modelBuilder;
-
 		readonly ITypeMapper typeMapper;
 
-		public Mapper(ITypeMapper typeMapper, ITypeModelBuilder modelBuilder, IMappingBuilder mappingBuilder, IMappingCompiler mappingCompiler)
+		public Mapper(ITypeMapper typeMapper, IMappingBuilder mappingBuilder, IMappingCompiler mappingCompiler)
 		{
 			this.typeMapper = typeMapper;
-			this.modelBuilder = modelBuilder;
 			this.mappingBuilder = mappingBuilder;
 			this.mappingCompiler = mappingCompiler;
 		}
@@ -38,10 +35,7 @@
 
 		MappingStrategy BuildStrategy(MappingKey arg)
 		{
-			var sourceModel = modelBuilder.BuildModel(arg.Source);
-			var targetModel = modelBuilder.BuildModel(arg.Target);
-
-			var mappingStrategy = mappingBuilder.BuildMappingStrategy(sourceModel, targetModel);
+			var mappingStrategy = mappingBuilder.BuildMappingStrategy(arg.Source, arg.Target);
 			return mappingStrategy;
 		}
 

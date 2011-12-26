@@ -1,5 +1,6 @@
 namespace Cartographer
 {
+	using System;
 	using Cartographer.Steps;
 
 	public class MappingBuilder: IMappingBuilder
@@ -17,7 +18,7 @@ namespace Cartographer
 			this.mappingPatterns = mappingPatterns;
 		}
 
-		public MappingStrategy BuildMappingStrategy(TypeModel source, TypeModel target)
+		public MappingStrategy BuildMappingStrategy(Type source, Type target)
 		{
 			var strategy = new MappingStrategy(source, target, descriptor);
 			foreach (var pattern in mappingPatterns)

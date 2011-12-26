@@ -1,5 +1,6 @@
 namespace Cartographer
 {
+	using System;
 	using System.IO;
 	using System.Linq.Expressions;
 
@@ -12,9 +13,9 @@ namespace Cartographer
 			this.writer = writer;
 		}
 
-		public void DescribeMapping(TypeModel source, TypeModel target)
+		public void DescribeMapping(Type source, Type target)
 		{
-			writer.WriteLine("Mapping for {0} => {1}", source.Type, target.Type);
+			writer.WriteLine("Mapping for {0} => {1}", source, target);
 		}
 
 		public void DescribeStep(Expression step)

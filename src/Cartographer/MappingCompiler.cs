@@ -26,7 +26,7 @@ namespace Cartographer
 		static LambdaExpression GenerateLambda(MappingStrategy strategy, List<Expression> body)
 		{
 			var lambda = Expression.Lambda(Expression.Block(new[] { strategy.TargetExpression, strategy.SourceExpression }, body),
-			                               string.Format("{0} to {1} Converter", strategy.Source.Type.Name, strategy.Target.Type.Name),
+			                               string.Format("{0} to {1} Converter", strategy.Source.Name, strategy.Target.Name),
 			                               new[] { strategy.ContextExpression });
 			return lambda;
 		}
@@ -51,14 +51,14 @@ namespace Cartographer
 
 		static void InitSource(MappingStrategy strategy, List<Expression> body)
 		{
-			var step = Expression.Assign(strategy.SourceExpression, Expression.Convert(Expression.Property(strategy.ContextExpression, MappingContextMeta.SourceInstance), strategy.Source.Type));
+			var step = Expression.Assign(strategy.SourceExpression, Expression.Convert(Expression.Property(strategy.ContextExpression, MappingContextMeta.SourceInstance), strategy.Source));
 			// we don't describe source. It gets cast from the source to its actual type but that's not interesting and only adds noise to the mapping
 			body.Add(step);
 		}
 
 		static void InitTarget(MappingStrategy strategy, List<Expression> body)
 		{
-			var step = Expression.Assign(strategy.TargetExpression, Expression.New(strategy.Target.Type));
+			var step = Expression.Assign(strategy.TargetExpression, Expression.New(strategy.Target));
 			strategy.Descriptor.DescribeStep(step);
 			body.Add(step);
 		}

@@ -99,7 +99,7 @@ namespace Cartographer.Steps
 			}
 			if (index == sourcePropertyChain.Length)
 			{
-				if (sourcePropertyChain.Last().PropertyType.IsNullable()  == false)
+				if (sourcePropertyChain.Last().PropertyType.IsNullable() == false)
 				{
 					return Expression.Assign(localTarget, Expression.Convert(expression, localTarget.Type));
 				}
