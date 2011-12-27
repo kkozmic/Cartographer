@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Concurrent;
+	using System.ComponentModel;
 	using Cartographer.Compiler;
 
 	public class Mapper: IMapper
@@ -14,6 +15,11 @@
 
 		readonly ITypeMapper typeMapper;
 
+		/// <summary>
+		///   It is not recommended to use the constructor directly. Use <see cref="MapperBuilder" /> instead to create your instance of <see
+		///    cref="Mapper" /> .
+		/// </summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public Mapper(ITypeMapper typeMapper, IMappingStrategyBuilder mappingStrategyBuilder, IMappingCompiler mappingCompiler)
 		{
 			this.typeMapper = typeMapper;
