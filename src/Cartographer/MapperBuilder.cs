@@ -7,21 +7,51 @@
 	using Cartographer.Compiler;
 	using Cartographer.Patterns;
 
-	public class MapperBuilder
+	public class MapperBuilder: MapperBuilder.IMapperBuilderSettings
 	{
-		readonly MapperBuilderSettings settings;
+		readonly List<IConversionPattern> conversionPatterns = new List<IConversionPattern>
+		                                                       {
+		                                                       	new CollectionConversionPattern(),
+		                                                       	new MapConversionPattern()
+		                                                       };
+
+		readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
+		                                                 {
+		                                                 	new MatchByNameMappingPattern(),
+		                                                 	new MatchByNameMappingPattern()
+		                                                 };
+
 
 		IMapper mapper;
 
-		public MapperBuilder()
+		public IMapperBuilderSettings Settings
 		{
-			settings = new MapperBuilderSettings(this);
+			get { return this; }
 		}
 
-		public MapperBuilderSettings Settings
+		IConversionPattern[] IMapperBuilderSettings.ConversionPatterns
 		{
-			get { return settings; }
+			get { return conversionPatterns.ToArray(); }
 		}
+
+		Action<string, Exception> IMapperBuilderSettings.ErrorLog { get; set; }
+
+		Action<string> IMapperBuilderSettings.InfoLog { get; set; }
+
+		IMappingCompiler IMapperBuilderSettings.MappingCompiler { get; set; }
+
+		IMappingDescriptor IMapperBuilderSettings.MappingDescriptor { get; set; }
+
+		TextWriter IMapperBuilderSettings.MappingDescriptorWriter { get; set; }
+
+		IMappingPattern[] IMapperBuilderSettings.MappingPatterns
+		{
+			get { return mappingPatterns.ToArray(); }
+		}
+
+		IMappingStrategyBuilder IMapperBuilderSettings.MappingStrategyBuilder { get; set; }
+
+		ITypeMapper IMapperBuilderSettings.TypeMapper { get; set; }
 
 		public virtual IMapper BuildMapper()
 		{
@@ -66,63 +96,39 @@
 			return new TypeMapper();
 		}
 
-		public class MapperBuilderSettings
+		void IMapperBuilderSettings.AddConversionPattern(IConversionPattern pattern)
 		{
-			readonly MapperBuilder builder;
+			conversionPatterns.Insert(0, pattern);
+		}
 
+		void IMapperBuilderSettings.AddMappingPattern(IMappingPattern pattern)
+		{
+			mappingPatterns.Insert(0, pattern);
+		}
 
-			readonly List<IConversionPattern> conversionPatterns = new List<IConversionPattern>
-			                                                       {
-			                                                       	new CollectionConversionPattern(),
-			                                                       	new MapConversionPattern()
-			                                                       };
+		public interface IMapperBuilderSettings
+		{
+			IConversionPattern[] ConversionPatterns { get; }
 
-			readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
-			                                                 {
-			                                                 	new MatchByNameMappingPattern(),
-			                                                 	new MatchByNameMappingPattern()
-			                                                 };
+			Action<string, Exception> ErrorLog { get; set; }
 
-			public MapperBuilderSettings(MapperBuilder builder)
-			{
-				this.builder = builder;
-				ErrorLog = (s, e) => Console.WriteLine("ERROR: {0} {1}", s, e);
-				InfoLog = Console.WriteLine;
-			}
+			Action<string> InfoLog { get; set; }
 
-			public IConversionPattern[] ConversionPatterns
-			{
-				get { return conversionPatterns.ToArray(); }
-			}
+			IMappingCompiler MappingCompiler { get; set; }
 
-			public Action<string, Exception> ErrorLog { get; set; }
+			IMappingDescriptor MappingDescriptor { get; set; }
 
-			public Action<string> InfoLog { get; set; }
+			TextWriter MappingDescriptorWriter { get; set; }
 
-			public IMappingCompiler MappingCompiler { get; set; }
+			IMappingPattern[] MappingPatterns { get; }
 
-			public IMappingDescriptor MappingDescriptor { get; set; }
+			IMappingStrategyBuilder MappingStrategyBuilder { get; set; }
 
-			public TextWriter MappingDescriptorWriter { get; set; }
+			ITypeMapper TypeMapper { get; set; }
 
-			public IMappingPattern[] MappingPatterns
-			{
-				get { return mappingPatterns.ToArray(); }
-			}
+			void AddConversionPattern(IConversionPattern pattern);
 
-			public IMappingStrategyBuilder MappingStrategyBuilder { get; set; }
-
-			public ITypeMapper TypeMapper { get; set; }
-
-			public void AddConversionPattern(IConversionPattern pattern)
-			{
-				conversionPatterns.Insert(0, pattern);
-			}
-
-			public void AddMappingPattern(IMappingPattern pattern)
-			{
-				mappingPatterns.Insert(0, pattern);
-			}
+			void AddMappingPattern(IMappingPattern pattern);
 		}
 	}
 }
