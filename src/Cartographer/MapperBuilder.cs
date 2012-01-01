@@ -5,9 +5,10 @@
 	using System.IO;
 	using System.Reflection;
 	using Cartographer.Compiler;
+	using Cartographer.Internal;
 	using Cartographer.Patterns;
 
-	public class MapperBuilder: MapperBuilder.IMapperBuilderSettings
+	public class MapperBuilder: IMapperBuilderSettings
 	{
 		readonly List<IConversionPattern> conversionPatterns = new List<IConversionPattern>
 		                                                       {
@@ -104,31 +105,6 @@
 		void IMapperBuilderSettings.AddMappingPattern(IMappingPattern pattern)
 		{
 			mappingPatterns.Insert(0, pattern);
-		}
-
-		public interface IMapperBuilderSettings
-		{
-			IConversionPattern[] ConversionPatterns { get; }
-
-			Action<string, Exception> ErrorLog { get; set; }
-
-			Action<string> InfoLog { get; set; }
-
-			IMappingCompiler MappingCompiler { get; set; }
-
-			IMappingDescriptor MappingDescriptor { get; set; }
-
-			TextWriter MappingDescriptorWriter { get; set; }
-
-			IMappingPattern[] MappingPatterns { get; }
-
-			IMappingStrategyBuilder MappingStrategyBuilder { get; set; }
-
-			ITypeMapper TypeMapper { get; set; }
-
-			void AddConversionPattern(IConversionPattern pattern);
-
-			void AddMappingPattern(IMappingPattern pattern);
 		}
 	}
 }
