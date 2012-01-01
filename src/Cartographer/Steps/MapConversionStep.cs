@@ -8,7 +8,7 @@ namespace Cartographer.Steps
 	{
 		readonly Expression<Func<object, IMapper, object>> blueprint = (value, mapper) => mapper.Convert<object>(value);
 
-		public override Expression BuildConversionExpression(MappingStrategy context, MappingStep step)
+		public override Expression BuildConversionExpression(MappingStrategy strategy, MappingStep step)
 		{
 			var callExpression = (MethodCallExpression)blueprint.Body;
 			if (step.TargetValueType == typeof (object))
@@ -16,7 +16,7 @@ namespace Cartographer.Steps
 				return callExpression;
 			}
 			var method = callExpression.Method.GetGenericMethodDefinition().MakeGenericMethod(step.TargetValueType);
-			return Expression.Call(context.MapperExpression, method, context.ValueExpression);
+			return Expression.Call(strategy.MapperExpression, method, strategy.ValueExpression);
 		}
 	}
 }

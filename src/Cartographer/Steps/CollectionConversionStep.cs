@@ -14,14 +14,14 @@ namespace Cartographer.Steps
 			typeof (CollectionConversionHelper).GetMethods(BindingFlags.Static | BindingFlags.Public)
 				.Single();
 
-		public override Expression BuildConversionExpression(MappingStrategy context, MappingStep step)
+		public override Expression BuildConversionExpression(MappingStrategy strategy, MappingStep step)
 		{
 			var from = step.SourceValueType.GetArrayItemType();
 			var to = step.TargetValueType.GetArrayItemType();
 			Debug.Assert(from != null);
 			Debug.Assert(to != null);
 
-			return Expression.Call(MapCollection.MakeGenericMethod(from, to), context.ValueExpression, context.ContextExpression);
+			return Expression.Call(MapCollection.MakeGenericMethod(from, to), strategy.ValueExpression, strategy.ContextExpression);
 		}
 	}
 }
