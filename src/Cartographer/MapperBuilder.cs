@@ -19,7 +19,7 @@
 		readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
 		                                                 {
 		                                                 	new MatchByNameMappingPattern(),
-		                                                 	new MatchByNameMappingPattern()
+		                                                 	new MatchByNameFlattenMappingPattern()
 		                                                 };
 
 

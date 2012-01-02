@@ -7,7 +7,7 @@ namespace Cartographer.Patterns
 
 	public abstract class ConversionPattern<TFrom, TTo>: IConversionPattern
 	{
-		protected abstract Expression<Func<TFrom, IMapper, TTo>> BuildConversionExpression(MappingStep mapping);
+		protected abstract Expression<Func<TFrom, IMapper, MappingContext, TTo>> BuildConversionExpression(MappingStep mapping);
 
 		public void Apply(MappingStep mapping)
 		{

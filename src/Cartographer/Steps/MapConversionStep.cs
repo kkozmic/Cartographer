@@ -2,21 +2,13 @@ namespace Cartographer.Steps
 {
 	using System;
 	using System.Linq.Expressions;
-	using Cartographer.Compiler;
+	using Cartographer.Patterns;
 
-	public class MapConversionStep: ConversionStep
+	public class MapConversionPattern<TFrom, TTo>: ConversionPattern<TFrom, TTo>
 	{
-		readonly Expression<Func<object, IMapper, object>> blueprint = (value, mapper) => mapper.Convert<object>(value);
-
-		public override Expression BuildConversionExpression(MappingStrategy strategy, MappingStep step)
+		protected override Expression<Func<TFrom, IMapper, MappingContext, TTo>> BuildConversionExpression(MappingStep mapping)
 		{
-			var callExpression = (MethodCallExpression)blueprint.Body;
-			if (step.TargetValueType == typeof (object))
-			{
-				return callExpression;
-			}
-			var method = callExpression.Method.GetGenericMethodDefinition().MakeGenericMethod(step.TargetValueType);
-			return Expression.Call(strategy.MapperExpression, method, strategy.ValueExpression);
+			return (source, mapper, context) => mapper.Convert<TTo>(source);
 		}
 	}
 }

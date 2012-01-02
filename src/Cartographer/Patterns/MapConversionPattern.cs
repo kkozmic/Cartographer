@@ -1,5 +1,6 @@
 namespace Cartographer.Patterns
 {
+	using System;
 	using Cartographer.Compiler;
 	using Cartographer.Steps;
 
@@ -7,11 +8,13 @@ namespace Cartographer.Patterns
 	{
 		public void Apply(MappingStep mapping)
 		{
-			if (mapping.TargetValueType.IsAssignableFrom(mapping.SourceValueType))
+			if (mapping.TargetValueType.IsAssignableFrom(mapping.SourceValueType) || mapping.Conversion != null)
 			{
 				return;
 			}
-			mapping.Conversion = new MapConversionStep();
+			// NOTE: this is temporary hack to ensure the underlying infrastructure is operating.
+			var instance = (IConversionPattern)Activator.CreateInstance(typeof (MapConversionPattern<,>).MakeGenericType(mapping.SourceValueType, mapping.TargetValueType));
+			instance.Apply(mapping);
 		}
 	}
 }

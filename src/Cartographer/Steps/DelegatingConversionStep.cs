@@ -14,7 +14,8 @@ namespace Cartographer.Steps
 
 		public override Expression BuildConversionExpression(MappingStrategy strategy, MappingStep step)
 		{
-			var visitor = new DelegatingConversionVisitor(strategy);
+			var parameters = expression.Parameters;
+			var visitor = new DelegatingConversionVisitor(strategy, parameters[0], parameters[1], parameters[2]);
 			return visitor.Visit(expression.Body);
 		}
 	}

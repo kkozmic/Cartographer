@@ -1,27 +1,16 @@
 namespace Cartographer.Steps
 {
-	using System.Diagnostics;
-	using System.Linq;
+	using System;
+	using System.Collections.Generic;
 	using System.Linq.Expressions;
-	using System.Reflection;
-	using Cartographer.Compiler;
 	using Cartographer.Helpers;
-	using Cartographer.Internal;
+	using Cartographer.Patterns;
 
-	public class CollectionConversionStep: ConversionStep
+	public class CollectionConversionPattern<TSourceItem, TTargetItem>: ConversionPattern<IEnumerable<TSourceItem>, IEnumerable<TTargetItem>>
 	{
-		static readonly MethodInfo MapCollection =
-			typeof (CollectionConversionHelper).GetMethods(BindingFlags.Static | BindingFlags.Public)
-				.Single();
-
-		public override Expression BuildConversionExpression(MappingStrategy strategy, MappingStep step)
+		protected override Expression<Func<IEnumerable<TSourceItem>, IMapper, MappingContext, IEnumerable<TTargetItem>>> BuildConversionExpression(MappingStep mapping)
 		{
-			var from = step.SourceValueType.GetArrayItemType();
-			var to = step.TargetValueType.GetArrayItemType();
-			Debug.Assert(from != null);
-			Debug.Assert(to != null);
-
-			return Expression.Call(MapCollection.MakeGenericMethod(from, to), strategy.ValueExpression, strategy.ContextExpression);
+			return (source, mapper, context) => CollectionConversionHelper.MapCollection<TSourceItem, TTargetItem>(source, context);
 		}
 	}
 }

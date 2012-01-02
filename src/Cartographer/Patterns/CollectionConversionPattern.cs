@@ -9,16 +9,16 @@ namespace Cartographer.Patterns
 	{
 		public void Apply(MappingStep mapping)
 		{
-			if (IsSupportedCollectionType(mapping.SourceProperty.PropertyType) &&
-			    IsSupportedCollectionType(mapping.TargetProperty.PropertyType))
+			var sourceItem = mapping.SourceProperty.PropertyType.GetArrayItemType();
+			var targetItem = mapping.TargetProperty.PropertyType.GetArrayItemType();
+			if (sourceItem == null || targetItem == null)
 			{
-				mapping.Conversion = new CollectionConversionStep();
+				return;
 			}
-		}
 
-		bool IsSupportedCollectionType(Type propertyType)
-		{
-			return propertyType.GetArrayItemType() != null;
+			// NOTE: this is temporary hack to ensure the underlying infrastructure is operating.
+			var instance = (IConversionPattern)Activator.CreateInstance(typeof (CollectionConversionPattern<,>).MakeGenericType(sourceItem, targetItem));
+			instance.Apply(mapping);
 		}
 	}
 }
