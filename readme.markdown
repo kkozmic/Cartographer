@@ -47,7 +47,7 @@ Cartographer uses conventions to find pairs of types to map, rather than requiri
 
 ## Traceability
 
-Code that does things based on conventions can be hard to debug. Cartographer offers two featuers that make it a non-issue:
+Code that does things based on conventions can be hard to debug. Cartographer offers two features that make it a non-issue:
 
  - Using `IMappingDescriptor` interface Cartographer will output exactly the steps it uses to map each type pair in a C#-like pseudocode. Inspecting it, you'll be able to quickly spot invalid configuration. Moreover, if you're doing approval testing it will help you ensure no refactoring breaks your mapping. Here's a simple example
 
