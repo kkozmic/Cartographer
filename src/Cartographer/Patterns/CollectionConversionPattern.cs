@@ -1,24 +1,16 @@
 namespace Cartographer.Patterns
 {
 	using System;
-	using Cartographer.Compiler;
-	using Cartographer.Internal;
+	using System.Collections;
+	using System.Linq.Expressions;
+	using Cartographer.Helpers;
 	using Cartographer.Steps;
 
-	public class CollectionConversionPattern: IConversionPattern
+	public class CollectionConversionPattern<TTargetItem>: ConversionPattern<IEnumerable, TTargetItem[]>
 	{
-		public void Apply(MappingStep mapping)
+		protected override Expression<Func<IEnumerable, IMapper, MappingContext, TTargetItem[]>> BuildConversionExpression(MappingStep mapping)
 		{
-			var sourceItem = mapping.SourceProperty.PropertyType.GetArrayItemType();
-			var targetItem = mapping.TargetProperty.PropertyType.GetArrayItemType();
-			if (sourceItem == null || targetItem == null)
-			{
-				return;
-			}
-
-			// NOTE: this is temporary hack to ensure the underlying infrastructure is operating.
-			var instance = (IConversionPattern)Activator.CreateInstance(typeof (CollectionConversionPattern<,>).MakeGenericType(sourceItem, targetItem));
-			instance.Apply(mapping);
+			return (source, mapper, context) => CollectionConversionHelper.MapCollection<TTargetItem>(source, context);
 		}
 	}
 }

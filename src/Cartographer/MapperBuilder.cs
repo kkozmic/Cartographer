@@ -1,6 +1,7 @@
 ﻿namespace Cartographer
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Reflection;
@@ -10,11 +11,7 @@
 
 	public class MapperBuilder: IMapperBuilderSettings
 	{
-		readonly List<IConversionPattern> conversionPatterns = new List<IConversionPattern>
-		                                                       {
-		                                                       	new CollectionConversionPattern(),
-		                                                       	new MapConversionPattern()
-		                                                       };
+		readonly List<IConversionPattern> conversionPatterns = new List<IConversionPattern>();
 
 		readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
 		                                                 {
@@ -22,8 +19,19 @@
 		                                                 	new MatchByNameFlattenMappingPattern()
 		                                                 };
 
-
 		IMapper mapper;
+
+		public MapperBuilder()
+		{
+			Settings.AddConversionPatternType(typeof (CollectionConversionPattern<>),
+			                                  m => m.SourceProperty.PropertyType.Is<IEnumerable>() && m.TargetProperty.PropertyType.GetArrayItemType() != null,
+			                                  m => new[] { m.TargetProperty.PropertyType.GetArrayItemType() });
+
+			Settings.AddConversionPatternType(typeof (MapConversionPattern<>),
+			                                  m => m.TargetValueType.IsAssignableFrom(m.SourceValueType) == false && m.Conversion == null,
+			                                  m => new[] { m.TargetValueType });
+			;
+		}
 
 		public IMapperBuilderSettings Settings
 		{

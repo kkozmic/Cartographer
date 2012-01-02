@@ -1,20 +1,14 @@
 namespace Cartographer.Patterns
 {
 	using System;
-	using Cartographer.Compiler;
+	using System.Linq.Expressions;
 	using Cartographer.Steps;
 
-	public class MapConversionPattern: IConversionPattern
+	public class MapConversionPattern<TTo>: ConversionPattern<object, TTo>
 	{
-		public void Apply(MappingStep mapping)
+		protected override Expression<Func<object, IMapper, MappingContext, TTo>> BuildConversionExpression(MappingStep mapping)
 		{
-			if (mapping.TargetValueType.IsAssignableFrom(mapping.SourceValueType) || mapping.Conversion != null)
-			{
-				return;
-			}
-			// NOTE: this is temporary hack to ensure the underlying infrastructure is operating.
-			var instance = (IConversionPattern)Activator.CreateInstance(typeof (MapConversionPattern<,>).MakeGenericType(mapping.SourceValueType, mapping.TargetValueType));
-			instance.Apply(mapping);
+			return (source, mapper, context) => mapper.Convert<TTo>(source);
 		}
 	}
 }
