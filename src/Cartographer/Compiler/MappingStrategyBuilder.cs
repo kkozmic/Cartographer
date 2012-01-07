@@ -1,17 +1,18 @@
 namespace Cartographer.Compiler
 {
 	using System;
+	using Cartographer.Patterns;
 	using Cartographer.Steps;
 
 	public class MappingStrategyBuilder: IMappingStrategyBuilder
 	{
-		readonly IConversionPattern[] conversionPatterns;
+		readonly MappingConverter[] conversionPatterns;
 
 		readonly IMappingDescriptor descriptor;
 
 		readonly IMappingPattern[] mappingPatterns;
 
-		public MappingStrategyBuilder(IMappingDescriptor descriptor, IConversionPattern[] conversionPatterns, params IMappingPattern[] mappingPatterns)
+		public MappingStrategyBuilder(IMappingDescriptor descriptor, MappingConverter[] conversionPatterns, params IMappingPattern[] mappingPatterns)
 		{
 			this.descriptor = descriptor;
 			this.conversionPatterns = conversionPatterns;

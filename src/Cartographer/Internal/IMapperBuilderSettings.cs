@@ -3,10 +3,11 @@ namespace Cartographer.Internal
 	using System;
 	using System.IO;
 	using Cartographer.Compiler;
+	using Cartographer.Patterns;
 
 	public interface IMapperBuilderSettings
 	{
-		IConversionPattern[] ConversionPatterns { get; }
+		MappingConverter[] ConversionPatterns { get; }
 
 		Action<string, Exception> ErrorLog { get; set; }
 
@@ -24,7 +25,7 @@ namespace Cartographer.Internal
 
 		ITypeMapper TypeMapper { get; set; }
 
-		void AddConversionPattern(IConversionPattern pattern);
+		void AddConversionPattern(MappingConverter pattern);
 
 		void AddMappingPattern(IMappingPattern pattern);
 	}

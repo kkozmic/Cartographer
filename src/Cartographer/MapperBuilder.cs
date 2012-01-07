@@ -11,7 +11,7 @@
 
 	public class MapperBuilder: IMapperBuilderSettings
 	{
-		readonly List<IConversionPattern> conversionPatterns = new List<IConversionPattern>();
+		readonly List<MappingConverter> conversionPatterns = new List<MappingConverter>();
 
 		readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
 		                                                 {
@@ -30,7 +30,6 @@
 			Settings.AddConversionPatternType(typeof (MapConversionPattern<>),
 			                                  m => m.TargetValueType.IsAssignableFrom(m.SourceValueType) == false && m.Conversion == null,
 			                                  m => new[] { m.TargetValueType });
-			;
 		}
 
 		public IMapperBuilderSettings Settings
@@ -38,7 +37,7 @@
 			get { return this; }
 		}
 
-		IConversionPattern[] IMapperBuilderSettings.ConversionPatterns
+		MappingConverter[] IMapperBuilderSettings.ConversionPatterns
 		{
 			get { return conversionPatterns.ToArray(); }
 		}
@@ -105,7 +104,7 @@
 			return new TypeMapper();
 		}
 
-		void IMapperBuilderSettings.AddConversionPattern(IConversionPattern pattern)
+		void IMapperBuilderSettings.AddConversionPattern(MappingConverter pattern)
 		{
 			conversionPatterns.Insert(0, pattern);
 		}

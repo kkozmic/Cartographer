@@ -16,12 +16,12 @@ namespace Cartographer
 
 		public static void AddConversionPatternType(this IMapperBuilderSettings settings, Type type, Func<MappingStep, bool> predicate)
 		{
-			settings.AddConversionPattern(new DelegatingConversionPattern(type, predicate, null));
+			settings.AddConversionPattern(new MappingConverter(type, predicate, null));
 		}
 
 		public static void AddConversionPatternType(this IMapperBuilderSettings settings, Type patternTypeOpenGeneric, Func<MappingStep, bool> predicate, Func<MappingStep, Type[]> getGenericArguments)
 		{
-			settings.AddConversionPattern(new DelegatingConversionPattern(patternTypeOpenGeneric, predicate, getGenericArguments));
+			settings.AddConversionPattern(new MappingConverter(patternTypeOpenGeneric, predicate, getGenericArguments));
 		}
 	}
 }

@@ -60,8 +60,7 @@
     <Compile Include="MapperBuilder.cs" />
     <Compile Include="MappingStrategyBuilderExtensions.cs" />
     <Compile Include="Patterns\CollectionConversionPattern.cs" />
-    <Compile Include="Patterns\ConversionPattern.cs" />
-    <Compile Include="Patterns\DelegatingConversionPattern.cs" />
+    <Compile Include="Patterns\MappingConverter.cs" />
     <Compile Include="Patterns\MapConversionPattern.cs" />
     <Compile Include="Patterns\MatchByNameFlattenMappingPattern.cs" />
     <Compile Include="Patterns\MatchByNameMappingPattern.cs" />
@@ -76,7 +75,9 @@
     <Compile Include="Steps\AssignChain.cs" />
     <Compile Include="Steps\MappingStep.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Helpers\namespace.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
