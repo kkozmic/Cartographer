@@ -4,6 +4,8 @@ namespace Cartographer.Patterns
 	using System.Linq.Expressions;
 	using Cartographer.Steps;
 
+
+
 	public class MappingConverter
 	{
 		readonly Func<MappingStep, Type[]> genericArguments;

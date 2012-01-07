@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\ConversionPatternGenericCloser.cs" />
     <Compile Include="Compiler\IConversionPattern.cs" />
+    <Compile Include="Compiler\IConversionPatternGenericCloser.cs" />
     <Compile Include="Compiler\IMappingCompiler.cs" />
     <Compile Include="Compiler\IMappingDescriptor.cs" />
     <Compile Include="Compiler\IMappingPattern.cs" />

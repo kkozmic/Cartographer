@@ -6,7 +6,12 @@
 	{
 		public static bool Is<TOther>(this Type type)
 		{
-			return typeof (TOther).IsAssignableFrom(type);
+			return type.Is(typeof (TOther));
+		}
+
+		public static bool Is(this Type type, Type other)
+		{
+			return other.IsAssignableFrom(type);
 		}
 
 		public static bool IsNullable(this Type type)

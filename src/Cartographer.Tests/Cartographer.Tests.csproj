@@ -39,6 +39,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConversionPatternGenericCloserTests.cs" />
+    <Compile Include="ConversionPatterns\NonGenericConversionPattern.cs" />
     <Compile Include="MappingDescriptorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OneToOneMappingTests.cs" />
