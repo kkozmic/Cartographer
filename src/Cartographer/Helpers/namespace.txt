@@ -1,2 +1,0 @@
-﻿Types that provide implementation details of certain mapping behavious.
-Actual code that mapping code calls down to, as opposed to expressions that get incorporated into the body of the mapping method directly.

@@ -1,0 +1,6 @@
+root:
+	surface level classes. Ideally just the types that will be used by 90%+ of the users
+compiler:
+	mapping compiler infrastructure
+Helpers:
+	classes called by the mapping code that perform more complicated and generic tasks
