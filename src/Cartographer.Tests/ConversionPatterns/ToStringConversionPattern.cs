@@ -13,12 +13,4 @@ namespace CartographerTests.ConversionPatterns
 			return (d, m, c) => d.ToString();
 		}
 	}
-
-	public class ConvertConversionPattern<TTarget, TSource>: IConversionPattern<TSource, TTarget>
-	{
-		public Expression<Func<TSource, IMapper, MappingContext, TTarget>> BuildConversionExpression(MappingStep mapping)
-		{
-			return (d, m, c) => (TTarget)Convert.ChangeType(d, typeof (TTarget));
-		}
-	}
 }
