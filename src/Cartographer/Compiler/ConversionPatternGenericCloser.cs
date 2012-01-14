@@ -31,9 +31,37 @@ namespace Cartographer.Compiler
 				var index = Array.IndexOf(openClassArguments, interfaceSourceType);
 				if (index == -1)
 				{
-					return null;
+					if (interfaceSourceType.IsGenericType && sourceType.IsGenericType)
+					{
+						var openInterfaceSource = interfaceSourceType.GetGenericTypeDefinition();
+						var openSource = sourceType.GetGenericTypeDefinition();
+						// we don't support assignable types for now
+						if (openInterfaceSource != openSource)
+						{
+							return null;
+						}
+						var interfaceSourceArguments = interfaceSourceType.GetGenericArguments();
+						var sourceArguments = sourceType.GetGenericArguments();
+						var sourceParameters = new Type[sourceArguments.Length];
+						for (var i = 0; i < sourceParameters.Length; i++)
+						{
+							if (interfaceSourceArguments[i].ContainsGenericParameters)
+							{
+								// for now we only allow that if it's a generic argument of the sourceType
+								var sourceIndex = Array.IndexOf(openClassArguments, interfaceSourceArguments[i]);
+								if (sourceIndex == -1)
+								{
+									return null;
+								}
+								sourceParameters[sourceIndex] = sourceArguments[i];
+							}
+						}
+					}
 				}
-				parameters[index] = sourceType;
+				else
+				{
+					parameters[index] = sourceType;
+				}
 			}
 			else
 			{
@@ -48,9 +76,37 @@ namespace Cartographer.Compiler
 				var index = Array.IndexOf(openClassArguments, interfaceTargetType);
 				if (index == -1)
 				{
-					return null;
+					if (interfaceTargetType.IsGenericType && targetType.IsGenericType)
+					{
+						var openInterfaceTarget = interfaceTargetType.GetGenericTypeDefinition();
+						var openTarget = targetType.GetGenericTypeDefinition();
+						// we don't support assignable types for now
+						if (openInterfaceTarget != openTarget)
+						{
+							return null;
+						}
+						var interfaceTargetArguments = interfaceTargetType.GetGenericArguments();
+						var targetArguments = targetType.GetGenericArguments();
+						var targetParameters = new Type[targetArguments.Length];
+						for (var i = 0; i < targetParameters.Length; i++)
+						{
+							if (interfaceTargetArguments[i].ContainsGenericParameters)
+							{
+								// for now we only allow that if it's a generic argument of the sourceType
+								var targetIndex = Array.IndexOf(openClassArguments, interfaceTargetArguments[i]);
+								if (targetIndex == -1)
+								{
+									return null;
+								}
+								targetParameters[targetIndex] = targetArguments[i];
+							}
+						}
+					}
 				}
-				parameters[index] = targetType;
+				else
+				{
+					parameters[index] = targetType;
+				}
 			}
 			else
 			{
