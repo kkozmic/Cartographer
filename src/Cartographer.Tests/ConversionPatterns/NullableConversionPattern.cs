@@ -6,7 +6,7 @@ namespace CartographerTests.ConversionPatterns
 	using Cartographer.Compiler;
 	using Cartographer.Steps;
 
-	public class NullableConversionPattern<T>: IConversionPattern<T?, T> where T : struct
+	public class NullableConversionPattern<T>: IConversionPattern<T?, T> where T: struct
 	{
 		public Expression<Func<T?, IMapper, MappingContext, T>> BuildConversionExpression(MappingStep mapping)
 		{
