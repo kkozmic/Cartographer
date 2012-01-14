@@ -4,15 +4,13 @@ namespace Cartographer.Patterns
 	using System.Linq.Expressions;
 	using Cartographer.Steps;
 
-
-
 	public class MappingConverter
 	{
+		readonly Func<MappingStep, bool> condition;
+
 		readonly Func<MappingStep, Type[]> genericArguments;
 
 		readonly Type patternType;
-
-		readonly Func<MappingStep, bool> condition;
 
 		public MappingConverter(Type patternType, Func<MappingStep, bool> condition, Func<MappingStep, Type[]> genericArguments)
 		{
