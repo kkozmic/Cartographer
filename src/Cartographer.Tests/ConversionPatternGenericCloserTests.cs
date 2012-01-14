@@ -1,5 +1,6 @@
 ﻿namespace CartographerTests
 {
+	using System;
 	using System.Collections.Generic;
 	using Cartographer.Compiler;
 	using Cartographer.Patterns;
@@ -45,6 +46,14 @@
 			var conversionPatternType = typeof (NullableConversionPattern<>);
 			var closedType = closer.Close(conversionPatternType, typeof (int?), typeof (int));
 			Assert.Equal(typeof (NullableConversionPattern<int>), closedType);
+		}
+
+		[Fact]
+		public void Can_close_type_with_both_paramters_nested_in_generic()
+		{
+			var conversionPatternType = typeof(DoubleNullableConversionPattern<,>);
+			var closedType = closer.Close(conversionPatternType, typeof(Int64?), typeof(DateTime?));
+			Assert.Equal(typeof (DoubleNullableConversionPattern<Int64, DateTime>), closedType);
 		}
 
 		[Fact]

@@ -43,8 +43,7 @@ namespace Cartographer.Compiler
 						}
 						var interfaceSourceArguments = interfaceSourceType.GetGenericArguments();
 						var sourceArguments = sourceType.GetGenericArguments();
-						var sourceParameters = new Type[sourceArguments.Length];
-						for (var i = 0; i < sourceParameters.Length; i++)
+						for (var i = 0; i < interfaceSourceArguments.Length; i++)
 						{
 							if (interfaceSourceArguments[i].ContainsGenericParameters)
 							{
@@ -54,7 +53,7 @@ namespace Cartographer.Compiler
 								{
 									return null;
 								}
-								sourceParameters[sourceIndex] = sourceArguments[i];
+								parameters[sourceIndex] = sourceArguments[i];
 							}
 						}
 					}
@@ -103,8 +102,7 @@ namespace Cartographer.Compiler
 						}
 						var interfaceTargetArguments = interfaceTargetType.GetGenericArguments();
 						var targetArguments = targetType.GetGenericArguments();
-						var targetParameters = new Type[targetArguments.Length];
-						for (var i = 0; i < targetParameters.Length; i++)
+						for (var i = 0; i < interfaceTargetArguments.Length; i++)
 						{
 							if (interfaceTargetArguments[i].ContainsGenericParameters)
 							{
@@ -114,7 +112,7 @@ namespace Cartographer.Compiler
 								{
 									return null;
 								}
-								targetParameters[targetIndex] = targetArguments[i];
+								parameters[targetIndex] = targetArguments[i];
 							}
 						}
 					}
