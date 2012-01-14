@@ -43,6 +43,7 @@
     <Compile Include="ConversionPatterns\ConvertConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NonGenericConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NoOpConversionPattern.cs" />
+    <Compile Include="ConversionPatterns\NullableConversionPattern.cs" />
     <Compile Include="ConversionPatterns\ToStringConversionPattern.cs" />
     <Compile Include="MappingDescriptorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

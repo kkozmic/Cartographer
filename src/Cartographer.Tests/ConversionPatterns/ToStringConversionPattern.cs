@@ -5,6 +5,7 @@ namespace CartographerTests.ConversionPatterns
 	using Cartographer;
 	using Cartographer.Compiler;
 	using Cartographer.Steps;
+	
 
 	public class ToStringConversionPattern<T>: IConversionPattern<T, string>
 	{
