@@ -5,6 +5,7 @@ namespace Cartographer.Compiler
 
 	public class ConversionPatternGenericCloser: IConversionPatternGenericCloser
 	{
+		// this has been through red and green phase, it has yet to see it's refactor phase
 		public Type Close(Type conversionPatternType, Type sourceType, Type targetType)
 		{
 			var @interface = conversionPatternType.GetInterface(typeof (IConversionPattern<,>).Name);
@@ -57,6 +58,21 @@ namespace Cartographer.Compiler
 							}
 						}
 					}
+					if (interfaceSourceType.IsArray)
+					{
+						var sourceArrayItemType = sourceType.GetArrayItemType();
+						if (sourceArrayItemType != null)
+						{
+							var interfaceArrayItemType = interfaceSourceType.GetElementType();
+							// for now we only allow that if it's a generic argument of the sourceType
+							var sourceIndex = Array.IndexOf(openClassArguments, interfaceArrayItemType);
+							if (sourceIndex == -1)
+							{
+								return null;
+							}
+							parameters[sourceIndex] = sourceArrayItemType;
+						}
+					}
 				}
 				else
 				{
@@ -100,6 +116,21 @@ namespace Cartographer.Compiler
 								}
 								targetParameters[targetIndex] = targetArguments[i];
 							}
+						}
+					}
+					if (interfaceTargetType.IsArray)
+					{
+						var targetArrayItemType = targetType.GetArrayItemType();
+						if (targetArrayItemType != null)
+						{
+							var interfaceArrayItemType = interfaceTargetType.GetElementType();
+							// for now we only allow that if it's a generic argument of the sourceType
+							var targetIndex = Array.IndexOf(openClassArguments, interfaceArrayItemType);
+							if (targetIndex == -1)
+							{
+								return null;
+							}
+							parameters[targetIndex] = targetArrayItemType;
 						}
 					}
 				}

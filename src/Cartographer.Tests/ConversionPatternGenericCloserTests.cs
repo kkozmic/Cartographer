@@ -1,6 +1,8 @@
 ﻿namespace CartographerTests
 {
+	using System.Collections.Generic;
 	using Cartographer.Compiler;
+	using Cartographer.Patterns;
 	using CartographerTests.ConversionPatterns;
 	using Xunit;
 
@@ -11,6 +13,14 @@
 		public ConversionPatternGenericCloserTests()
 		{
 			closer = new ConversionPatternGenericCloser();
+		}
+
+		[Fact]
+		public void Can_close_type_with_array_of_T()
+		{
+			var conversionPatternType = typeof (CollectionConversionPattern<>);
+			var closedType = closer.Close(conversionPatternType, typeof (List<int>), typeof (IEnumerable<string>));
+			Assert.Equal(typeof (CollectionConversionPattern<string>), closedType);
 		}
 
 		[Fact]
