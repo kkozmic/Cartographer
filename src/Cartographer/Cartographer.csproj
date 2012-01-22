@@ -55,6 +55,7 @@
     <Compile Include="Compiler\MappingStrategyBuilder.cs" />
     <Compile Include="Compiler\TypeMapper.cs" />
     <Compile Include="Helpers\CollectionConversionHelper.cs" />
+    <Compile Include="Internal\Arguments.cs" />
     <Compile Include="Internal\CollectionExtensions.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />

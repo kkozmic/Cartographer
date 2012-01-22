@@ -38,6 +38,26 @@
 			Assert.Equal(lastModified, dto.CustomerIdentifier.Timestamp);
 		}
 
+		[Fact]
+		public void Can_use_call_site_arguments_in_mapping()
+		{
+			BuilderSettings.AddConversionPatternType(typeof (ToLocalDateInTimeZonePattern));
+			var mapper = BuildMapper();
+
+			var dateTime = DateTime.UtcNow.Date.Add(TimeSpan.FromHours(15));
+
+			var utcOffset = TimeSpan.FromHours(10);
+			var timeZone = TimeZoneInfo.CreateCustomTimeZone("My time zone", utcOffset, "x", "x", "x", null, disableDaylightSavingTime: true);
+			var dto = mapper.ConvertWithArguments<Order3Dto>(new Order3
+			                                                 {
+			                                                 	OrderTime = dateTime
+			                                                 },
+			                                                 new { TimeZone = timeZone });
+
+			var expectedDate = dateTime.Add(utcOffset).Date;
+			Assert.Equal(expectedDate, dto.OrderTime);
+		}
+
 		IMapper BuildMapper()
 		{
 			return builder.BuildMapper();

@@ -1,9 +1,17 @@
 namespace Cartographer
 {
 	using System;
+	using Cartographer.Internal;
 
 	public class MappingContext
 	{
+		readonly Arguments arguments;
+
+		public MappingContext(Arguments arguments)
+		{
+			this.arguments = arguments;
+		}
+
 		public IMapper Mapper { get; set; }
 
 		public object SourceInstance { get; set; }
@@ -16,5 +24,10 @@ namespace Cartographer
 		public object TargetInstance { get; set; }
 
 		public Type TargetType { get; set; }
+
+		public T Argument<T>()
+		{
+			return (T)arguments.GetByType(typeof (T));
+		}
 	}
 }

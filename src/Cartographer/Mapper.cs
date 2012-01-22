@@ -4,6 +4,7 @@
 	using System.Collections.Concurrent;
 	using System.ComponentModel;
 	using Cartographer.Compiler;
+	using Cartographer.Internal;
 
 	public class Mapper: IMapper
 	{
@@ -29,10 +30,20 @@
 
 		public TTarget Convert<TTarget>(object source)
 		{
+			return ConvertWithArguments<TTarget>(source, null);
+		}
+
+		public TTarget Convert<TTarget>(object source, TTarget target)
+		{
+			return ConvertWithArguments(source, target, null);
+		}
+
+		public TTarget ConvertWithArguments<TTarget>(object source, object inlineArgumentsAsAnonymousType)
+		{
 			var key = typeMapper.GetMappingKey(source.GetType(), typeof (TTarget), false);
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
-			return mapper.Invoke(new MappingContext
+			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
 			                     {
 			                     	TargetType = key.Target,
 			                     	SourceInstance = source,
@@ -40,12 +51,13 @@
 			                     });
 		}
 
-		public TTarget Convert<TTarget>(object source, TTarget target)
+
+		public TTarget ConvertWithArguments<TTarget>(object source, TTarget target, object inlineArgumentsAsAnonymousType)
 		{
 			var key = typeMapper.GetMappingKey(source.GetType(), typeof (TTarget), Equals(target, default(TTarget)) == false);
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
-			return mapper.Invoke(new MappingContext
+			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
 			                     {
 			                     	TargetType = key.Target,
 			                     	SourceInstance = source,

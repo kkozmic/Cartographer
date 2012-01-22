@@ -48,6 +48,7 @@
     <Compile Include="ConversionPatterns\NonGenericConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NoOpConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NullableConversionPattern.cs" />
+    <Compile Include="ConversionPatterns\ToLocalDateInTimeZonePattern.cs" />
     <Compile Include="ConversionPatterns\ToStringConversionPattern.cs" />
     <Compile Include="MappingDescriptorTests.cs" />
     <Compile Include="MappingPatterns\MatchByPatternConversionPattern.cs" />
@@ -65,6 +66,8 @@
     <Compile Include="Types\Order.cs" />
     <Compile Include="Types\Order2.cs" />
     <Compile Include="Types\Order2Dto.cs" />
+    <Compile Include="Types\Order3.cs" />
+    <Compile Include="Types\Order3Dto.cs" />
     <Compile Include="Types\OrderDto.cs" />
     <Compile Include="Types\OrderLine.cs" />
     <Compile Include="Types\OrderLineDto.cs" />

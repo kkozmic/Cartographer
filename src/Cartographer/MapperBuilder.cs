@@ -82,6 +82,11 @@
 			                                                 	new MatchByNameFlattenMappingPattern()
 			                                                 };
 
+			public MapperBuilderSettings(params IMappingPattern[] mappingPatterns)
+			{
+				this.mappingPatterns.InsertRange(0, mappingPatterns);
+			}
+
 			public IConversionPatternGenericCloser ConversionPatternGenericCloser { get; set; }
 
 			public Type[] ConversionPatternTypes
