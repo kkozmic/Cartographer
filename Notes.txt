@@ -4,6 +4,7 @@
 - add support for asynchronous multistep pre-caching (low priority)
 - add ability to provide configuration parameters to mappers
 - add ability to provide configuration values
+- add ability to map meta-types (collections, Lazy<T> etc) as root level-types
 - add ability to log the mapping path so that it can be inspected for errors
 - add ability to map into a pre-existing object [done for top level objects. Not sure doing it recursively is a good idea]
 - add ability to map into interfaces (w/o providing implementation)
