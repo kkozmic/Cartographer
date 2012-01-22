@@ -1,7 +1,6 @@
 ﻿namespace Cartographer
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Reflection;
@@ -11,7 +10,11 @@
 
 	public class MapperBuilder: IMapperBuilderSettings
 	{
-		readonly List<MappingConverter> conversionPatterns = new List<MappingConverter>();
+		readonly List<Type> conversionPatterns = new List<Type>
+		                                         {
+		                                         	typeof (CollectionConversionPattern<>),
+		                                         	typeof (MapConversionPattern<>)
+		                                         };
 
 		readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
 		                                                 {
@@ -21,23 +24,14 @@
 
 		IMapper mapper;
 
-		public MapperBuilder()
-		{
-			Settings.AddConversionPatternType(typeof (CollectionConversionPattern<>),
-			                                  m => m.SourceProperty.PropertyType.Is<IEnumerable>() && m.TargetProperty.PropertyType.GetArrayItemType() != null,
-			                                  m => new[] { m.TargetProperty.PropertyType.GetArrayItemType() });
-
-			Settings.AddConversionPatternType(typeof (MapConversionPattern<>),
-			                                  m => m.TargetValueType.IsAssignableFrom(m.SourceValueType) == false && m.Conversion == null,
-			                                  m => new[] { m.TargetValueType });
-		}
-
 		public IMapperBuilderSettings Settings
 		{
 			get { return this; }
 		}
 
-		MappingConverter[] IMapperBuilderSettings.ConversionPatterns
+		IConversionPatternGenericCloser IMapperBuilderSettings.ConversionPatternGenericCloser { get; set; }
+
+		Type[] IMapperBuilderSettings.ConversionPatternTypes
 		{
 			get { return conversionPatterns.ToArray(); }
 		}
@@ -77,6 +71,20 @@
 			return mapper;
 		}
 
+		public void AddConversionPatternType(Type conversionPatternType)
+		{
+			if (conversionPatternType.Is(typeof (IConversionPattern<,>)) == false)
+			{
+				throw new InvalidOperationException(string.Format("Type {0} is not a valid conversion pattern type. Type must implement {1}.", conversionPatternType, typeof (IConversionPattern<,>)));
+			}
+			conversionPatterns.Insert(0, conversionPatternType);
+		}
+
+		protected virtual IConversionPatternGenericCloser BuildConversionPatternGenericCloser()
+		{
+			return new ConversionPatternGenericCloser();
+		}
+
 		protected virtual IMappingCompiler BuildMappingCompiler()
 		{
 			return new MappingCompiler();
@@ -95,18 +103,14 @@
 		protected virtual IMappingStrategyBuilder BuildMappingStrategyBuilder()
 		{
 			return new MappingStrategyBuilder(Settings.MappingDescriptor = Settings.MappingDescriptor ?? BuildMappingDescriptor(),
-			                                  Settings.ConversionPatterns,
+			                                  Settings.ConversionPatternGenericCloser ?? BuildConversionPatternGenericCloser(),
+			                                  Settings.ConversionPatternTypes,
 			                                  Settings.MappingPatterns);
 		}
 
 		protected virtual ITypeMapper BuildTypeMapper()
 		{
 			return new TypeMapper();
-		}
-
-		void IMapperBuilderSettings.AddConversionPattern(MappingConverter pattern)
-		{
-			conversionPatterns.Insert(0, pattern);
 		}
 
 		void IMapperBuilderSettings.AddMappingPattern(IMappingPattern pattern)

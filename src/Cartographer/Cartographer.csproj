@@ -60,9 +60,7 @@
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />
     <Compile Include="MapperBuilder.cs" />
-    <Compile Include="MappingStrategyBuilderExtensions.cs" />
     <Compile Include="Patterns\CollectionConversionPattern.cs" />
-    <Compile Include="Patterns\MappingConverter.cs" />
     <Compile Include="Patterns\MapConversionPattern.cs" />
     <Compile Include="Patterns\MatchByNameFlattenMappingPattern.cs" />
     <Compile Include="Patterns\MatchByNameMappingPattern.cs" />

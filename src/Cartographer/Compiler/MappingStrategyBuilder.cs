@@ -1,20 +1,23 @@
 namespace Cartographer.Compiler
 {
 	using System;
-	using Cartographer.Patterns;
+	using System.Linq.Expressions;
 	using Cartographer.Steps;
 
 	public class MappingStrategyBuilder: IMappingStrategyBuilder
 	{
-		readonly MappingConverter[] conversionPatterns;
+		readonly IConversionPatternGenericCloser conversionPatternGenericCloser;
+
+		readonly Type[] conversionPatterns;
 
 		readonly IMappingDescriptor descriptor;
 
 		readonly IMappingPattern[] mappingPatterns;
 
-		public MappingStrategyBuilder(IMappingDescriptor descriptor, MappingConverter[] conversionPatterns, params IMappingPattern[] mappingPatterns)
+		public MappingStrategyBuilder(IMappingDescriptor descriptor, IConversionPatternGenericCloser conversionPatternGenericCloser, Type[] conversionPatterns, params IMappingPattern[] mappingPatterns)
 		{
 			this.descriptor = descriptor;
+			this.conversionPatternGenericCloser = conversionPatternGenericCloser;
 			this.conversionPatterns = conversionPatterns;
 			this.mappingPatterns = mappingPatterns;
 		}
@@ -35,9 +38,21 @@ namespace Cartographer.Compiler
 
 		void ApplyConverter(MappingStep mapping)
 		{
-			foreach (var pattern in conversionPatterns)
+			foreach (var patternType in conversionPatterns)
 			{
-				pattern.Apply(mapping);
+				var type = conversionPatternGenericCloser.Close(patternType, mapping.SourceValueType, mapping.TargetValueType);
+				if (type == null)
+				{
+					continue;
+				}
+
+				dynamic instance = Activator.CreateInstance(type);
+				LambdaExpression expression = instance.BuildConversionExpression(mapping);
+				if (expression != null)
+				{
+					mapping.Conversion = new DelegatingConversionStep(expression);
+					return;
+				}
 			}
 		}
 	}
