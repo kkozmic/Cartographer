@@ -4,11 +4,14 @@ namespace Cartographer.Compiler
 
 	public struct MappingKey
 	{
-		public MappingKey(Type @from, Type to): this()
+		public MappingKey(Type @from, Type to, bool preexistingTargetInstance): this()
 		{
 			Source = @from;
 			Target = to;
+			PreexistingTargetInstance = preexistingTargetInstance;
 		}
+
+		public bool PreexistingTargetInstance { get; private set; }
 
 		public Type Source { get; private set; }
 
@@ -25,20 +28,23 @@ namespace Cartographer.Compiler
 				return false;
 			}
 			var other = (MappingKey)obj;
-			return other.Source == Source && other.Target == Target;
+			return other.Source == Source && other.Target == Target && other.PreexistingTargetInstance == PreexistingTargetInstance;
 		}
 
 		public override int GetHashCode()
 		{
 			unchecked
 			{
-				return (Source.GetHashCode()*397) ^ Target.GetHashCode();
+				var result = Source.GetHashCode();
+				result = (result*397) ^ Target.GetHashCode();
+				result = (result*397) ^ PreexistingTargetInstance.GetHashCode();
+				return result;
 			}
 		}
 
 		public override string ToString()
 		{
-			return string.Format("{0} -> {1}", Source, Target);
+			return string.Format("{0} -> {1}{2}", Source, Target, PreexistingTargetInstance ? "*" : string.Empty);
 		}
 	}
 }

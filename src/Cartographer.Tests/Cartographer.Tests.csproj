@@ -40,6 +40,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractMappingTests.cs" />
     <Compile Include="ComplexMappingTests.cs" />
     <Compile Include="ConversionPatternGenericCloserTests.cs" />
     <Compile Include="ConversionPatterns\ConvertConversionPattern.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="ConversionPatterns\ToStringConversionPattern.cs" />
     <Compile Include="MappingDescriptorTests.cs" />
     <Compile Include="MappingPatterns\MatchByPatternConversionPattern.cs" />
+    <Compile Include="MappingToExistingObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OneToOneMappingTests.cs" />
     <Compile Include="Types\Account.cs" />

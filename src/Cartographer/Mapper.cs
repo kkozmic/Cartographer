@@ -27,10 +27,10 @@
 			this.mappingCompiler = mappingCompiler;
 		}
 
-		public TResult Convert<TResult>(object source)
+		public TTarget Convert<TTarget>(object source)
 		{
-			var key = typeMapper.GetMappingKey(source.GetType(), typeof (TResult));
-			var mapper = (Func<MappingContext, TResult>)mappins.GetOrAdd(key, CreateMapping);
+			var key = typeMapper.GetMappingKey(source.GetType(), typeof (TTarget), false);
+			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext
 			                     {
@@ -40,9 +40,24 @@
 			                     });
 		}
 
+		public TTarget Convert<TTarget>(object source, TTarget target)
+		{
+			var key = typeMapper.GetMappingKey(source.GetType(), typeof (TTarget), Equals(target, default(TTarget)) == false);
+			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
+
+			return mapper.Invoke(new MappingContext
+			                     {
+			                     	TargetType = key.Target,
+			                     	SourceInstance = source,
+			                     	TargetInstance = target,
+			                     	Mapper = this
+			                     });
+		}
+
 		MappingStrategy BuildStrategy(MappingKey arg)
 		{
 			var mappingStrategy = mappingStrategyBuilder.BuildMappingStrategy(arg.Source, arg.Target);
+			mappingStrategy.HasTargetInstance = arg.PreexistingTargetInstance;
 			return mappingStrategy;
 		}
 

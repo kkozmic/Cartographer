@@ -28,6 +28,8 @@ namespace Cartographer.Compiler
 
 		public IMappingDescriptor Descriptor { get; private set; }
 
+		public bool HasTargetInstance { get; set; }
+
 		public Expression MapperExpression { get; private set; }
 
 		public IEnumerable<MappingStep> MappingSteps

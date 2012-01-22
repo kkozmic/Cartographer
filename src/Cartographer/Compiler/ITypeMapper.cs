@@ -4,6 +4,6 @@ namespace Cartographer.Compiler
 
 	public interface ITypeMapper
 	{
-		MappingKey GetMappingKey(Type sourceInstanceType, Type requestedTargetType);
+		MappingKey GetMappingKey(Type sourceInstanceType, Type requestedTargetType, bool preexistingTargetInstance);
 	}
 }

@@ -1,18 +1,10 @@
 ﻿namespace CartographerTests
 {
-	using Cartographer;
 	using CartographerTests.Types;
 	using Xunit;
 
-	public class MappingDescriptorTests
+	public class MappingDescriptorTests: AbstractMappingTests
 	{
-		readonly IMapper mapper;
-
-		public MappingDescriptorTests()
-		{
-			mapper = new MapperBuilder().BuildMapper();
-		}
-
 		[Fact]
 		public void Can_describe_flattened_mapping()
 		{

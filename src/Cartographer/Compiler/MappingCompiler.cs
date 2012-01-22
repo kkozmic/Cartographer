@@ -58,9 +58,18 @@ namespace Cartographer.Compiler
 
 		static void InitTarget(MappingStrategy strategy, List<Expression> body)
 		{
-			var step = Expression.Assign(strategy.TargetExpression, Expression.New(strategy.Target));
+			var step = Expression.Assign(strategy.TargetExpression, TargetInstanceExpression(strategy));
 			strategy.Descriptor.DescribeStep(step);
 			body.Add(step);
+		}
+
+		static Expression TargetInstanceExpression(MappingStrategy strategy)
+		{
+			if (strategy.HasTargetInstance)
+			{
+				return Expression.Convert(Expression.Property(strategy.ContextExpression, MappingContextMeta.TargetInstance), strategy.Target);
+			}
+			return Expression.New(strategy.Target);
 		}
 	}
 }

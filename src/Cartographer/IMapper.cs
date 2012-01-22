@@ -2,6 +2,8 @@ namespace Cartographer
 {
 	public interface IMapper
 	{
-		TResult Convert<TResult>(object source);
+		TTarget Convert<TTarget>(object source);
+
+		TTarget Convert<TTarget>(object source, TTarget target);
 	}
 }
