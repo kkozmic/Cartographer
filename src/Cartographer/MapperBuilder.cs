@@ -8,52 +8,16 @@
 	using Cartographer.Internal;
 	using Cartographer.Patterns;
 
-	public class MapperBuilder: IMapperBuilderSettings
+	public class MapperBuilder
 	{
-		readonly List<Type> conversionPatterns = new List<Type>
-		                                         {
-		                                         	typeof (CollectionConversionPattern<>),
-		                                         	typeof (MapConversionPattern<>)
-		                                         };
-
-		readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
-		                                                 {
-		                                                 	new MatchByNameMappingPattern(),
-		                                                 	new MatchByNameFlattenMappingPattern()
-		                                                 };
-
 		IMapper mapper;
 
-		public IMapperBuilderSettings Settings
+		public MapperBuilder()
 		{
-			get { return this; }
+			Settings = new MapperBuilderSettings();
 		}
 
-		IConversionPatternGenericCloser IMapperBuilderSettings.ConversionPatternGenericCloser { get; set; }
-
-		Type[] IMapperBuilderSettings.ConversionPatternTypes
-		{
-			get { return conversionPatterns.ToArray(); }
-		}
-
-		Action<string, Exception> IMapperBuilderSettings.ErrorLog { get; set; }
-
-		Action<string> IMapperBuilderSettings.InfoLog { get; set; }
-
-		IMappingCompiler IMapperBuilderSettings.MappingCompiler { get; set; }
-
-		IMappingDescriptor IMapperBuilderSettings.MappingDescriptor { get; set; }
-
-		TextWriter IMapperBuilderSettings.MappingDescriptorWriter { get; set; }
-
-		IMappingPattern[] IMapperBuilderSettings.MappingPatterns
-		{
-			get { return mappingPatterns.ToArray(); }
-		}
-
-		IMappingStrategyBuilder IMapperBuilderSettings.MappingStrategyBuilder { get; set; }
-
-		ITypeMapper IMapperBuilderSettings.TypeMapper { get; set; }
+		public MapperBuilderSettings Settings { get; set; }
 
 		public virtual IMapper BuildMapper()
 		{
@@ -69,15 +33,6 @@
 				                    Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler());
 			}
 			return mapper;
-		}
-
-		public void AddConversionPatternType(Type conversionPatternType)
-		{
-			if (conversionPatternType.Is(typeof (IConversionPattern<,>)) == false)
-			{
-				throw new InvalidOperationException(string.Format("Type {0} is not a valid conversion pattern type. Type must implement {1}.", conversionPatternType, typeof (IConversionPattern<,>)));
-			}
-			conversionPatterns.Insert(0, conversionPatternType);
 		}
 
 		protected virtual IConversionPatternGenericCloser BuildConversionPatternGenericCloser()
@@ -113,9 +68,59 @@
 			return new TypeMapper();
 		}
 
-		void IMapperBuilderSettings.AddMappingPattern(IMappingPattern pattern)
+		public class MapperBuilderSettings
 		{
-			mappingPatterns.Insert(0, pattern);
+			readonly List<Type> conversionPatterns = new List<Type>
+			                                         {
+			                                         	typeof (CollectionConversionPattern<>),
+			                                         	typeof (MapConversionPattern<>)
+			                                         };
+
+			readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
+			                                                 {
+			                                                 	new MatchByNameMappingPattern(),
+			                                                 	new MatchByNameFlattenMappingPattern()
+			                                                 };
+
+			public IConversionPatternGenericCloser ConversionPatternGenericCloser { get; set; }
+
+			public Type[] ConversionPatternTypes
+			{
+				get { return conversionPatterns.ToArray(); }
+			}
+
+			public Action<string, Exception> ErrorLog { get; set; }
+
+			public Action<string> InfoLog { get; set; }
+
+			public IMappingCompiler MappingCompiler { get; set; }
+
+			public IMappingDescriptor MappingDescriptor { get; set; }
+
+			public TextWriter MappingDescriptorWriter { get; set; }
+
+			public IMappingPattern[] MappingPatterns
+			{
+				get { return mappingPatterns.ToArray(); }
+			}
+
+			public IMappingStrategyBuilder MappingStrategyBuilder { get; set; }
+
+			public ITypeMapper TypeMapper { get; set; }
+
+			public void AddConversionPatternType(Type conversionPatternType)
+			{
+				if (conversionPatternType.IsGenericInterface(typeof (IConversionPattern<,>)) == false)
+				{
+					throw new InvalidOperationException(string.Format("Type {0} is not a valid conversion pattern type. Type must implement {1}.", conversionPatternType, typeof (IConversionPattern<,>)));
+				}
+				conversionPatterns.Insert(0, conversionPatternType);
+			}
+
+			public void AddMappingPattern(IMappingPattern pattern)
+			{
+				mappingPatterns.Insert(0, pattern);
+			}
 		}
 	}
 }

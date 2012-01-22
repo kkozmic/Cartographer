@@ -14,6 +14,11 @@
 			return other.IsAssignableFrom(type);
 		}
 
+		public static bool IsGenericInterface(this Type type, Type @interface)
+		{
+			return type.Is(@interface) || type.GetInterface(@interface.FullName) != null;
+		}
+
 		public static bool IsNullable(this Type type)
 		{
 			if (type.IsValueType)

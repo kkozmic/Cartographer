@@ -3,7 +3,7 @@
 	using System.Collections;
 	using System.Collections.Generic;
 
-	public class CollectionConversionHelper
+	public static class CollectionConversionHelper
 	{
 		public static TOut[] MapCollection<TOut>(IEnumerable collection, MappingContext context)
 		{

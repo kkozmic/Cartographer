@@ -56,7 +56,6 @@
     <Compile Include="Compiler\TypeMapper.cs" />
     <Compile Include="Helpers\CollectionConversionHelper.cs" />
     <Compile Include="Internal\CollectionExtensions.cs" />
-    <Compile Include="Internal\IMapperBuilderSettings.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />
     <Compile Include="MapperBuilder.cs" />
