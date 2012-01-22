@@ -17,6 +17,14 @@
 		}
 
 		[Fact]
+		public void Can_close_type_with_just_target_parameter()
+		{
+			var conversionPatternType = typeof(MapConversionPattern<>);
+			var closedType = closer.Close(conversionPatternType, typeof (DateTime), typeof (string));
+			Assert.Equal(typeof(MapConversionPattern<string>), closedType);
+		}
+
+		[Fact]
 		public void Can_close_type_with_array_of_T()
 		{
 			var conversionPatternType = typeof (CollectionConversionPattern<>);
