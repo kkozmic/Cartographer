@@ -40,13 +40,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComplexMappingTests.cs" />
     <Compile Include="ConversionPatternGenericCloserTests.cs" />
     <Compile Include="ConversionPatterns\ConvertConversionPattern.cs" />
+    <Compile Include="ConversionPatterns\IdentifierConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NonGenericConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NoOpConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NullableConversionPattern.cs" />
     <Compile Include="ConversionPatterns\ToStringConversionPattern.cs" />
     <Compile Include="MappingDescriptorTests.cs" />
+    <Compile Include="MappingPatterns\MatchByPatternConversionPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OneToOneMappingTests.cs" />
     <Compile Include="Types\Account.cs" />
@@ -54,7 +57,12 @@
     <Compile Include="Types\AccountDto.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Types\AddressDto.cs" />
+    <Compile Include="Types\Customer.cs" />
+    <Compile Include="Types\Identifier.cs" />
+    <Compile Include="Types\IHasId.cs" />
     <Compile Include="Types\Order.cs" />
+    <Compile Include="Types\Order2.cs" />
+    <Compile Include="Types\Order2Dto.cs" />
     <Compile Include="Types\OrderDto.cs" />
     <Compile Include="Types\OrderLine.cs" />
     <Compile Include="Types\OrderLineDto.cs" />

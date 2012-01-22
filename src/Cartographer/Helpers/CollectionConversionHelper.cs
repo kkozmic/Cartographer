@@ -7,6 +7,10 @@
 	{
 		public static TOut[] MapCollection<TOut>(IEnumerable collection, MappingContext context)
 		{
+			if (collection == null)
+			{
+				return null;
+			}
 			var mapper = context.Mapper;
 			var results = new List<TOut>();
 			foreach (var item in collection)
