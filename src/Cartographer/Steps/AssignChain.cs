@@ -70,11 +70,25 @@ namespace Cartographer.Steps
 			{
 				return sourcePropertyChain.Aggregate<PropertyInfo, Expression>(context.SourceExpression, Expression.Property);
 			}
+			return BuildChainWithNullChecks(context);
+		}
+
+		Expression BuildChainWithNullChecks(MappingStrategy context)
+		{
+			/*
+			var propertyAccess = Property(owner, property);
+			var reduced = Condition(ReferenceNotEqual(owner, Default(owner.Type)), propertyAccess, @default, Type);
+			return reduced;
+			 */
+
+
+
+
 			var localTarget = Expression.Variable(TargetValueType, "__value");
 			var body = new[]
 			           {
 			           	Expression.Assign(localTarget, Expression.Default(TargetValueType)),
-			           	BuildBody(0, context.SourceExpression, localTarget),
+			           	BuildBody(context.SourceExpression, localTarget, 0),
 			           	localTarget
 			           };
 			var result = Expression.Block(new[] { localTarget }, body);
@@ -87,17 +101,8 @@ namespace Cartographer.Steps
 			return Expression.Assign(property, context.ValueExpression);
 		}
 
-		Expression BuildBody(int index, Expression expression, ParameterExpression localTarget)
-		{
-			while (index < sourcePropertyChain.Length)
-			{
-				if (nullableProperties.Contains(sourcePropertyChain[index]))
-				{
-					break;
-				}
-				expression = Expression.Property(expression, sourcePropertyChain[index]);
-				index += 1;
-			}
+		Expression BuildBody(Expression expression, ParameterExpression localTarget, int index)
+		{	
 			if (index == sourcePropertyChain.Length)
 			{
 				if (sourcePropertyChain.Last().PropertyType.IsNullable() == false)
@@ -106,13 +111,18 @@ namespace Cartographer.Steps
 				}
 				return Expression.Assign(localTarget, expression);
 			}
+
+			if (nullableProperties.Contains(sourcePropertyChain[index]) == false)
+			{
+				return BuildBody(Expression.Property(expression, sourcePropertyChain[index]), localTarget, index + 1);
+			}
 			var property = sourcePropertyChain[index];
 			var local = Expression.Variable(property.PropertyType, "__" + property.PropertyType.Name + index);
 			var body = new Expression[]
 			           {
 			           	Expression.Assign(local, Expression.Property(expression, sourcePropertyChain[index])),
 			           	Expression.IfThen(Expression.ReferenceNotEqual(local, Expression.Constant(null)),
-			           	                  BuildBody(index + 1, local, localTarget))
+			           	                  BuildBody(local, localTarget, index + 1))
 			           };
 			return Expression.Block(new[] { local }, body);
 		}
