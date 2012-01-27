@@ -80,18 +80,11 @@ namespace Cartographer.Steps
 			var reduced = Condition(ReferenceNotEqual(owner, Default(owner.Type)), propertyAccess, @default, Type);
 			return reduced;
 			 */
-
-
-
-
-			var localTarget = Expression.Variable(TargetValueType, "__value");
 			var body = new[]
 			           {
-			           	Expression.Assign(localTarget, Expression.Default(TargetValueType)),
-			           	BuildBody(context.SourceExpression, localTarget, 0),
-			           	localTarget
+			           	BuildBody(context.SourceExpression, 0),
 			           };
-			var result = Expression.Block(new[] { localTarget }, body);
+			var result = Expression.Block(TargetValueType, body);
 			return result;
 		}
 
@@ -101,30 +94,32 @@ namespace Cartographer.Steps
 			return Expression.Assign(property, context.ValueExpression);
 		}
 
-		Expression BuildBody(Expression expression, ParameterExpression localTarget, int index)
-		{	
+		Expression BuildBody(Expression expression, int index)
+		{
 			if (index == sourcePropertyChain.Length)
 			{
 				if (sourcePropertyChain.Last().PropertyType.IsNullable() == false)
 				{
-					return Expression.Assign(localTarget, Expression.Convert(expression, localTarget.Type));
+					return Expression.Convert(expression, TargetValueType);
 				}
-				return Expression.Assign(localTarget, expression);
+				return expression;
 			}
 
 			var owner = Expression.Property(expression, sourcePropertyChain[index]);
 			if (nullableProperties.Contains(sourcePropertyChain[index]) == false)
 			{
-				return BuildBody(owner, localTarget, index + 1);
+				return BuildBody(owner, index + 1);
 			}
 			var local = Expression.Variable(owner.Type);
 			var body = new Expression[]
 			           {
 			           	Expression.Assign(local, owner),
-			           	Expression.IfThen(Expression.ReferenceNotEqual(local, Expression.Constant(null)),
-			           	                  BuildBody(local, localTarget, index + 1))
+			           	Expression.Condition(Expression.ReferenceNotEqual(local, Expression.Default(local.Type)),
+			           	                     BuildBody(local, index + 1),
+			           	                     Expression.Default(TargetValueType),
+			           	                     TargetValueType)
 			           };
-			return Expression.Block(new[] { local }, body);
+			return Expression.Block(TargetValueType, new[] { local }, body);
 		}
 	}
 }
