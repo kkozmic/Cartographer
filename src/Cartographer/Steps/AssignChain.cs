@@ -112,15 +112,15 @@ namespace Cartographer.Steps
 				return Expression.Assign(localTarget, expression);
 			}
 
+			var owner = Expression.Property(expression, sourcePropertyChain[index]);
 			if (nullableProperties.Contains(sourcePropertyChain[index]) == false)
 			{
-				return BuildBody(Expression.Property(expression, sourcePropertyChain[index]), localTarget, index + 1);
+				return BuildBody(owner, localTarget, index + 1);
 			}
-			var property = sourcePropertyChain[index];
-			var local = Expression.Variable(property.PropertyType, "__" + property.PropertyType.Name + index);
+			var local = Expression.Variable(owner.Type);
 			var body = new Expression[]
 			           {
-			           	Expression.Assign(local, Expression.Property(expression, sourcePropertyChain[index])),
+			           	Expression.Assign(local, owner),
 			           	Expression.IfThen(Expression.ReferenceNotEqual(local, Expression.Constant(null)),
 			           	                  BuildBody(local, localTarget, index + 1))
 			           };
