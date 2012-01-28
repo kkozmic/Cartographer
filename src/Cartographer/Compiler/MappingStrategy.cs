@@ -45,16 +45,6 @@ namespace Cartographer.Compiler
 
 		public ParameterExpression TargetExpression { get; private set; }
 
-		public PropertyInfo[] UnusedSourceProperties
-		{
-			get { return Source.GetProperties().Except(mappingSteps.Select(s => s.SourceProperty)).ToArray(); }
-		}
-
-		public PropertyInfo[] UnusedTargetProperties
-		{
-			get { return Target.GetProperties().Except(mappingSteps.Select(s => s.TargetProperty)).ToArray(); }
-		}
-
 		public Expression ValueExpression { get; set; }
 
 		public void AddMappingStep(MappingStep mappingStep)

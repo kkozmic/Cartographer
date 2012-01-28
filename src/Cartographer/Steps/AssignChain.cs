@@ -31,24 +31,9 @@ namespace Cartographer.Steps
 			}
 		}
 
-		public override PropertyInfo SourceProperty
-		{
-			get { return sourcePropertyChain[0]; }
-		}
-
-		public PropertyInfo[] SourcePropertyChain
-		{
-			get { return sourcePropertyChain; }
-		}
-
 		public override Type SourceValueType
 		{
 			get { return sourcePropertyChain.Last().PropertyType; }
-		}
-
-		public override PropertyInfo TargetProperty
-		{
-			get { return targetProperty; }
 		}
 
 		public override Type TargetValueType

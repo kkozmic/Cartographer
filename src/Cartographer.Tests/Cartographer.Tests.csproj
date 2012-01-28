@@ -44,6 +44,7 @@
     <Compile Include="ComplexMappingTests.cs" />
     <Compile Include="ConversionPatternGenericCloserTests.cs" />
     <Compile Include="ConversionPatterns\ConvertConversionPattern.cs" />
+    <Compile Include="ConversionPatterns\DoubleNullableConversionPattern.cs" />
     <Compile Include="ConversionPatterns\IdentifierConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NonGenericConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NoOpConversionPattern.cs" />

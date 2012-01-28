@@ -17,19 +17,9 @@ namespace Cartographer.Steps
 			this.sourceProperty = sourceProperty;
 		}
 
-		public override PropertyInfo SourceProperty
-		{
-			get { return sourceProperty; }
-		}
-
 		public override Type SourceValueType
 		{
-			get { return SourceProperty.PropertyType; }
-		}
-
-		public override PropertyInfo TargetProperty
-		{
-			get { return targetProperty; }
+			get { return sourceProperty.PropertyType; }
 		}
 
 		public override Type TargetValueType
