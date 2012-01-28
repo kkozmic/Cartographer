@@ -79,28 +79,32 @@ namespace Cartographer.Steps
 			return Expression.Assign(property, context.ValueExpression);
 		}
 
-		Expression BuildBody(Expression expression, int index)
+		Expression BuildBody(Expression owner, int index)
 		{
-			if (index == sourcePropertyChain.Length)
+			if (index == sourcePropertyChain.Length - 1)
 			{
 				if (sourcePropertyChain.Last().PropertyType.IsNullable() == false)
 				{
-					return Expression.Convert(expression, TargetValueType);
+					return Expression.Convert(owner, TargetValueType);
 				}
-				return expression;
+				return owner;
 			}
 
-			var owner = Expression.Property(expression, sourcePropertyChain[index]);
 			if (nullableProperties.Contains(sourcePropertyChain[index]) == false)
 			{
-				return BuildBody(owner, index + 1);
+				return BuildBody(Expression.Property(owner, sourcePropertyChain[index + 1]), index + 1);
 			}
+			return BuildConditionalProperty(index, owner);
+		}
+
+		Expression BuildConditionalProperty(int index, Expression owner)
+		{
 			var local = Expression.Variable(owner.Type);
 			var body = new Expression[]
 			           {
 			           	Expression.Assign(local, owner),
 			           	Expression.Condition(Expression.ReferenceNotEqual(local, Expression.Default(local.Type)),
-			           	                     BuildBody(local, index + 1),
+			           	                     BuildBody(Expression.Property(local, sourcePropertyChain[index + 1]), index + 1),
 			           	                     Expression.Default(TargetValueType),
 			           	                     TargetValueType)
 			           };
@@ -109,7 +113,7 @@ namespace Cartographer.Steps
 
 		Expression BuildChainWithNullChecks(MappingStrategy context)
 		{
-			var body = BuildBody(context.SourceExpression, 0);
+			var body = BuildBody(Expression.Property(context.SourceExpression, sourcePropertyChain[0]), 0);
 			var result = Expression.Block(TargetValueType, body);
 			return result;
 		}
