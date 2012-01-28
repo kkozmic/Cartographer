@@ -4,7 +4,7 @@ namespace Cartographer.Compiler
 
 	public class TypeMapper: ITypeMapper
 	{
-		public MappingInfo GetMappingKey(Type sourceInstanceType, Type requestedTargetType, bool preexistingTargetInstance)
+		public MappingInfo GetMappingInfo(Type sourceInstanceType, Type requestedTargetType, bool preexistingTargetInstance)
 		{
 			return new MappingInfo(sourceInstanceType, requestedTargetType, preexistingTargetInstance);
 		}

@@ -40,7 +40,7 @@
 
 		public TTarget ConvertWithArguments<TTarget>(object source, object inlineArgumentsAsAnonymousType)
 		{
-			var key = typeMapper.GetMappingKey(source.GetType(), typeof (TTarget), false);
+			var key = typeMapper.GetMappingInfo(source.GetType(), typeof (TTarget), false);
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
@@ -54,7 +54,7 @@
 
 		public TTarget ConvertWithArguments<TTarget>(object source, TTarget target, object inlineArgumentsAsAnonymousType)
 		{
-			var key = typeMapper.GetMappingKey(source.GetType(), typeof (TTarget), Equals(target, default(TTarget)) == false);
+			var key = typeMapper.GetMappingInfo(source.GetType(), typeof (TTarget), Equals(target, default(TTarget)) == false);
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
