@@ -26,129 +26,78 @@ namespace Cartographer.Compiler
 			}
 			var openClassArguments = conversionPatternType.GetGenericArguments();
 			var parameters = new Type[openClassArguments.Length];
-			if (interfaceSourceType.ContainsGenericParameters)
+			if (TryAddParameters(sourceType, interfaceSourceType, parameters, openClassArguments) == false)
 			{
-				// for now we only allow that if it's a generic argument of the sourceType
-				var index = Array.IndexOf(openClassArguments, interfaceSourceType);
-				if (index == -1)
-				{
-					if (interfaceSourceType.IsGenericType && sourceType.IsGenericType)
-					{
-						var openInterfaceSource = interfaceSourceType.GetGenericTypeDefinition();
-						var openSource = sourceType.GetGenericTypeDefinition();
-						// we don't support assignable types for now
-						if (openInterfaceSource != openSource)
-						{
-							return null;
-						}
-						var interfaceSourceArguments = interfaceSourceType.GetGenericArguments();
-						var sourceArguments = sourceType.GetGenericArguments();
-						for (var i = 0; i < interfaceSourceArguments.Length; i++)
-						{
-							if (interfaceSourceArguments[i].ContainsGenericParameters)
-							{
-								// for now we only allow that if it's a generic argument of the sourceType
-								var sourceIndex = Array.IndexOf(openClassArguments, interfaceSourceArguments[i]);
-								if (sourceIndex == -1)
-								{
-									return null;
-								}
-								parameters[sourceIndex] = sourceArguments[i];
-							}
-						}
-					}
-					if (interfaceSourceType.IsArray)
-					{
-						var sourceArrayItemType = sourceType.GetArrayItemType();
-						if (sourceArrayItemType != null)
-						{
-							var interfaceArrayItemType = interfaceSourceType.GetElementType();
-							// for now we only allow that if it's a generic argument of the sourceType
-							var sourceIndex = Array.IndexOf(openClassArguments, interfaceArrayItemType);
-							if (sourceIndex == -1)
-							{
-								return null;
-							}
-							parameters[sourceIndex] = sourceArrayItemType;
-						}
-					}
-				}
-				else
-				{
-					parameters[index] = sourceType;
-				}
+				return null;
 			}
-			else
+			if (TryAddParameters(targetType, interfaceTargetType, parameters, openClassArguments) == false)
 			{
-				if (sourceType.Is(interfaceSourceType) == false)
-				{
-					return null;
-				}
-			}
-			if (interfaceTargetType.ContainsGenericParameters)
-			{
-				// for now we only allow that if it's a generic argument of the sourceType
-				var index = Array.IndexOf(openClassArguments, interfaceTargetType);
-				if (index == -1)
-				{
-					if (interfaceTargetType.IsGenericType && targetType.IsGenericType)
-					{
-						var openInterfaceTarget = interfaceTargetType.GetGenericTypeDefinition();
-						var openTarget = targetType.GetGenericTypeDefinition();
-						// we don't support assignable types for now
-						if (openInterfaceTarget != openTarget)
-						{
-							return null;
-						}
-						var interfaceTargetArguments = interfaceTargetType.GetGenericArguments();
-						var targetArguments = targetType.GetGenericArguments();
-						for (var i = 0; i < interfaceTargetArguments.Length; i++)
-						{
-							if (interfaceTargetArguments[i].ContainsGenericParameters)
-							{
-								// for now we only allow that if it's a generic argument of the sourceType
-								var targetIndex = Array.IndexOf(openClassArguments, interfaceTargetArguments[i]);
-								if (targetIndex == -1)
-								{
-									return null;
-								}
-								parameters[targetIndex] = targetArguments[i];
-							}
-						}
-					}
-					if (interfaceTargetType.IsArray)
-					{
-						var targetArrayItemType = targetType.GetArrayItemType();
-						if (targetArrayItemType != null)
-						{
-							var interfaceArrayItemType = interfaceTargetType.GetElementType();
-							// for now we only allow that if it's a generic argument of the sourceType
-							var targetIndex = Array.IndexOf(openClassArguments, interfaceArrayItemType);
-							if (targetIndex == -1)
-							{
-								return null;
-							}
-							parameters[targetIndex] = targetArrayItemType;
-						}
-					}
-				}
-				else
-				{
-					parameters[index] = targetType;
-				}
-			}
-			else
-			{
-				if (targetType.Is(interfaceTargetType) == false)
-				{
-					return null;
-				}
+				return null;
 			}
 			if (Array.TrueForAll(parameters, p => p != null))
 			{
 				return conversionPatternType.MakeGenericType(parameters);
 			}
 			return null;
+		}
+
+		bool TryAddParameters(Type classType, Type interfaceType, Type[] parameters, Type[] openClassArguments)
+		{
+			if (interfaceType.ContainsGenericParameters == false)
+			{
+				return classType.Is(interfaceType);
+			}
+
+			// for now we only allow that if it's a generic argument of the sourceType
+			var index = Array.IndexOf(openClassArguments, interfaceType);
+			if (index == -1)
+			{
+				if (interfaceType.IsGenericType && classType.IsGenericType)
+				{
+					var openInterfaceType = interfaceType.GetGenericTypeDefinition();
+					var openClassType = classType.GetGenericTypeDefinition();
+					// we don't support assignable types for now
+					if (openInterfaceType != openClassType)
+					{
+						return false;
+					}
+					var interfaceGenericArguments = interfaceType.GetGenericArguments();
+					var classGenericArguments = classType.GetGenericArguments();
+					for (var i = 0; i < interfaceGenericArguments.Length; i++)
+					{
+						if (interfaceGenericArguments[i].ContainsGenericParameters)
+						{
+							// for now we only allow that if it's a generic argument of the sourceType
+							index = Array.IndexOf(openClassArguments, interfaceGenericArguments[i]);
+							if (index == -1)
+							{
+								return false;
+							}
+							parameters[index] = classGenericArguments[i];
+						}
+					}
+				}
+				if (interfaceType.IsArray)
+				{
+					var classArrayItemType = classType.GetArrayItemType();
+					if (classArrayItemType != null)
+					{
+						var interfaceArrayItemType = interfaceType.GetElementType();
+						// for now we only allow that if it's a generic argument of the sourceType
+						index = Array.IndexOf(openClassArguments, interfaceArrayItemType);
+						if (index == -1)
+						{
+							return false;
+						}
+						parameters[index] = classArrayItemType;
+					}
+				}
+			}
+			else
+			{
+				parameters[index] = classType;
+			}
+			return true;
 		}
 	}
 }
