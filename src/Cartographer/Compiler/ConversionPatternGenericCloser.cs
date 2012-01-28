@@ -1,6 +1,8 @@
 namespace Cartographer.Compiler
 {
 	using System;
+	using System.Diagnostics;
+	using System.Reflection;
 	using Cartographer.Internal;
 
 	public class ConversionPatternGenericCloser: IConversionPatternGenericCloser
@@ -41,6 +43,72 @@ namespace Cartographer.Compiler
 			return null;
 		}
 
+		Type EnsureMeetsGenericConstraints(Type type, Type genericParameter)
+		{
+			Debug.Assert(genericParameter.IsGenericParameter, "genericParameter must really be a generic parameter.");
+			var genericConstraints = genericParameter.GenericParameterAttributes;
+			if (genericConstraints == GenericParameterAttributes.None)
+			{
+				return type;
+			}
+			if (genericConstraints.HasFlag(GenericParameterAttributes.NotNullableValueTypeConstraint))
+			{
+				if (IsNotNullableValueType(type) == false)
+				{
+					return null;
+				}
+			}
+			else
+			{
+				// no need to check for default .ctor when we have value type, since we know it'll have one anyway
+				if (genericConstraints.HasFlag(GenericParameterAttributes.DefaultConstructorConstraint))
+				{
+					if (HasDefaultConstructor(type) == false)
+					{
+						return null;
+					}
+				}
+				if (genericConstraints.HasFlag(GenericParameterAttributes.ReferenceTypeConstraint))
+				{
+					if (IsReferenceType(type) == false)
+					{
+						return null;
+					}
+				}
+			}
+			return type;
+		}
+
+		bool HasDefaultConstructor(Type type)
+		{
+			if(type.IsValueType)
+			{
+				return true;
+			}
+
+			var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
+			return defaultConstructor != null;
+		}
+
+		bool IsNotNullableValueType(Type type)
+		{
+			if (type.IsValueType == false)
+			{
+				return false;
+			}
+			if (type.IsGenericType == false)
+			{
+				return true;
+			}
+			var definition = type.GetGenericTypeDefinition();
+			return definition != typeof (Nullable<>);
+		}
+
+		bool IsReferenceType(Type type)
+		{
+			return type.IsValueType == false;
+		}
+
 		bool TryAddParameters(Type classType, Type interfaceType, Type[] parameters, Type[] openClassArguments)
 		{
 			if (interfaceType.ContainsGenericParameters == false)
@@ -73,7 +141,7 @@ namespace Cartographer.Compiler
 							{
 								return false;
 							}
-							parameters[index] = classGenericArguments[i];
+							parameters[index] = EnsureMeetsGenericConstraints(classGenericArguments[i], interfaceGenericArguments[i]);
 						}
 					}
 				}
@@ -89,13 +157,13 @@ namespace Cartographer.Compiler
 						{
 							return false;
 						}
-						parameters[index] = classArrayItemType;
+						parameters[index] = EnsureMeetsGenericConstraints(classArrayItemType, interfaceArrayItemType);
 					}
 				}
 			}
 			else
 			{
-				parameters[index] = classType;
+				parameters[index] = EnsureMeetsGenericConstraints(classType, interfaceType);
 			}
 			return true;
 		}
