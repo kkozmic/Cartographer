@@ -24,7 +24,7 @@ namespace Cartographer.Compiler
 
 		public MappingStrategy BuildMappingStrategy(MappingInfo mappingInfo)
 		{
-			var strategy = new MappingStrategy(mappingInfo.Source, mappingInfo.Target, descriptor);
+			var strategy = new MappingStrategy(mappingInfo.Source, mappingInfo.Target, descriptor) { HasTargetInstance = mappingInfo.PreexistingTargetInstance };
 			foreach (var pattern in mappingPatterns)
 			{
 				pattern.Contribute(strategy);
