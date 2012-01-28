@@ -51,7 +51,7 @@
     <Compile Include="Compiler\ITypeMapper.cs" />
     <Compile Include="Compiler\MappingCompiler.cs" />
     <Compile Include="Compiler\MappingDescriptor.cs" />
-    <Compile Include="Compiler\MappingKey.cs" />
+    <Compile Include="Compiler\MappingInfo.cs" />
     <Compile Include="Compiler\MappingStrategy.cs" />
     <Compile Include="Compiler\MappingStrategyBuilder.cs" />
     <Compile Include="Compiler\TypeMapper.cs" />

@@ -22,9 +22,9 @@ namespace Cartographer.Compiler
 			this.mappingPatterns = mappingPatterns;
 		}
 
-		public MappingStrategy BuildMappingStrategy(Type source, Type target)
+		public MappingStrategy BuildMappingStrategy(MappingInfo mappingInfo)
 		{
-			var strategy = new MappingStrategy(source, target, descriptor);
+			var strategy = new MappingStrategy(mappingInfo.Source, mappingInfo.Target, descriptor);
 			foreach (var pattern in mappingPatterns)
 			{
 				pattern.Contribute(strategy);

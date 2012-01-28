@@ -2,9 +2,9 @@ namespace Cartographer.Compiler
 {
 	using System;
 
-	public struct MappingKey
+	public struct MappingInfo
 	{
-		public MappingKey(Type @from, Type to, bool preexistingTargetInstance): this()
+		public MappingInfo(Type @from, Type to, bool preexistingTargetInstance): this()
 		{
 			Source = @from;
 			Target = to;
@@ -23,11 +23,11 @@ namespace Cartographer.Compiler
 			{
 				return false;
 			}
-			if (obj.GetType() != typeof (MappingKey))
+			if (obj.GetType() != typeof (MappingInfo))
 			{
 				return false;
 			}
-			var other = (MappingKey)obj;
+			var other = (MappingInfo)obj;
 			return other.Source == Source && other.Target == Target && other.PreexistingTargetInstance == PreexistingTargetInstance;
 		}
 

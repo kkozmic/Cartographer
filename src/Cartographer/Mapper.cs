@@ -12,7 +12,7 @@
 
 		readonly IMappingStrategyBuilder mappingStrategyBuilder;
 
-		readonly ConcurrentDictionary<MappingKey, Delegate> mappins = new ConcurrentDictionary<MappingKey, Delegate>();
+		readonly ConcurrentDictionary<MappingInfo, Delegate> mappins = new ConcurrentDictionary<MappingInfo, Delegate>();
 
 		readonly ITypeMapper typeMapper;
 
@@ -66,17 +66,10 @@
 			                     });
 		}
 
-		MappingStrategy BuildStrategy(MappingKey arg)
+		Delegate CreateMapping(MappingInfo arg)
 		{
-			var mappingStrategy = mappingStrategyBuilder.BuildMappingStrategy(arg.Source, arg.Target);
-			mappingStrategy.HasTargetInstance = arg.PreexistingTargetInstance;
-			return mappingStrategy;
-		}
-
-		Delegate CreateMapping(MappingKey arg)
-		{
-			var mappingStrategy = BuildStrategy(arg);
-			return mappingCompiler.Compile(mappingStrategy);
+			var strategy = mappingStrategyBuilder.BuildMappingStrategy(arg);
+			return mappingCompiler.Compile(strategy);
 		}
 	}
 }
