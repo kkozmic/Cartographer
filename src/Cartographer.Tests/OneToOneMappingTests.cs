@@ -23,6 +23,15 @@
 		}
 
 		[Fact]
+		public void Can_flatten_deep_path_with_nullable_and_non_nullable()
+		{
+			var dto = mapper.Convert<Account3Dto>(new Account2 { Number = "abc123", Owner = new Person2 { Id = 42, Address = new Address2 { Zip = new ZipCode { Number = 4000 } } } });
+
+			Assert.Equal(42, dto.OwnerId);
+			Assert.Equal(4000, dto.OwnerAddressZipNumber);
+		}
+
+		[Fact]
 		public void Can_handle_nulls_on_flattening_path()
 		{
 			var dto = mapper.Convert<Account2Dto>(new Account { Number = "abc123", Owner = null });

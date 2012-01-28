@@ -4,6 +4,7 @@ namespace Cartographer.Compiler
 	using System.Collections.Generic;
 	using System.Linq.Expressions;
 	using Cartographer.Internal;
+	using Cartographer.Internal.Expressions;
 
 	public class MappingCompiler: IMappingCompiler
 	{
@@ -15,12 +16,19 @@ namespace Cartographer.Compiler
 			InitTarget(strategy, body);
 			GenerateMapping(strategy, body);
 			var lambda = GenerateLambda(strategy, body);
-			return lambda.Compile();
+			var reduced = Reduce(lambda);
+			return reduced.Compile();
 		}
 
 		void InitDescriptor(MappingStrategy strategy)
 		{
 			strategy.Descriptor.DescribeMapping(strategy.Source, strategy.Target);
+		}
+
+		LambdaExpression Reduce(LambdaExpression lambda)
+		{
+			var visitor = new ReduceExpressionVisitor();
+			return (LambdaExpression)visitor.Visit(lambda);
 		}
 
 		static LambdaExpression GenerateLambda(MappingStrategy strategy, List<Expression> body)

@@ -7,7 +7,6 @@
 	{
 		readonly IDictionary<Type, object> argumentsByType = new Dictionary<Type, object>();
 
-
 		public Arguments(object values)
 		{
 			if (values != null)

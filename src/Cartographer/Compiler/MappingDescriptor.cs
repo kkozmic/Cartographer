@@ -6,10 +6,13 @@ namespace Cartographer.Compiler
 
 	public class MappingDescriptor: IMappingDescriptor
 	{
+		readonly DescriptionVisitor description;
+
 		readonly TextWriter writer;
 
 		public MappingDescriptor(TextWriter writer)
 		{
+			description = new DescriptionVisitor(writer);
 			this.writer = writer;
 		}
 
@@ -20,7 +23,7 @@ namespace Cartographer.Compiler
 
 		public void DescribeStep(Expression step)
 		{
-			writer.Write(step.ToString());
+			description.Visit(step);
 			writer.WriteLine();
 		}
 	}

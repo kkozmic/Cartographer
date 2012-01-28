@@ -4,9 +4,10 @@
 - add support for asynchronous multistep pre-caching (low priority)
 - add ability to provide configuration parameters to mappers [done for call-site arguments and only by type now]
 - add ability to provide configuration values
-- add ability to map meta-types (collections, Lazy<T> etc) as root level-types
+- add ability to map meta-types (collections, Lazy<T> etc) as root level-types. That is a mandatory feature
 - add ability to log the mapping path so that it can be inspected for errors
-- add ability to map into a pre-existing object [done for top level objects. Not sure doing it recursively is a good idea]
+- add ability to map into a pre-existing object [done for top level objects. Not sure doing it recursively is a good idea. No it's not]
 - add ability to map into interfaces (w/o providing implementation)
 - support mapping from multiple properties like this: dto.FooIdentifier = new Identifier(item.Foo.Id, item.Foo.ModifiedDate);
 - add ability to build converters chains so that multiple converters gets applied to single mapping step
+- be mindful of existing API for conversion and play nice with it when possible. Example IValueConverter for WPF, TypeDescriptor, Convert class etc

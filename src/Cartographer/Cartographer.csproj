@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\ConversionPatternGenericCloser.cs" />
+    <Compile Include="Compiler\DescriptionVisitor.cs" />
     <Compile Include="Compiler\IConversionPattern.cs" />
     <Compile Include="Compiler\IConversionPatternGenericCloser.cs" />
     <Compile Include="Compiler\IMappingCompiler.cs" />
@@ -57,6 +58,12 @@
     <Compile Include="Helpers\CollectionConversionHelper.cs" />
     <Compile Include="Internal\Arguments.cs" />
     <Compile Include="Internal\CollectionExtensions.cs" />
+    <Compile Include="Internal\Expressions\ExpressionType.cs" />
+    <Compile Include="Internal\Expressions\IReducingExpressionVisitor.cs" />
+    <Compile Include="Internal\Expressions\PropertyIfNotNullExpression.cs" />
+    <Compile Include="Internal\Expressions\ReduceExpressionVisitor.cs" />
+    <Compile Include="Internal\Expressions\ReducibleExpression.cs" />
+    <Compile Include="Internal\TechnicalDebtAttribute.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />
     <Compile Include="MapperBuilder.cs" />

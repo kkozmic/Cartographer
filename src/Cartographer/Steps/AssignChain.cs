@@ -7,6 +7,7 @@ namespace Cartographer.Steps
 	using System.Reflection;
 	using Cartographer.Compiler;
 	using Cartographer.Internal;
+	using Cartographer.Internal.Expressions;
 
 	public class AssignChain: MappingStep
 	{
@@ -70,7 +71,7 @@ namespace Cartographer.Steps
 			{
 				return sourcePropertyChain.Aggregate<PropertyInfo, Expression>(context.SourceExpression, Expression.Property);
 			}
-			return BuildChainWithNullChecks(context);
+			return BuildBody(Expression.Property(context.SourceExpression, sourcePropertyChain[0]), 0);
 		}
 
 		public override Expression BuildSetTargetValueExpression(MappingStrategy context)
@@ -94,28 +95,9 @@ namespace Cartographer.Steps
 			{
 				return BuildBody(Expression.Property(owner, sourcePropertyChain[index + 1]), index + 1);
 			}
-			return BuildConditionalProperty(index, owner);
-		}
-
-		Expression BuildConditionalProperty(int index, Expression owner)
-		{
 			var local = Expression.Variable(owner.Type);
-			var body = new Expression[]
-			           {
-			           	Expression.Assign(local, owner),
-			           	Expression.Condition(Expression.ReferenceNotEqual(local, Expression.Default(local.Type)),
-			           	                     BuildBody(Expression.Property(local, sourcePropertyChain[index + 1]), index + 1),
-			           	                     Expression.Default(TargetValueType),
-			           	                     TargetValueType)
-			           };
-			return Expression.Block(TargetValueType, new[] { local }, body);
-		}
-
-		Expression BuildChainWithNullChecks(MappingStrategy context)
-		{
-			var body = BuildBody(Expression.Property(context.SourceExpression, sourcePropertyChain[0]), 0);
-			var result = Expression.Block(TargetValueType, body);
-			return result;
+			var property = Expression.Property(local, sourcePropertyChain[index + 1]);
+			return new PropertyIfNotNullExpression(owner, BuildBody(property, index + 1), local, TargetValueType);
 		}
 	}
 }
