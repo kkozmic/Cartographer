@@ -50,19 +50,16 @@ namespace Cartographer.Steps
 			nullableProperties.Add(property);
 		}
 
-		public override Expression BuildGetSourceValueExpression(MappingStrategy context)
+		public override Expression Apply(MappingStrategy strategy, ConversionStep conversion)
 		{
-			if (nullableProperties == null)
+			var get = BuildGetSourceValueExpression(strategy);
+			strategy.ValueExpression = get;
+			if (conversion != null)
 			{
-				return sourcePropertyChain.Aggregate<PropertyInfo, Expression>(context.SourceExpression, Expression.Property);
+				var convert = conversion.BuildConversionExpression(strategy, this);
+				strategy.ValueExpression = convert;
 			}
-			return BuildBody(Expression.Property(context.SourceExpression, sourcePropertyChain[0]), 0);
-		}
-
-		public override Expression BuildSetTargetValueExpression(MappingStrategy context)
-		{
-			var property = Expression.Property(context.TargetExpression, targetProperty);
-			return Expression.Assign(property, context.ValueExpression);
+			return BuildSetTargetValueExpression(strategy);
 		}
 
 		Expression BuildBody(Expression owner, int index)
@@ -84,6 +81,21 @@ namespace Cartographer.Steps
 			var property = new PropertyIfNotNullInnerExpression(Expression.Property(local, sourcePropertyChain[index + 1]));
 			var body = BuildBody(property, index + 1);
 			return new PropertyIfNotNullExpression(owner, body, local, TargetValueType);
+		}
+
+		Expression BuildGetSourceValueExpression(MappingStrategy context)
+		{
+			if (nullableProperties == null)
+			{
+				return sourcePropertyChain.Aggregate<PropertyInfo, Expression>(context.SourceExpression, Expression.Property);
+			}
+			return BuildBody(Expression.Property(context.SourceExpression, sourcePropertyChain[0]), 0);
+		}
+
+		Expression BuildSetTargetValueExpression(MappingStrategy context)
+		{
+			var property = Expression.Property(context.TargetExpression, targetProperty);
+			return Expression.Assign(property, context.ValueExpression);
 		}
 	}
 }

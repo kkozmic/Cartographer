@@ -2,9 +2,7 @@ namespace Cartographer.Compiler
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Linq;
 	using System.Linq.Expressions;
-	using System.Reflection;
 	using Cartographer.Internal;
 	using Cartographer.Steps;
 
@@ -45,6 +43,7 @@ namespace Cartographer.Compiler
 
 		public ParameterExpression TargetExpression { get; private set; }
 
+		[TechnicalDebt("This should go. Not sure how to nicely replace it yet but it's ugly as sin")]
 		public Expression ValueExpression { get; set; }
 
 		public void AddMappingStep(MappingStep mappingStep)

@@ -27,15 +27,17 @@ namespace Cartographer.Steps
 			get { return targetProperty.PropertyType; }
 		}
 
-		public override Expression BuildGetSourceValueExpression(MappingStrategy context)
+		public override Expression Apply(MappingStrategy strategy, ConversionStep conversion)
 		{
-			return Expression.Property(context.SourceExpression, sourceProperty);
-		}
-
-		public override Expression BuildSetTargetValueExpression(MappingStrategy context)
-		{
-			var property = Expression.Property(context.TargetExpression, targetProperty);
-			return Expression.Assign(property, context.ValueExpression);
+			var get = Expression.Property(strategy.SourceExpression, sourceProperty);
+			strategy.ValueExpression = get;
+			if (conversion != null)
+			{
+				var convert = conversion.BuildConversionExpression(strategy, this);
+				strategy.ValueExpression = convert;
+			}
+			var property = Expression.Property(strategy.TargetExpression, targetProperty);
+			return Expression.Assign(property, strategy.ValueExpression);
 		}
 	}
 }

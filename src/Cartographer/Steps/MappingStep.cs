@@ -12,8 +12,6 @@ namespace Cartographer.Steps
 
 		public ConversionStep Conversion { get; set; }
 
-		public abstract Expression BuildGetSourceValueExpression(MappingStrategy context);
-
-		public abstract Expression BuildSetTargetValueExpression(MappingStrategy context);
+		public abstract Expression Apply(MappingStrategy strategy, ConversionStep conversion);
 	}
 }

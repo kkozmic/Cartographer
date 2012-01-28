@@ -37,16 +37,9 @@ namespace Cartographer.Compiler
 		{
 			foreach (var step in strategy.MappingSteps)
 			{
-				var get = step.BuildGetSourceValueExpression(strategy);
-				strategy.ValueExpression = get;
-				if (step.Conversion != null)
-				{
-					var convert = step.Conversion.BuildConversionExpression(strategy, step);
-					strategy.ValueExpression = convert;
-				}
-				var set = step.BuildSetTargetValueExpression(strategy);
-				strategy.Descriptor.DescribeStep(set);
-				body.Add(set);
+				var map = step.Apply(strategy, step.Conversion);
+				strategy.Descriptor.DescribeStep(map);
+				body.Add(map);
 			}
 			body.Add(strategy.TargetExpression);
 		}
