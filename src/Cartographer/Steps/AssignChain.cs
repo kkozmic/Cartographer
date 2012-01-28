@@ -73,21 +73,6 @@ namespace Cartographer.Steps
 			return BuildChainWithNullChecks(context);
 		}
 
-		Expression BuildChainWithNullChecks(MappingStrategy context)
-		{
-			/*
-			var propertyAccess = Property(owner, property);
-			var reduced = Condition(ReferenceNotEqual(owner, Default(owner.Type)), propertyAccess, @default, Type);
-			return reduced;
-			 */
-			var body = new[]
-			           {
-			           	BuildBody(context.SourceExpression, 0),
-			           };
-			var result = Expression.Block(TargetValueType, body);
-			return result;
-		}
-
 		public override Expression BuildSetTargetValueExpression(MappingStrategy context)
 		{
 			var property = Expression.Property(context.TargetExpression, targetProperty);
@@ -120,6 +105,13 @@ namespace Cartographer.Steps
 			           	                     TargetValueType)
 			           };
 			return Expression.Block(TargetValueType, new[] { local }, body);
+		}
+
+		Expression BuildChainWithNullChecks(MappingStrategy context)
+		{
+			var body = BuildBody(context.SourceExpression, 0);
+			var result = Expression.Block(TargetValueType, body);
+			return result;
 		}
 	}
 }
