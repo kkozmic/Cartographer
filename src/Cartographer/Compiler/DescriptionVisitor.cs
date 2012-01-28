@@ -809,11 +809,30 @@ namespace Cartographer.Compiler
 			}
 		}
 
+		Expression VisitCustom(PropertyIfNotNullInnerExpression node)
+		{
+			Append(node.Inner.Member.Name);
+			return node;
+		}
+
 		Expression VisitCustom(PropertyIfNotNullExpression node)
 		{
 			Visit(node.Owner);
 			Append("!?");
-			Visit(node.Inner);
+			var member = node.Inner as MemberExpression;
+			if (member != null)
+			{
+				Append(member.Member.Name);
+			}
+			var convert = node.Inner as UnaryExpression;
+			if (convert != null && convert.NodeType == ExpressionType.Convert)
+			{
+				Visit(convert.Operand);
+			}
+			else
+			{
+				Visit(node.Inner);
+			}
 			return node;
 		}
 

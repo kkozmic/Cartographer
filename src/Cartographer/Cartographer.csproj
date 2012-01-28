@@ -61,6 +61,7 @@
     <Compile Include="Internal\Expressions\ExpressionType.cs" />
     <Compile Include="Internal\Expressions\IReducingExpressionVisitor.cs" />
     <Compile Include="Internal\Expressions\PropertyIfNotNullExpression.cs" />
+    <Compile Include="Internal\Expressions\PropertyIfNotNullInnerExpression.cs" />
     <Compile Include="Internal\Expressions\ReduceExpressionVisitor.cs" />
     <Compile Include="Internal\Expressions\ReducibleExpression.cs" />
     <Compile Include="Internal\TechnicalDebtAttribute.cs" />

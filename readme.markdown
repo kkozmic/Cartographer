@@ -53,12 +53,13 @@ Code that does things based on conventions can be hard to debug. Cartographer of
 
 ```
 Mapping for CartographerTests.Types.Order => CartographerTests.Types.OrderDto
-(target = new OrderDto())
-(target.OrderLines = MapCollection(source.OrderLines, context))
+target = new OrderDto();
+target.PromoId = source.Promo!?Id;
+target.OrderLines = MapCollection(source.OrderLines, context);
 Mapping for CartographerTests.Types.OrderLine => CartographerTests.Types.OrderLineDto
-(target = new OrderLineDto())
-(target.ItemId = source.ItemId)
-(target.ItemName = source.ItemName)
+target = new OrderLineDto();
+target.ItemId = source.ItemId;
+target.ItemName = source.ItemName;
 ```
 
  - Detailed and helpful exceptions. If something does go wrong, Cartographer will do its best to tell you exactly where the problem is, what the problem is, and, as much as it can, how to fix it.

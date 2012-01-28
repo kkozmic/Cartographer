@@ -96,8 +96,9 @@ namespace Cartographer.Steps
 				return BuildBody(Expression.Property(owner, sourcePropertyChain[index + 1]), index + 1);
 			}
 			var local = Expression.Variable(owner.Type);
-			var property = Expression.Property(local, sourcePropertyChain[index + 1]);
-			return new PropertyIfNotNullExpression(owner, BuildBody(property, index + 1), local, TargetValueType);
+			var property = new PropertyIfNotNullInnerExpression(Expression.Property(local, sourcePropertyChain[index + 1]));
+			var body = BuildBody(property, index + 1);
+			return new PropertyIfNotNullExpression(owner, body, local, TargetValueType);
 		}
 	}
 }

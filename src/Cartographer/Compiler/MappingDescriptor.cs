@@ -24,6 +24,7 @@ namespace Cartographer.Compiler
 		public void DescribeStep(Expression step)
 		{
 			description.Visit(step);
+			writer.Write(";");
 			writer.WriteLine();
 		}
 	}
