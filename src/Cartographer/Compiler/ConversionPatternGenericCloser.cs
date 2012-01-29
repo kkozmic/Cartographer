@@ -81,7 +81,7 @@ namespace Cartographer.Compiler
 
 		bool HasDefaultConstructor(Type type)
 		{
-			if(type.IsValueType)
+			if (type.IsValueType)
 			{
 				return true;
 			}

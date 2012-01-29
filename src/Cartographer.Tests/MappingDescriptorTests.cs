@@ -3,12 +3,11 @@
 	using System;
 	using System.IO;
 	using System.Text;
-	using ApprovalTests;
 	using Cartographer;
 	using CartographerTests.Types;
 	using Xunit;
 
-	public class MappingDescriptorTests:IDisposable
+	public class MappingDescriptorTests: IDisposable
 	{
 		readonly IMapper mapper;
 

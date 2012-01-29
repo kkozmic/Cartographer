@@ -809,17 +809,17 @@ namespace Cartographer.Compiler
 			}
 		}
 
+		void OutRightHandSideOf(PropertyIfNotNullExpression owner)
+		{
+			Visit(owner.Owner);
+			Append("?!");
+		}
+
 		Expression VisitCustom(PropertyIfNotNullInnerExpression node)
 		{
 			OutRightHandSideOf(node.Owner);
 			Append(node.Inner.Member.Name);
 			return node;
-		}
-
-		void OutRightHandSideOf(PropertyIfNotNullExpression owner)
-		{
-			Visit(owner.Owner);
-			Append("?!");
 		}
 
 		Expression VisitCustom(PropertyIfNotNullExpression node)

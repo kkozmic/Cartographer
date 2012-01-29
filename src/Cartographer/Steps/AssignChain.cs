@@ -54,17 +54,6 @@ namespace Cartographer.Steps
 			return BuildGetSourceValueExpression(strategy, conversion);
 		}
 
-		Expression SetValue(MappingStrategy strategy, ConversionStep conversion, Expression value)
-		{
-			strategy.ValueExpression = value;
-			if (conversion != null)
-			{
-				var convert = conversion.BuildConversionExpression(strategy, this);
-				strategy.ValueExpression = convert;
-			}
-			return BuildSetTargetValueExpression(strategy);
-		}
-
 		Expression BuildBody(Expression owner, int index, MappingStrategy strategy, ConversionStep conversion)
 		{
 			if (index == sourcePropertyChain.Length - 1)
@@ -98,6 +87,17 @@ namespace Cartographer.Steps
 		{
 			var property = Expression.Property(context.TargetExpression, targetProperty);
 			return Expression.Assign(property, context.ValueExpression);
+		}
+
+		Expression SetValue(MappingStrategy strategy, ConversionStep conversion, Expression value)
+		{
+			strategy.ValueExpression = value;
+			if (conversion != null)
+			{
+				var convert = conversion.BuildConversionExpression(strategy, this);
+				strategy.ValueExpression = convert;
+			}
+			return BuildSetTargetValueExpression(strategy);
 		}
 	}
 }
