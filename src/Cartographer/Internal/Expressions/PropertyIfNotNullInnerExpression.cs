@@ -5,22 +5,18 @@ namespace Cartographer.Internal.Expressions
 
 	public class PropertyIfNotNullInnerExpression: ReducibleExpression
 	{
-		readonly MemberExpression inner;
-
-
 		public PropertyIfNotNullInnerExpression(MemberExpression inner)
 		{
-			this.inner = inner;
+			Inner = inner;
 		}
 
-		public MemberExpression Inner
-		{
-			get { return inner; }
-		}
+		public MemberExpression Inner { get; private set; }
+
+		public PropertyIfNotNullExpression Owner { get; set; }
 
 		public override Type Type
 		{
-			get { return inner.Type; }
+			get { return Inner.Type; }
 		}
 
 		protected override ExpressionType ConnectorExpressionType
@@ -30,7 +26,12 @@ namespace Cartographer.Internal.Expressions
 
 		public override Expression Reduce()
 		{
-			return inner;
+			return Inner;
+		}
+
+		public override string ToString()
+		{
+			return Inner.ToString();
 		}
 	}
 }

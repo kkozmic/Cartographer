@@ -811,14 +811,19 @@ namespace Cartographer.Compiler
 
 		Expression VisitCustom(PropertyIfNotNullInnerExpression node)
 		{
+			OutRightHandSideOf(node.Owner);
 			Append(node.Inner.Member.Name);
 			return node;
 		}
 
+		void OutRightHandSideOf(PropertyIfNotNullExpression owner)
+		{
+			Visit(owner.Owner);
+			Append("?!");
+		}
+
 		Expression VisitCustom(PropertyIfNotNullExpression node)
 		{
-			Visit(node.Owner);
-			Append("!?");
 			var member = node.Inner as MemberExpression;
 			if (member != null)
 			{

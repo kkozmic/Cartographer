@@ -54,5 +54,10 @@
 			           };
 			return Block(targetValueType, new[] { local }, body);
 		}
+
+		public override string ToString()
+		{
+			return owner + "?!" + inner;
+		}
 	}
 }

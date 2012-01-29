@@ -80,7 +80,9 @@ namespace Cartographer.Steps
 			var local = Expression.Variable(owner.Type);
 			var property = new PropertyIfNotNullInnerExpression(Expression.Property(local, sourcePropertyChain[index + 1]));
 			var body = BuildBody(property, index + 1, strategy, conversion);
-			return new PropertyIfNotNullExpression(owner, body, local, TargetValueType);
+			var expression = new PropertyIfNotNullExpression(owner, body, local, TargetValueType);
+			property.Owner = expression;
+			return expression;
 		}
 
 		Expression BuildGetSourceValueExpression(MappingStrategy context, ConversionStep conversion)
