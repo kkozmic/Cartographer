@@ -59,9 +59,9 @@
 		[Fact]
 		public void Can_close_type_with_paramter_nested_in_generic()
 		{
-			var conversionPatternType = typeof (NullableConversionPattern<>);
+			var conversionPatternType = typeof (InvertedNullableConversionPattern<>);
 			var closedType = closer.Close(conversionPatternType, typeof (int?), typeof (int));
-			Assert.Equal(typeof (NullableConversionPattern<int>), closedType);
+			Assert.Equal(typeof (InvertedNullableConversionPattern<int>), closedType);
 		}
 
 		[Fact]

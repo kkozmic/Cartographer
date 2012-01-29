@@ -73,7 +73,8 @@
 			readonly List<Type> conversionPatterns = new List<Type>
 			                                         {
 			                                         	typeof (CollectionConversionPattern<>),
-			                                         	typeof (MapConversionPattern<>)
+			                                         	typeof (MapConversionPattern<>),
+			                                         	typeof (NullableConversionPattern<>)
 			                                         };
 
 			readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>

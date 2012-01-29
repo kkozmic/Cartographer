@@ -52,8 +52,12 @@ namespace Cartographer.Steps
 
 		public override Expression Apply(MappingStrategy strategy, ConversionStep conversion)
 		{
-			var get = BuildGetSourceValueExpression(strategy);
-			strategy.ValueExpression = get;
+			return BuildGetSourceValueExpression(strategy, conversion);
+		}
+
+		Expression SetValue(MappingStrategy strategy, ConversionStep conversion, Expression value)
+		{
+			strategy.ValueExpression = value;
 			if (conversion != null)
 			{
 				var convert = conversion.BuildConversionExpression(strategy, this);
@@ -62,34 +66,31 @@ namespace Cartographer.Steps
 			return BuildSetTargetValueExpression(strategy);
 		}
 
-		Expression BuildBody(Expression owner, int index)
+		Expression BuildBody(Expression owner, int index, MappingStrategy strategy, ConversionStep conversion)
 		{
 			if (index == sourcePropertyChain.Length - 1)
 			{
-				if (sourcePropertyChain.Last().PropertyType.IsNullable() == false)
-				{
-					return Expression.Convert(owner, TargetValueType);
-				}
-				return owner;
+				return SetValue(strategy, conversion, owner);
 			}
 
 			if (nullableProperties.Contains(sourcePropertyChain[index]) == false)
 			{
-				return BuildBody(Expression.Property(owner, sourcePropertyChain[index + 1]), index + 1);
+				return BuildBody(Expression.Property(owner, sourcePropertyChain[index + 1]), index + 1, strategy, conversion);
 			}
 			var local = Expression.Variable(owner.Type);
 			var property = new PropertyIfNotNullInnerExpression(Expression.Property(local, sourcePropertyChain[index + 1]));
-			var body = BuildBody(property, index + 1);
+			var body = BuildBody(property, index + 1, strategy, conversion);
 			return new PropertyIfNotNullExpression(owner, body, local, TargetValueType);
 		}
 
-		Expression BuildGetSourceValueExpression(MappingStrategy context)
+		Expression BuildGetSourceValueExpression(MappingStrategy context, ConversionStep conversion)
 		{
 			if (nullableProperties == null)
 			{
-				return sourcePropertyChain.Aggregate<PropertyInfo, Expression>(context.SourceExpression, Expression.Property);
+				var value = sourcePropertyChain.Aggregate<PropertyInfo, Expression>(context.SourceExpression, Expression.Property);
+				return SetValue(context, conversion, value);
 			}
-			return BuildBody(Expression.Property(context.SourceExpression, sourcePropertyChain[0]), 0);
+			return BuildBody(Expression.Property(context.SourceExpression, sourcePropertyChain[0]), 0, context, conversion);
 		}
 
 		Expression BuildSetTargetValueExpression(MappingStrategy context)

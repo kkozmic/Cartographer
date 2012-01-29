@@ -72,6 +72,7 @@
     <Compile Include="Patterns\MapConversionPattern.cs" />
     <Compile Include="Patterns\MatchByNameFlattenMappingPattern.cs" />
     <Compile Include="Patterns\MatchByNameMappingPattern.cs" />
+    <Compile Include="Patterns\NullableConversionPattern.cs" />
     <Compile Include="Steps\ConversionStep.cs" />
     <Compile Include="Steps\DelegatingConversionStep.cs" />
     <Compile Include="Steps\DelegatingConversionVisitor.cs" />

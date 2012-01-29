@@ -48,7 +48,7 @@
     <Compile Include="ConversionPatterns\IdentifierConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NonGenericConversionPattern.cs" />
     <Compile Include="ConversionPatterns\NoOpConversionPattern.cs" />
-    <Compile Include="ConversionPatterns\NullableConversionPattern.cs" />
+    <Compile Include="ConversionPatterns\InvertedNullableConversionPattern.cs" />
     <Compile Include="ConversionPatterns\ToLocalDateInTimeZonePattern.cs" />
     <Compile Include="ConversionPatterns\ToStringConversionPattern.cs" />
     <Compile Include="ConversionPatternGenericCloserNonClosingTests.cs" />
