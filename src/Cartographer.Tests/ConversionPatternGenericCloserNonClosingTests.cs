@@ -23,5 +23,14 @@
 			Assert.Null(closedType);
 
 		}
+
+		[Fact]
+		public void Bails_out_when_given_two_non_nullables_when_one_argument_is_nullable_value_type()
+		{
+			var conversionPatternType = typeof(NullableConversionPattern<>);
+			var closedType = closer.Close(conversionPatternType, typeof(int), typeof(int));
+
+			Assert.Null(closedType);
+		}
 	}
 }

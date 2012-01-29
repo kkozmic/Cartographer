@@ -120,8 +120,12 @@ namespace Cartographer.Compiler
 			var index = Array.IndexOf(openClassArguments, interfaceType);
 			if (index == -1)
 			{
-				if (interfaceType.IsGenericType && classType.IsGenericType)
+				if (interfaceType.IsGenericType)
 				{
+					if (classType.IsGenericType == false)
+					{
+						return false;
+					}
 					var openInterfaceType = interfaceType.GetGenericTypeDefinition();
 					var openClassType = classType.GetGenericTypeDefinition();
 					// we don't support assignable types for now
