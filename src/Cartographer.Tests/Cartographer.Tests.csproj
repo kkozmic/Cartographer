@@ -58,6 +58,7 @@
     <Compile Include="ConversionPatterns\ToLocalDateInTimeZonePattern.cs" />
     <Compile Include="ConversionPatterns\ToStringConversionPattern.cs" />
     <Compile Include="ConversionPatternGenericCloserNonClosingTests.cs" />
+    <Compile Include="Internal\StringAssertEqualReporter.cs" />
     <Compile Include="MappingDescriptorTests.cs" />
     <Compile Include="MappingPatterns\MatchByPatternConversionPattern.cs" />
     <Compile Include="MappingToExistingObjectTests.cs" />
