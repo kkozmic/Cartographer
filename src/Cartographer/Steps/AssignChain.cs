@@ -6,7 +6,6 @@ namespace Cartographer.Steps
 	using System.Linq.Expressions;
 	using System.Reflection;
 	using Cartographer.Compiler;
-	using Cartographer.Internal;
 	using Cartographer.Internal.Expressions;
 
 	public class AssignChain: MappingStep
