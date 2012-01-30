@@ -83,6 +83,10 @@
 			                                                 	new MatchByNameFlattenMappingPattern()
 			                                                 };
 
+			public MapperBuilderSettings()
+			{
+			}
+
 			public MapperBuilderSettings(params IMappingPattern[] mappingPatterns)
 			{
 				this.mappingPatterns.InsertRange(0, mappingPatterns);

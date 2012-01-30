@@ -43,6 +43,9 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>..\..\packages\NSubstitute.1.3.0.0\lib\NET40\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +58,8 @@
   <ItemGroup>
     <Compile Include="AbstractMappingTests.cs" />
     <Compile Include="ComplexMappingTests.cs" />
+    <Compile Include="ContainerIntegration\CartographerFacility.cs" />
+    <Compile Include="ContainerIntegration\WindsorTests.cs" />
     <Compile Include="ConversionPatternGenericCloserTests.cs" />
     <Compile Include="ConversionPatterns\ConvertConversionPattern.cs" />
     <Compile Include="ConversionPatterns\DoubleNullableConversionPattern.cs" />
