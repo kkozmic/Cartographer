@@ -19,6 +19,18 @@ namespace CartographerTests.ContainerIntegration
 		}
 
 		[Fact]
+		public void Can_override_ConversionPatternGenericCloser_from_the_container()
+		{
+			var instance = Substitute.For<IConversionPatternGenericCloser>();
+			container.Register(Component.For<IConversionPatternGenericCloser>().Instance(instance));
+
+			var mapper = container.Resolve<IMapper>();
+			mapper.Convert<UserDto>(new User());
+
+			instance.ReceivedWithAnyArgs().Close(null, null, null);
+		}
+
+		[Fact]
 		public void Can_override_descriptor_from_the_container()
 		{
 			var descriptor = Substitute.For<IMappingDescriptor>();
