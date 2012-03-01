@@ -1,5 +1,6 @@
 - allow non-default constructors
 - add support for pre-caching mappings
+- add support for mapping A --> B where B has .ctor that takes A as argument.
 - add an extension point to approve or reject mappings that weren't pre-cached (to ensure all mappings are precached, or almost all to allow for extensibility mapping scenarios etc)
 - add support for asynchronous multistep pre-caching (low priority)
 - add ability to provide configuration values
