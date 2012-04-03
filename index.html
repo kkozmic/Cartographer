@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Cartographer : Cartographer is a convention driven .NET library for mapping objects to objects with strong emphasis on ease of use, extensibility, traceability and structure.  " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Cartographer</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/kkozmic/Cartographer">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Cartographer</h1>
+          <h2 id="project_tagline">Cartographer is a convention driven .NET library for mapping objects to objects with strong emphasis on ease of use, extensibility, traceability and structure.  </h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/kkozmic/Cartographer/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/kkozmic/Cartographer/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Cartographer</h1>
+
+<h1>What is Cartographer?</h1>
+
+<p>Cartographer is a convention driven .NET library for mapping objects to objects with strong emphasis on ease of use, extensibility, traceability and structure.</p>
+
+<h2>What problem does it solve again?</h2>
+
+<p>Trying to build a loosely coupled application in a strongly typed, class oriented language like C# means you'll inevitably have multiple places in code where you need to map from one type to another. <code>Order</code> to <code>OrderDto</code>, <code>OrderDto</code> to <code>OrderViewModel</code> etc.</p>
+
+<p>This tends to be a very mundane, repetitive and boring code - one that's a perfect candidate for automation, and that's where Cartographer steps in.</p>
+
+<h2>How does it work?</h2>
+
+<p>Using a set of out-of-the-box conventions, as well as custom ones, supplied by you, it compiles code that does the mapping for you, so that you write:</p>
+
+<div class="highlight">
+<pre><span class="n">var</span> <span class="n">orderDto</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="na">Convert</span><span class="o">&lt;</span><span class="n">OrderDto</span><span class="o">&gt;(</span><span class="n">order</span><span class="o">);</span>
+</pre>
+</div>
+
+
+<p>instead of:</p>
+
+<div class="highlight">
+<pre><span class="n">var</span> <span class="n">orderDto</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OrderDto</span>
+               <span class="o">{</span>
+                   <span class="n">OrderLines</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="na">ConvertAll</span><span class="o">(</span><span class="n">order</span><span class="o">.</span><span class="na">OrderLines</span><span class="o">,</span> 
+                                <span class="n">ol</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="n">OrderLineDto</span>
+                                <span class="o">{</span>
+                                    <span class="n">ItemId</span> <span class="o">=</span> <span class="n">ol</span><span class="o">.</span><span class="na">ItemId</span><span class="o">,</span>
+                                    <span class="n">ItemName</span> <span class="o">=</span> <span class="n">ol</span><span class="o">.</span><span class="na">ItemName</span>
+                                <span class="o">}),</span>
+                   <span class="c1">// usually quite a few other properties like that</span>
+               <span class="o">};</span>
+</pre>
+</div>
+
+
+<h1>Why Cartographer?</h1>
+
+<p>Cartographer is quite unique among libraries solving similar problems, as it offers the following useful features.</p>
+
+<h2>Simplicity</h2>
+
+<p>Being simple and natural to use is one of the main goals of Cartographer. You will be able to get things done with it just after reading this readme file.</p>
+
+<h2>Pre-cached, convention-driven scanning</h2>
+
+<p>Cartographer uses conventions to find pairs of types to map, rather than requiring you to specify each mapping pair by hand.*</p>
+
+<h2>Traceability</h2>
+
+<p>Code that does things based on conventions can be hard to debug. Cartographer offers two features that make it a non-issue:</p>
+
+<ul>
+<li>Using <code>IMappingDescriptor</code> interface Cartographer will output exactly the steps it uses to map each type pair in a C#-like pseudocode. Inspecting it, you'll be able to quickly spot invalid configuration. Moreover, if you're doing approval testing it will help you ensure no refactoring breaks your mapping. Here's a simple example</li>
+</ul><pre><code>Mapping for CartographerTests.Types.Order =&gt; CartographerTests.Types.OrderDto
+target = new OrderDto();
+target.PromoId = source.Promo!?Id;
+target.OrderLines = MapCollection(source.OrderLines, context);
+Mapping for CartographerTests.Types.OrderLine =&gt; CartographerTests.Types.OrderLineDto
+target = new OrderLineDto();
+target.ItemId = source.ItemId;
+target.ItemName = source.ItemName;
+</code></pre>
+
+<ul>
+<li>Detailed and helpful exceptions. If something does go wrong, Cartographer will do its best to tell you exactly where the problem is, what the problem is, and, as much as it can, how to fix it.</li>
+</ul><h2>Compiled mapping</h2>
+
+<p>Cartographer compiles the mapping rather than interpreting them each time using Reflection. Compilation of the mappings can happen in batches(*) and asynchronously(*) to ensure optimal startup performance of your app.</p>
+
+<h2>Structure</h2>
+
+<p>Cartographer requires you to follow certain structure when working with it. This will help you keep your mapping code clean and easy to maintain, and ensure that each member of the team creates mapping code in the same way.*</p>
+
+<h2>Extensibility</h2>
+
+<p>Cartographer offers extension points for every step of the way, so you can quite easily extend and customize the way it works.</p>
+
+<p><em>*This part is not implemented yet, but will be part of the 1.0 release.</em></p>
+
+<h1></h1>
+
+<h3>Acknowledgements</h3>
+
+<p>Cartographer would not exist without the following tools that inspired and influenced some of its design and features (in no particular order):</p>
+
+<ul>
+<li><a href="http://docs.castleproject.org/Tools.DynamicProxy.ashx">Castle DynamicProxy</a></li>
+<li><a href="http://docs.castleproject.org/Windsor.MainPage.ashx">Castle Windsor</a></li>
+<li><a href="http://autofac.org">Autofac</a></li>
+<li><a href="http://automapper.org/">Automapper</a></li>
+<li><a href="http://nsubstitute.github.com/">NSubstitute</a></li>
+<li><a href="http://fluentnhibernate.org/">FluentNHibernate</a></li>
+<li><a href="http://nhforge.org/Default.aspx">NHibernate</a></li>
+<li><a href="http://approvaltests.sourceforge.net/">ApprovalTests</a></li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Cartographer maintained by <a href="https://github.com/kkozmic">kkozmic</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
