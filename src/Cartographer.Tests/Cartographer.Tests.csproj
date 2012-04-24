@@ -31,11 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApprovalTests">
-      <HintPath>..\..\packages\ApprovalTests.1.1\lib\ApprovalTests.dll</HintPath>
+    <Reference Include="ApprovalTests, Version=1.18.4483.627, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ApprovalTests.1.8\lib\ApprovalTests.dll</HintPath>
     </Reference>
-    <Reference Include="ApprovalUtilities">
-      <HintPath>..\..\packages\ApprovalTests.1.1\lib\ApprovalUtilities.dll</HintPath>
+    <Reference Include="ApprovalUtilities, Version=1.18.4483.627, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ApprovalTests.1.8\lib\ApprovalUtilities.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
@@ -82,6 +84,7 @@
     <Compile Include="Types\Account2Dto.cs" />
     <Compile Include="Types\Account3Dto.cs" />
     <Compile Include="Types\AccountDto.cs" />
+    <Compile Include="Types\AccountWithCtorDto.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Types\Address2.cs" />
     <Compile Include="Types\AddressDto.cs" />
