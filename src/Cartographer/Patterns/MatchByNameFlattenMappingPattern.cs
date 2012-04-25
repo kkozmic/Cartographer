@@ -11,19 +11,32 @@ namespace Cartographer.Patterns
 	{
 		public void Contribute(MappingStrategy strategy)
 		{
+			var sourceProperties = strategy.Source.GetProperties();
 			foreach (var targetProperty in strategy.Target.GetProperties())
 			{
-				var sourcePropertyChain = BuildPropertyChain(targetProperty, strategy.Source.GetProperties());
+				var sourcePropertyChain = BuildPropertyChain(targetProperty.Name, sourceProperties);
 				if (sourcePropertyChain.Length > 1)
 				{
 					strategy.AddMappingStep(new AssignChain(targetProperty, sourcePropertyChain));
 				}
 			}
+			foreach (var mappingStep in strategy.ConstructorParameterMappingSteps.ByKey)
+			{
+				if (mappingStep.Value == null)
+				{
+					var targetParameter = mappingStep.Key;
+					var sourcePropertyChain = BuildPropertyChain(targetParameter.Name, sourceProperties);
+					if (sourcePropertyChain.Length > 1)
+					{
+						mappingStep.UpdateValue(new ConstructorAssignChain(mappingStep.Key, sourcePropertyChain));
+					}
+				}
+			}
 		}
 
-		static PropertyInfo[] BuildPropertyChain(PropertyInfo targetProperty, PropertyInfo[] sourceProperties)
+		static PropertyInfo[] BuildPropertyChain(string targetName, PropertyInfo[] sourceProperties)
 		{
-			var name = targetProperty.Name;
+			var name = targetName;
 			var currentIndex = 0;
 			var currentPropertySet = sourceProperties;
 			var properties = new List<PropertyInfo>(4);

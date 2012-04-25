@@ -33,6 +33,14 @@ namespace Cartographer.Compiler
 			{
 				ApplyConverter(mappingStep);
 			}
+			foreach (var mappingStep in strategy.ConstructorParameterMappingSteps.ByKey)
+			{
+				if (mappingStep.Value == null && strategy.HasTargetInstance == false)
+				{
+					throw new InvalidOperationException(string.Format("No mapping for constructor parameter {0} has been specified. All constructor parameters need value", mappingStep.Key));
+				}
+				ApplyConverter(mappingStep.Value);
+			}
 			return strategy;
 		}
 

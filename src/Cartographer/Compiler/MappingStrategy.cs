@@ -2,7 +2,10 @@ namespace Cartographer.Compiler
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Linq.Expressions;
+	using System.Reflection;
+	using Cartographer.Collections;
 	using Cartographer.Internal;
 	using Cartographer.Steps;
 
@@ -15,12 +18,23 @@ namespace Cartographer.Compiler
 			Descriptor = descriptor;
 			Source = source;
 			Target = target;
+			try
+			{
+				TargetConstructor = target.GetConstructors().Single();
+				ConstructorParameterMappingSteps = new OrderedKeyedCollection<ParameterInfo, MappingStep>(TargetConstructor.GetParameters());
+			}
+			catch (InvalidOperationException)
+			{
+				throw new ArgumentException("Target type must have single public constructor. This is the only scenario supported at the moment.", "target");
+			}
 
 			ContextExpression = Expression.Parameter(typeof (MappingContext), "context");
 			SourceExpression = Expression.Variable(Source, "source");
 			TargetExpression = Expression.Variable(Target, "target");
 			MapperExpression = Expression.Property(ContextExpression, MappingContextMeta.Mapper);
 		}
+
+		public OrderedKeyedCollection<ParameterInfo, MappingStep> ConstructorParameterMappingSteps { get; private set; }
 
 		public ParameterExpression ContextExpression { get; private set; }
 
@@ -40,6 +54,8 @@ namespace Cartographer.Compiler
 		public ParameterExpression SourceExpression { get; private set; }
 
 		public Type Target { get; private set; }
+
+		public ConstructorInfo TargetConstructor { get; private set; }
 
 		public ParameterExpression TargetExpression { get; private set; }
 

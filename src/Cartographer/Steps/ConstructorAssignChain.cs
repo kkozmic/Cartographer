@@ -8,19 +8,18 @@ namespace Cartographer.Steps
 	using Cartographer.Compiler;
 	using Cartographer.Internal.Expressions;
 
-	public class AssignChain: MappingStep
+	public class ConstructorAssignChain: MappingStep
 	{
-		readonly PropertyInfo[] sourcePropertyChain;
+		readonly ParameterInfo parameterInfo;
 
-		readonly PropertyInfo targetProperty;
+		readonly PropertyInfo[] sourcePropertyChain;
 
 		List<PropertyInfo> nullableProperties;
 
-		public AssignChain(PropertyInfo targetProperty, PropertyInfo[] sourcePropertyChain)
+		public ConstructorAssignChain(ParameterInfo parameterInfo, PropertyInfo[] sourcePropertyChain)
 		{
-			this.targetProperty = targetProperty;
+			this.parameterInfo = parameterInfo;
 			this.sourcePropertyChain = sourcePropertyChain;
-
 			foreach (var property in sourcePropertyChain)
 			{
 				if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
@@ -37,8 +36,9 @@ namespace Cartographer.Steps
 
 		public override Type TargetValueType
 		{
-			get { return targetProperty.PropertyType; }
+			get { return parameterInfo.ParameterType; }
 		}
+
 
 		public void AllowNullValueOf(PropertyInfo property)
 		{
@@ -78,12 +78,6 @@ namespace Cartographer.Steps
 			return expression;
 		}
 
-		Expression BuildSetTargetValueExpression(MappingStrategy context)
-		{
-			var property = Expression.Property(context.TargetExpression, targetProperty);
-			return Expression.Assign(property, context.ValueExpression);
-		}
-
 		Expression SetValue(MappingStrategy strategy, ConversionStep conversion, Expression value)
 		{
 			strategy.ValueExpression = value;
@@ -92,7 +86,7 @@ namespace Cartographer.Steps
 				var convert = conversion.BuildConversionExpression(strategy, this);
 				strategy.ValueExpression = convert;
 			}
-			return BuildSetTargetValueExpression(strategy);
+			return strategy.ValueExpression;
 		}
 	}
 }

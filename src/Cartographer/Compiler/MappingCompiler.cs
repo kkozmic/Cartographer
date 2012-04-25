@@ -2,9 +2,11 @@ namespace Cartographer.Compiler
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Linq.Expressions;
 	using Cartographer.Internal;
 	using Cartographer.Internal.Expressions;
+	using Cartographer.Steps;
 
 	public class MappingCompiler: IMappingCompiler
 	{
@@ -25,6 +27,12 @@ namespace Cartographer.Compiler
 			strategy.Descriptor.DescribeMapping(strategy.Source, strategy.Target);
 		}
 
+		static Expression BuildParameterExpression(MappingStep step, MappingStrategy strategy)
+		{
+			var map = step.Apply(strategy, step.Conversion);
+			return map;
+		}
+
 		static LambdaExpression GenerateLambda(MappingStrategy strategy, List<Expression> body)
 		{
 			var lambda = Expression.Lambda(Expression.Block(new[] { strategy.TargetExpression, strategy.SourceExpression }, body),
@@ -42,6 +50,11 @@ namespace Cartographer.Compiler
 				body.Add(map);
 			}
 			body.Add(strategy.TargetExpression);
+		}
+
+		static Expression[] GetConstructorParameters(MappingStrategy strategy)
+		{
+			return strategy.ConstructorParameterMappingSteps.Select(s => BuildParameterExpression(s, strategy)).ToArray();
 		}
 
 		static void InitSource(MappingStrategy strategy, List<Expression> body)
@@ -64,7 +77,8 @@ namespace Cartographer.Compiler
 			{
 				return Expression.Convert(Expression.Property(strategy.ContextExpression, MappingContextMeta.TargetInstance), strategy.Target);
 			}
-			return Expression.New(strategy.Target);
+
+			return Expression.New(strategy.TargetConstructor, GetConstructorParameters(strategy));
 		}
 	}
 }

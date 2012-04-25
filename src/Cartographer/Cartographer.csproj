@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\OrderedKeyedCollection.cs" />
     <Compile Include="Compiler\ConversionPatternGenericCloser.cs" />
     <Compile Include="Compiler\DescriptionVisitor.cs" />
     <Compile Include="Compiler\IConversionPattern.cs" />
@@ -73,6 +74,8 @@
     <Compile Include="Patterns\MatchByNameFlattenMappingPattern.cs" />
     <Compile Include="Patterns\MatchByNameMappingPattern.cs" />
     <Compile Include="Patterns\NullableConversionPattern.cs" />
+    <Compile Include="Steps\ConstructorAssign.cs" />
+    <Compile Include="Steps\ConstructorAssignChain.cs" />
     <Compile Include="Steps\ConversionStep.cs" />
     <Compile Include="Steps\DelegatingConversionStep.cs" />
     <Compile Include="Steps\DelegatingConversionVisitor.cs" />
