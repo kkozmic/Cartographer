@@ -24,12 +24,13 @@ instead of:
 ```java
 var orderDto = new OrderDto
                {
-               	OrderLines = Array.ConvertAll(order.OrderLines, ol => new OrderLineDto
-               	                                                      {
-               	                                                      	ItemId = ol.ItemId,
-               	                                                      	ItemName = ol.ItemName
-               	                                                      }),
-               	// usually quite a few other properties like that
+                   OrderLines = Array.ConvertAll(order.OrderLines, 
+                                                 ol => new OrderLineDto
+               	                              {
+               	                                  ItemId = ol.ItemId,
+               	                                  ItemName = ol.ItemName
+               	                              }),
+                   // usually quite a few other properties like that
                };
 ```
 
