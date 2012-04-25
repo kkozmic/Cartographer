@@ -89,7 +89,7 @@ namespace Cartographer.Steps
 			strategy.ValueExpression = value;
 			if (conversion != null)
 			{
-				var convert = conversion.BuildConversionExpression(strategy, this);
+				var convert = conversion.BuildConversionExpression(strategy);
 				strategy.ValueExpression = convert;
 			}
 			return BuildSetTargetValueExpression(strategy);

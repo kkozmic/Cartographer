@@ -66,9 +66,9 @@
 			                     });
 		}
 
-		Delegate CreateMapping(MappingInfo arg)
+		Delegate CreateMapping(MappingInfo mappingInfo)
 		{
-			var strategy = mappingStrategyBuilder.BuildMappingStrategy(arg);
+			var strategy = mappingStrategyBuilder.BuildMappingStrategy(mappingInfo);
 			return mappingCompiler.Compile(strategy);
 		}
 	}
