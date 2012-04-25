@@ -28,6 +28,14 @@
 			this.mappingCompiler = mappingCompiler;
 		}
 
+		// TODO: this method temporarily serves as entry point to allow to pre-create mappings.
+		// in a longer run this will be abstracted to something like IMappingCache or similar
+		public void CreateMapping(Type sourceType, Type targetType, bool preexistingTargetInstance)
+		{
+			var key = typeMapper.GetMappingInfo(sourceType, targetType, preexistingTargetInstance);
+			mappins.GetOrAdd(key, CreateMapping);
+		}
+
 		public TTarget Convert<TTarget>(object source)
 		{
 			return ConvertWithArguments<TTarget>(source, null);
