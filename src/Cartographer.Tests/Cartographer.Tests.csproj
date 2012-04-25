@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractMappingTests.cs" />
+    <Compile Include="CollectionMappingTests.cs" />
     <Compile Include="ComplexMappingTests.cs" />
     <Compile Include="ContainerIntegration\CartographerFacility.cs" />
     <Compile Include="ContainerIntegration\WindsorTests.cs" />

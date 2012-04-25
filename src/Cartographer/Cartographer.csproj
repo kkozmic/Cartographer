@@ -49,6 +49,7 @@
     <Compile Include="Compiler\IMappingDescriptor.cs" />
     <Compile Include="Compiler\IMappingPattern.cs" />
     <Compile Include="Compiler\IMappingStrategyBuilder.cs" />
+    <Compile Include="Compiler\IRootConversionPattern.cs" />
     <Compile Include="Compiler\ITypeMapper.cs" />
     <Compile Include="Compiler\MappingCompiler.cs" />
     <Compile Include="Compiler\MappingDescriptor.cs" />
@@ -85,7 +86,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\Assign.cs" />
     <Compile Include="Steps\AssignChain.cs" />
+    <Compile Include="Steps\DirectMappingStep.cs" />
     <Compile Include="Steps\MappingStep.cs" />
+    <Compile Include="Steps\SimpleStep.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

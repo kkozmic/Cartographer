@@ -42,7 +42,10 @@ namespace Cartographer.Compiler
 
 		public bool HasTargetInstance { get; set; }
 
+		public MappingStep InitTargetStep { get; set; }
+
 		public Expression MapperExpression { get; private set; }
+
 
 		public IEnumerable<MappingStep> MappingSteps
 		{

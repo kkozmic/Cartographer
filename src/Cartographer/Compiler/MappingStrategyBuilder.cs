@@ -1,7 +1,9 @@
 namespace Cartographer.Compiler
 {
 	using System;
+	using System.Linq;
 	using System.Linq.Expressions;
+	using Cartographer.Internal;
 	using Cartographer.Steps;
 
 	public class MappingStrategyBuilder: IMappingStrategyBuilder
@@ -14,39 +16,60 @@ namespace Cartographer.Compiler
 
 		readonly IMappingPattern[] mappingPatterns;
 
+		readonly Type[] rootConversionPatterns;
+
 		public MappingStrategyBuilder(IMappingDescriptor descriptor, IConversionPatternGenericCloser conversionPatternGenericCloser, Type[] conversionPatterns, params IMappingPattern[] mappingPatterns)
 		{
 			this.descriptor = descriptor;
 			this.conversionPatternGenericCloser = conversionPatternGenericCloser;
 			this.conversionPatterns = conversionPatterns;
+			rootConversionPatterns = Array.FindAll(conversionPatterns, typeof (IRootConversionPattern).IsAssignableFrom);
 			this.mappingPatterns = mappingPatterns;
 		}
 
 		public MappingStrategy BuildMappingStrategy(MappingInfo mappingInfo)
 		{
 			var strategy = new MappingStrategy(mappingInfo.Source, mappingInfo.Target, descriptor) { HasTargetInstance = mappingInfo.PreexistingTargetInstance };
+
+			//first try to shortcircuit
+			var directMappingStep = new DirectMappingStep(strategy.Source, strategy.Target);
+			var converter = ApplyConverter(directMappingStep, rootConversionPatterns);
+			if (converter != null)
+			{
+				directMappingStep.Conversion = converter;
+				strategy.InitTargetStep = directMappingStep;
+				return strategy;
+			}
 			foreach (var pattern in mappingPatterns)
 			{
 				pattern.Contribute(strategy);
 			}
 			foreach (var mappingStep in strategy.MappingSteps)
 			{
-				ApplyConverter(mappingStep);
+				mappingStep.Conversion = ApplyConverter(mappingStep, conversionPatterns);
 			}
-			foreach (var mappingStep in strategy.ConstructorParameterMappingSteps.ByKey)
+			if (strategy.HasTargetInstance)
 			{
-				if (mappingStep.Value == null && strategy.HasTargetInstance == false)
+				strategy.InitTargetStep = new SimpleStep(strategy.Target, strategy.Target, (s, _) => Expression.Convert(Expression.Property(s.ContextExpression, MappingContextMeta.TargetInstance), s.Target));
+			}
+			else
+			{
+				foreach (var mappingStep in strategy.ConstructorParameterMappingSteps.ByKey)
 				{
-					throw new InvalidOperationException(string.Format("No mapping for constructor parameter {0} has been specified. All constructor parameters need value", mappingStep.Key));
+					if (mappingStep.Value == null)
+					{
+						throw new InvalidOperationException(string.Format("No mapping for constructor parameter {0} has been specified. All constructor parameters need value", mappingStep.Key));
+					}
+					mappingStep.Value.Conversion = ApplyConverter(mappingStep.Value, conversionPatterns);
 				}
-				ApplyConverter(mappingStep.Value);
+				strategy.InitTargetStep = new SimpleStep(strategy.Target, strategy.Target, (s, _) => Expression.New(s.TargetConstructor, GetConstructorParameters(s)));
 			}
 			return strategy;
 		}
 
-		void ApplyConverter(MappingStep mapping)
+		DelegatingConversionStep ApplyConverter(MappingStep mapping, Type[] patternTypes)
 		{
-			foreach (var patternType in conversionPatterns)
+			foreach (var patternType in patternTypes)
 			{
 				var type = conversionPatternGenericCloser.Close(patternType, mapping.SourceValueType, mapping.TargetValueType);
 				if (type == null)
@@ -58,10 +81,21 @@ namespace Cartographer.Compiler
 				LambdaExpression expression = instance.BuildConversionExpression(mapping);
 				if (expression != null)
 				{
-					mapping.Conversion = new DelegatingConversionStep(expression);
-					return;
+					return new DelegatingConversionStep(expression);
 				}
 			}
+			return null;
+		}
+
+		static Expression BuildParameterExpression(MappingStep step, MappingStrategy strategy)
+		{
+			var map = step.Apply(strategy, step.Conversion);
+			return map;
+		}
+
+		static Expression[] GetConstructorParameters(MappingStrategy strategy)
+		{
+			return strategy.ConstructorParameterMappingSteps.Select(s => BuildParameterExpression(s, strategy)).ToArray();
 		}
 	}
 }
