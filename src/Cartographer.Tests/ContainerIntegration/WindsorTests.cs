@@ -5,6 +5,7 @@ namespace CartographerTests.ContainerIntegration
 	using Cartographer.Compiler;
 	using CartographerTests.Types;
 	using Castle.MicroKernel.Registration;
+	using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 	using Castle.Windsor;
 	using NSubstitute;
 	using Xunit;
@@ -16,6 +17,7 @@ namespace CartographerTests.ContainerIntegration
 		public WindsorTests()
 		{
 			container = new WindsorContainer().AddFacility<CartographerFacility>();
+			container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
 		}
 
 		[Fact]
@@ -40,6 +42,18 @@ namespace CartographerTests.ContainerIntegration
 			mapper.Convert<UserDto>(new User());
 
 			descriptor.ReceivedWithAnyArgs().DescribeStep(null);
+		}
+
+		[Fact]
+		public void Can_override_mapping_info_source_from_the_container()
+		{
+			var source = Substitute.For<IMappingInfoSource>();
+			container.Register(Component.For<IMappingInfoSource>().Instance(source));
+
+			var mapper = container.Resolve<IMapper>();
+			mapper.Convert<UserDto>(new User());
+
+			source.ReceivedWithAnyArgs().GetMappingInfo(null);
 		}
 
 		[Fact]

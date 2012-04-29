@@ -65,7 +65,7 @@
 
 		protected virtual IMappingInfoFactory BuildTypeMapper()
 		{
-			return new MappingInfoFactory(Settings.MappingInfoSources);
+			return new MappingInfoFactory(Settings.MappingInfoSources ?? new IMappingInfoSource[0]);
 		}
 
 		public class MapperBuilderSettings
@@ -76,8 +76,6 @@
 			                                         	typeof (MapConversionPattern<>),
 			                                         	typeof (NullableConversionPattern<>)
 			                                         };
-
-			readonly List<IMappingInfoSource> mappingInfoSources = new List<IMappingInfoSource>();
 
 			readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
 			                                                 {
@@ -113,10 +111,7 @@
 
 			public IMappingInfoFactory MappingInfoFactory { get; set; }
 
-			public IMappingInfoSource[] MappingInfoSources
-			{
-				get { return mappingInfoSources.ToArray(); }
-			}
+			public IMappingInfoSource[] MappingInfoSources { get; set; }
 
 			public IMappingPattern[] MappingPatterns
 			{
@@ -132,11 +127,6 @@
 					throw new InvalidOperationException(string.Format("Type {0} is not a valid conversion pattern type. Type must implement {1}.", conversionPatternType, typeof (IConversionPattern<,>)));
 				}
 				conversionPatterns.Insert(0, conversionPatternType);
-			}
-
-			public void AddMappingInfoSource(IMappingInfoSource mappingInfoSource)
-			{
-				mappingInfoSources.Insert(0, mappingInfoSource);
 			}
 
 			public void AddMappingPattern(IMappingPattern pattern)
