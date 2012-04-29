@@ -54,7 +54,6 @@
     <Compile Include="Compiler\MappingCompiler.cs" />
     <Compile Include="Compiler\MappingDescriptor.cs" />
     <Compile Include="Compiler\MappingInfo.cs" />
-    <Compile Include="Compiler\MappingRequest.cs" />
     <Compile Include="Compiler\MappingStrategy.cs" />
     <Compile Include="Compiler\MappingStrategyBuilder.cs" />
     <Compile Include="Helpers\CollectionConversionHelper.cs" />

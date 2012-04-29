@@ -13,14 +13,15 @@ namespace Cartographer.Compiler
 	{
 		readonly IList<MappingStep> mappingSteps = new List<MappingStep>();
 
-		public MappingStrategy(Type source, Type target, IMappingDescriptor descriptor)
+		public MappingStrategy(MappingInfo mappingInfo, IMappingDescriptor descriptor)
 		{
 			Descriptor = descriptor;
-			Source = source;
-			Target = target;
+			Source = mappingInfo.MappingSourceType;
+			Target = mappingInfo.MappingTargetType;
+			HasTargetInstance = mappingInfo.MapIntoExistingTargetInstance;
 			try
 			{
-				TargetConstructor = target.GetConstructors().Single();
+				TargetConstructor = Target.GetConstructors().Single();
 				ConstructorParameterMappingSteps = new OrderedKeyedCollection<ParameterInfo, MappingStep>(TargetConstructor.GetParameters());
 			}
 			catch (InvalidOperationException)
@@ -40,7 +41,7 @@ namespace Cartographer.Compiler
 
 		public IMappingDescriptor Descriptor { get; private set; }
 
-		public bool HasTargetInstance { get; set; }
+		public bool HasTargetInstance { get; private set; }
 
 		public MappingStep InitTargetStep { get; set; }
 

@@ -2,6 +2,6 @@ namespace Cartographer.Compiler
 {
 	public interface ITypeMatcher
 	{
-		MappingInfo Match(MappingRequest request);
+		bool Match(MappingInfo mappingInfo);
 	}
 }

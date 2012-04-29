@@ -29,7 +29,7 @@ namespace Cartographer.Compiler
 
 		public MappingStrategy BuildMappingStrategy(MappingInfo mappingInfo)
 		{
-			var strategy = new MappingStrategy(mappingInfo.Source, mappingInfo.Target, descriptor) { HasTargetInstance = mappingInfo.PreexistingTargetInstance };
+			var strategy = new MappingStrategy(mappingInfo, descriptor);
 
 			//first try to shortcircuit
 			var directMappingStep = new DirectMappingStep(strategy.Source, strategy.Target);

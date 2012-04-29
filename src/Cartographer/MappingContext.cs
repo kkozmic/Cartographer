@@ -23,8 +23,6 @@ namespace Cartographer
 
 		public object TargetInstance { get; set; }
 
-		public Type TargetType { get; set; }
-
 		public T Argument<T>()
 		{
 			return (T)arguments.GetByType(typeof (T));

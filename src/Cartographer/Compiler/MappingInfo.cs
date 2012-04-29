@@ -2,20 +2,28 @@ namespace Cartographer.Compiler
 {
 	using System;
 
-	public class MappingInfo
+	public sealed class MappingInfo
 	{
-		public MappingInfo(Type source, Type target, bool preexistingTargetInstance)
+		readonly bool mapIntoExistingTargetInstance;
+
+		public MappingInfo(Type sourceInstanceType, Type targetConstrtaintType, Type targetInstanceType)
 		{
-			Source = source;
-			Target = target;
-			PreexistingTargetInstance = preexistingTargetInstance;
+			MappingSourceType = sourceInstanceType;
+			TargetConstrtaintType = targetConstrtaintType;
+			MappingTargetType = targetInstanceType ?? targetConstrtaintType;
+			mapIntoExistingTargetInstance = targetInstanceType != null;
 		}
 
-		public bool PreexistingTargetInstance { get; private set; }
+		public bool MapIntoExistingTargetInstance
+		{
+			get { return mapIntoExistingTargetInstance; }
+		}
 
-		public Type Source { get; private set; }
+		public Type MappingSourceType { get; set; }
 
-		public Type Target { get; private set; }
+		public Type MappingTargetType { get; set; }
+
+		public Type TargetConstrtaintType { get; private set; }
 
 		public override bool Equals(object obj)
 		{
@@ -23,28 +31,34 @@ namespace Cartographer.Compiler
 			{
 				return false;
 			}
+			if (ReferenceEquals(this, obj))
+			{
+				return true;
+			}
 			if (obj.GetType() != typeof (MappingInfo))
 			{
 				return false;
 			}
 			var other = (MappingInfo)obj;
-			return other.Source == Source && other.Target == Target && other.PreexistingTargetInstance == PreexistingTargetInstance;
+			return other.MappingSourceType == MappingSourceType &&
+			       other.MappingTargetType == MappingTargetType &&
+			       other.MapIntoExistingTargetInstance == MapIntoExistingTargetInstance;
 		}
 
 		public override int GetHashCode()
 		{
 			unchecked
 			{
-				var result = Source.GetHashCode();
-				result = (result*397) ^ Target.GetHashCode();
-				result = (result*397) ^ PreexistingTargetInstance.GetHashCode();
+				var result = (MappingSourceType != null ? MappingSourceType.GetHashCode() : 0);
+				result = (result*397) ^ (MappingTargetType != null ? MappingTargetType.GetHashCode() : 0);
+				result = (result*397) ^ (MapIntoExistingTargetInstance.GetHashCode());
 				return result;
 			}
 		}
 
 		public override string ToString()
 		{
-			return string.Format("{0} -> {1}{2}", Source, Target, PreexistingTargetInstance ? "*" : string.Empty);
+			return string.Format("{0} -> {1}{2}", MappingSourceType, MappingTargetType, MapIntoExistingTargetInstance ? "*" : string.Empty);
 		}
 	}
 }

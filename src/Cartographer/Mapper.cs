@@ -30,9 +30,9 @@
 
 		// TODO: this method temporarily serves as entry point to allow to pre-create mappings.
 		// in a longer run this will be abstracted to something like IMappingCache or similar
-		public void CreateMapping(Type sourceType, Type targetType, Type actualTargetType)
+		public void CreateMapping(Type sourceType, Type targetConstrtaintType, Type actualTargetType)
 		{
-			var key = Match(new MappingRequest(sourceType, targetType, actualTargetType));
+			var key = Match(sourceType, targetConstrtaintType, actualTargetType);
 			mappins.GetOrAdd(key, CreateMapping);
 		}
 
@@ -48,12 +48,11 @@
 
 		public TTarget ConvertWithArguments<TTarget>(object source, object inlineArgumentsAsAnonymousType)
 		{
-			var key = Match(new MappingRequest(source.GetType(), typeof (TTarget), null));
+			var key = Match(source.GetType(), typeof (TTarget), null);
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
 			                     {
-			                     	TargetType = key.Target,
 			                     	SourceInstance = source,
 			                     	Mapper = this
 			                     });
@@ -62,12 +61,11 @@
 
 		public TTarget ConvertWithArguments<TTarget>(object source, TTarget target, object inlineArgumentsAsAnonymousType)
 		{
-			var key = Match(new MappingRequest(source.GetType(), typeof (TTarget), GetType(target)));
+			var key = Match(source.GetType(), typeof (TTarget), GetType(target));
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
 			                     {
-			                     	TargetType = key.Target,
 			                     	SourceInstance = source,
 			                     	TargetInstance = target,
 			                     	Mapper = this
@@ -80,18 +78,18 @@
 			return mappingCompiler.Compile(strategy);
 		}
 
-		MappingInfo Match(MappingRequest request)
+		MappingInfo Match(Type actualSourceType, Type targetConstrtaintType, Type actualTargetType)
 		{
+			var cacheKey = new MappingInfo(actualSourceType, targetConstrtaintType, actualTargetType);
 			foreach (var matcher in typeMatchers)
 			{
-				var info = matcher.Match(request);
-				if (info != null)
+				if (matcher.Match(cacheKey))
 				{
-					return info;
+					return cacheKey;
 				}
 			}
 			// we fallback to default behaviour
-			return new MappingInfo(request.ActualSourceType, request.ActualTargetType ?? request.IndicatedTargetType, request.HasPreexistingTargetInstance);
+			return cacheKey;
 		}
 
 		static Type GetType(object item)
