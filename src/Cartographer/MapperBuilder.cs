@@ -28,7 +28,7 @@
 			}
 			else
 			{
-				mapper = new Mapper(Settings.TypeMapper = Settings.TypeMapper ?? BuildTypeMapper(),
+				mapper = new Mapper(Settings.MappingInfoFactory = Settings.MappingInfoFactory ?? BuildTypeMapper(),
 				                    Settings.MappingStrategyBuilder = Settings.MappingStrategyBuilder ?? BuildMappingStrategyBuilder(),
 				                    Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler());
 			}
@@ -63,9 +63,9 @@
 			                                  Settings.MappingPatterns);
 		}
 
-		protected virtual ITypeMapper BuildTypeMapper()
+		protected virtual IMappingInfoFactory BuildTypeMapper()
 		{
-			return new TypeMapper();
+			return new MappingInfoFactory(Settings.MappingInfoSources);
 		}
 
 		public class MapperBuilderSettings
@@ -76,6 +76,8 @@
 			                                         	typeof (MapConversionPattern<>),
 			                                         	typeof (NullableConversionPattern<>)
 			                                         };
+
+			readonly List<IMappingInfoSource> mappingInfoSources = new List<IMappingInfoSource>();
 
 			readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
 			                                                 {
@@ -109,14 +111,19 @@
 
 			public TextWriter MappingDescriptorWriter { get; set; }
 
+			public IMappingInfoFactory MappingInfoFactory { get; set; }
+
+			public IMappingInfoSource[] MappingInfoSources
+			{
+				get { return mappingInfoSources.ToArray(); }
+			}
+
 			public IMappingPattern[] MappingPatterns
 			{
 				get { return mappingPatterns.ToArray(); }
 			}
 
 			public IMappingStrategyBuilder MappingStrategyBuilder { get; set; }
-
-			public ITypeMapper TypeMapper { get; set; }
 
 			public void AddConversionPatternType(Type conversionPatternType)
 			{
@@ -125,6 +132,11 @@
 					throw new InvalidOperationException(string.Format("Type {0} is not a valid conversion pattern type. Type must implement {1}.", conversionPatternType, typeof (IConversionPattern<,>)));
 				}
 				conversionPatterns.Insert(0, conversionPatternType);
+			}
+
+			public void AddMappingInfoSource(IMappingInfoSource mappingInfoSource)
+			{
+				mappingInfoSources.Insert(0, mappingInfoSource);
 			}
 
 			public void AddMappingPattern(IMappingPattern pattern)

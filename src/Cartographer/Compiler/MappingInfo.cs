@@ -2,9 +2,9 @@ namespace Cartographer.Compiler
 {
 	using System;
 
-	public struct MappingInfo
+	public class MappingInfo
 	{
-		public MappingInfo(Type @from, Type to, bool preexistingTargetInstance): this()
+		public MappingInfo(Type @from, Type to, bool preexistingTargetInstance)
 		{
 			Source = @from;
 			Target = to;
