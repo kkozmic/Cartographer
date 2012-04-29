@@ -47,13 +47,13 @@ namespace CartographerTests.ContainerIntegration
 		[Fact]
 		public void Can_override_mapping_info_source_from_the_container()
 		{
-			var source = Substitute.For<IMappingInfoSource>();
-			container.Register(Component.For<IMappingInfoSource>().Instance(source));
+			var source = Substitute.For<ITypeMatcher>();
+			container.Register(Component.For<ITypeMatcher>().Instance(source));
 
 			var mapper = container.Resolve<IMapper>();
 			mapper.Convert<UserDto>(new User());
 
-			source.ReceivedWithAnyArgs().GetMappingInfo(null);
+			source.ReceivedWithAnyArgs().Match(null);
 		}
 
 		[Fact]

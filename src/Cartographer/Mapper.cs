@@ -10,20 +10,20 @@
 	{
 		readonly IMappingCompiler mappingCompiler;
 
-		readonly IMappingInfoFactory mappingInfoFactory;
-
 		readonly IMappingStrategyBuilder mappingStrategyBuilder;
 
 		readonly ConcurrentDictionary<MappingInfo, Delegate> mappins = new ConcurrentDictionary<MappingInfo, Delegate>();
+
+		readonly ITypeMatcher[] typeMatchers;
 
 		/// <summary>
 		///   It is not recommended to use the constructor directly. Use <see cref="MapperBuilder" /> instead to create your instance of <see
 		///    cref="Mapper" /> .
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public Mapper(IMappingInfoFactory mappingInfoFactory, IMappingStrategyBuilder mappingStrategyBuilder, IMappingCompiler mappingCompiler)
+		public Mapper(IMappingStrategyBuilder mappingStrategyBuilder, IMappingCompiler mappingCompiler, ITypeMatcher[] typeMatchers)
 		{
-			this.mappingInfoFactory = mappingInfoFactory;
+			this.typeMatchers = typeMatchers;
 			this.mappingStrategyBuilder = mappingStrategyBuilder;
 			this.mappingCompiler = mappingCompiler;
 		}
@@ -32,7 +32,7 @@
 		// in a longer run this will be abstracted to something like IMappingCache or similar
 		public void CreateMapping(Type sourceType, Type targetType, Type actualTargetType)
 		{
-			var key = mappingInfoFactory.GetMappingInfo(new MappingRequest(sourceType, targetType, actualTargetType));
+			var key = Match(new MappingRequest(sourceType, targetType, actualTargetType));
 			mappins.GetOrAdd(key, CreateMapping);
 		}
 
@@ -48,7 +48,7 @@
 
 		public TTarget ConvertWithArguments<TTarget>(object source, object inlineArgumentsAsAnonymousType)
 		{
-			var key = mappingInfoFactory.GetMappingInfo(new MappingRequest(source.GetType(), typeof (TTarget), null));
+			var key = Match(new MappingRequest(source.GetType(), typeof (TTarget), null));
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
@@ -62,7 +62,7 @@
 
 		public TTarget ConvertWithArguments<TTarget>(object source, TTarget target, object inlineArgumentsAsAnonymousType)
 		{
-			var key = mappingInfoFactory.GetMappingInfo(new MappingRequest(source.GetType(), typeof (TTarget), GetType(target)));
+			var key = Match(new MappingRequest(source.GetType(), typeof (TTarget), GetType(target)));
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
@@ -78,6 +78,20 @@
 		{
 			var strategy = mappingStrategyBuilder.BuildMappingStrategy(mappingInfo);
 			return mappingCompiler.Compile(strategy);
+		}
+
+		MappingInfo Match(MappingRequest request)
+		{
+			foreach (var matcher in typeMatchers)
+			{
+				var info = matcher.Match(request);
+				if (info != null)
+				{
+					return info;
+				}
+			}
+			// we fallback to default behaviour
+			return new MappingInfo(request.ActualSourceType, request.ActualTargetType ?? request.IndicatedTargetType, request.HasPreexistingTargetInstance);
 		}
 
 		static Type GetType(object item)

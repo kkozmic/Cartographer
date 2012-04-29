@@ -28,9 +28,8 @@
 			}
 			else
 			{
-				mapper = new Mapper(Settings.MappingInfoFactory = Settings.MappingInfoFactory ?? BuildTypeMapper(),
-				                    Settings.MappingStrategyBuilder = Settings.MappingStrategyBuilder ?? BuildMappingStrategyBuilder(),
-				                    Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler());
+				mapper = new Mapper(Settings.MappingStrategyBuilder = Settings.MappingStrategyBuilder ?? BuildMappingStrategyBuilder(),
+				                    Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler(), Settings.TypeMatchers = Settings.TypeMatchers ?? BuildTypeMatchers());
 			}
 			return mapper;
 		}
@@ -63,9 +62,9 @@
 			                                  Settings.MappingPatterns);
 		}
 
-		protected virtual IMappingInfoFactory BuildTypeMapper()
+		protected virtual ITypeMatcher[] BuildTypeMatchers()
 		{
-			return new MappingInfoFactory(Settings.MappingInfoSources ?? new IMappingInfoSource[0]);
+			return new ITypeMatcher[0];
 		}
 
 		public class MapperBuilderSettings
@@ -109,16 +108,16 @@
 
 			public TextWriter MappingDescriptorWriter { get; set; }
 
-			public IMappingInfoFactory MappingInfoFactory { get; set; }
-
-			public IMappingInfoSource[] MappingInfoSources { get; set; }
-
 			public IMappingPattern[] MappingPatterns
 			{
 				get { return mappingPatterns.ToArray(); }
 			}
 
 			public IMappingStrategyBuilder MappingStrategyBuilder { get; set; }
+
+			public ITypeMatcher TypeMatcher { get; set; }
+
+			public ITypeMatcher[] TypeMatchers { get; set; }
 
 			public void AddConversionPatternType(Type conversionPatternType)
 			{

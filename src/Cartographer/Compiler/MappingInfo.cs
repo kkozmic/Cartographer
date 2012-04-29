@@ -4,10 +4,10 @@ namespace Cartographer.Compiler
 
 	public class MappingInfo
 	{
-		public MappingInfo(Type @from, Type to, bool preexistingTargetInstance)
+		public MappingInfo(Type source, Type target, bool preexistingTargetInstance)
 		{
-			Source = @from;
-			Target = to;
+			Source = source;
+			Target = target;
 			PreexistingTargetInstance = preexistingTargetInstance;
 		}
 
