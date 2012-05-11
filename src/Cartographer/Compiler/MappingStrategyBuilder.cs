@@ -84,7 +84,7 @@ namespace Cartographer.Compiler
 				try
 				{
 					instance = conversionPatternRepository.Lease(type);
-					LambdaExpression expression = instance.BuildConversionExpression(mapping);
+					var expression = instance.BuildConversionExpression(mapping) as LambdaExpression;
 					if (expression != null)
 					{
 						return new DelegatingConversionStep(expression);
