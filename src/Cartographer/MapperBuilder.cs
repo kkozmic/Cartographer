@@ -39,6 +39,11 @@
 			return new ConversionPatternGenericCloser();
 		}
 
+		protected virtual IConversionPatternRepository BuildConversionPatternRepository()
+		{
+			return new ConversionPatternRepository();
+		}
+
 		protected virtual IMappingCompiler BuildMappingCompiler()
 		{
 			return new MappingCompiler();
@@ -58,6 +63,7 @@
 		{
 			return new MappingStrategyBuilder(Settings.MappingDescriptor = Settings.MappingDescriptor ?? BuildMappingDescriptor(),
 			                                  Settings.ConversionPatternGenericCloser ?? BuildConversionPatternGenericCloser(),
+			                                  Settings.ConversionPatternRepository ?? BuildConversionPatternRepository(),
 			                                  Settings.ConversionPatternTypes,
 			                                  Settings.MappingPatterns);
 		}
@@ -93,6 +99,8 @@
 
 			public IConversionPatternGenericCloser ConversionPatternGenericCloser { get; set; }
 
+			public IConversionPatternRepository ConversionPatternRepository { get; set; }
+
 			public Type[] ConversionPatternTypes
 			{
 				get { return conversionPatterns.ToArray(); }
@@ -114,8 +122,6 @@
 			}
 
 			public IMappingStrategyBuilder MappingStrategyBuilder { get; set; }
-
-			public ITypeMatcher TypeMatcher { get; set; }
 
 			public ITypeMatcher[] TypeMatchers { get; set; }
 

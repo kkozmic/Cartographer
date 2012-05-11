@@ -10,6 +10,8 @@ namespace Cartographer.Compiler
 	{
 		readonly IConversionPatternGenericCloser conversionPatternGenericCloser;
 
+		readonly IConversionPatternRepository conversionPatternRepository;
+
 		readonly Type[] conversionPatterns;
 
 		readonly IMappingDescriptor descriptor;
@@ -18,10 +20,12 @@ namespace Cartographer.Compiler
 
 		readonly Type[] rootConversionPatterns;
 
-		public MappingStrategyBuilder(IMappingDescriptor descriptor, IConversionPatternGenericCloser conversionPatternGenericCloser, Type[] conversionPatterns, params IMappingPattern[] mappingPatterns)
+		public MappingStrategyBuilder(IMappingDescriptor descriptor, IConversionPatternGenericCloser conversionPatternGenericCloser, IConversionPatternRepository conversionPatternRepository,
+		                              Type[] conversionPatterns, params IMappingPattern[] mappingPatterns)
 		{
 			this.descriptor = descriptor;
 			this.conversionPatternGenericCloser = conversionPatternGenericCloser;
+			this.conversionPatternRepository = conversionPatternRepository;
 			this.conversionPatterns = conversionPatterns;
 			rootConversionPatterns = Array.FindAll(conversionPatterns, typeof (IRootConversionPattern).IsAssignableFrom);
 			this.mappingPatterns = mappingPatterns;
@@ -76,12 +80,19 @@ namespace Cartographer.Compiler
 				{
 					continue;
 				}
-
-				dynamic instance = Activator.CreateInstance(type);
-				LambdaExpression expression = instance.BuildConversionExpression(mapping);
-				if (expression != null)
+				dynamic instance = null;
+				try
 				{
-					return new DelegatingConversionStep(expression);
+					instance = conversionPatternRepository.Lease(type);
+					LambdaExpression expression = instance.BuildConversionExpression(mapping);
+					if (expression != null)
+					{
+						return new DelegatingConversionStep(expression);
+					}
+				}
+				finally
+				{
+					conversionPatternRepository.Recycle((object)instance);
 				}
 			}
 			return null;

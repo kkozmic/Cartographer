@@ -42,9 +42,11 @@
   <ItemGroup>
     <Compile Include="Collections\OrderedKeyedCollection.cs" />
     <Compile Include="Compiler\ConversionPatternGenericCloser.cs" />
+    <Compile Include="Compiler\ConversionPatternRepository.cs" />
     <Compile Include="Compiler\DescriptionVisitor.cs" />
     <Compile Include="Compiler\IConversionPattern.cs" />
     <Compile Include="Compiler\IConversionPatternGenericCloser.cs" />
+    <Compile Include="Compiler\IConversionPatternRepository.cs" />
     <Compile Include="Compiler\IMappingCompiler.cs" />
     <Compile Include="Compiler\IMappingDescriptor.cs" />
     <Compile Include="Compiler\IMappingPattern.cs" />
