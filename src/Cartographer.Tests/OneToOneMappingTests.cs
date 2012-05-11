@@ -64,6 +64,14 @@
 		}
 
 		[Fact]
+		public void Can_map_nullable_property()
+		{
+			var dto = mapper.Convert<Account4Dto>(new Account4 { Number = "123", TotalAmount = 12.3m });
+
+			Assert.Equal(12.3m, dto.TotalAmount);
+		}
+
+		[Fact]
 		public void Can_map_one_to_one_type_with_string_properties()
 		{
 			var dto = mapper.Convert<UserDto>(new User { FirstName = "Stefan", LastName = "Mucha" });

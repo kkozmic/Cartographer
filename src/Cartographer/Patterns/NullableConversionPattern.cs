@@ -9,6 +9,11 @@ namespace Cartographer.Patterns
 	{
 		public Expression<Func<T, IMapper, MappingContext, T?>> BuildConversionExpression(MappingStep mapping)
 		{
+			if (mapping.SourceValueType == typeof (T?))
+			{
+				return null;
+			}
+
 			return (d, m, c) => d; //implicit conversion
 		}
 	}

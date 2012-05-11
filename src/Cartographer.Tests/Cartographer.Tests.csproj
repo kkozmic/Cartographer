@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractMappingTests.cs" />
+    <Compile Include="CloningTests.cs" />
     <Compile Include="CollectionMappingTests.cs" />
     <Compile Include="ComplexMappingTests.cs" />
     <Compile Include="ContainerIntegration\CartographerFacility.cs" />
@@ -83,7 +84,9 @@
     <Compile Include="Types\Account.cs" />
     <Compile Include="Types\Account2.cs" />
     <Compile Include="Types\Account2Dto.cs" />
+    <Compile Include="Types\Account4.cs" />
     <Compile Include="Types\Account3Dto.cs" />
+    <Compile Include="Types\Account4Dto.cs" />
     <Compile Include="Types\AccountDto.cs" />
     <Compile Include="Types\AccountWithCtorDto.cs" />
     <Compile Include="Types\Address.cs" />
@@ -97,6 +100,7 @@
     <Compile Include="Types\Order2Dto.cs" />
     <Compile Include="Types\Order3.cs" />
     <Compile Include="Types\Order3Dto.cs" />
+    <Compile Include="Types\Order4.cs" />
     <Compile Include="Types\OrderDto.cs" />
     <Compile Include="Types\OrderLine.cs" />
     <Compile Include="Types\OrderLineDto.cs" />
