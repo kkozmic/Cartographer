@@ -1,13 +1,13 @@
 - allow non-default constructors (partially implemented. To be revised)
 - add ability to map meta-types (collections, Lazy<T> etc) as root level-types. That is a mandatory feature
 - add support for pre-caching mappings
-- add support for mapping A --> B where B has .ctor that takes A as argument.
+- add support for mapping A --> B where B has .ctor that takes A as argument. (not sure we need this OOTB?)
 - add an extension point to approve or reject mappings that weren't pre-cached (to ensure all mappings are precached, or almost all to allow for extensibility mapping scenarios etc)
 - add support for flattened mapping (and name it better). Make it easy to map Foo (and FooDetails) --> FooDto making it apppear to the mapper as if FooDetails properties were coming direectly from Foo (?)
 - add support for asynchronous multistep pre-caching (low priority)
 - add ability to provide configuration values
 - add ability to log the mapping path so that it can be inspected for errors
-- add ability to map into interfaces (w/o providing implementation)
+- add ability to map into interfaces (w/o providing implementation) NOTE: this alternatively could be implemented via simple outsourcing to Castle Dynamic components (DynamicProxy or Adapter)
 - add ability to build converters chains so that multiple converters gets applied to single mapping step
 - be mindful of existing API for conversion and play nice with it when possible. Example IValueConverter for WPF, TypeDescriptor, Convert class etc
 
@@ -15,4 +15,4 @@
 	- specifying how to match elements
 	- based on that find elements to update
 	- add new ones
-	- remove unmatched (?) - optionallsy
+	- remove unmatched (?) - optionally
