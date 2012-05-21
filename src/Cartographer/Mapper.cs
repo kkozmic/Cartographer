@@ -28,14 +28,6 @@
 			this.mappingCompiler = mappingCompiler;
 		}
 
-		// TODO: this method temporarily serves as entry point to allow to pre-create mappings.
-		// in a longer run this will be abstracted to something like IMappingCache or similar
-		public void CreateMapping(Type sourceType, Type targetConstrtaintType, Type actualTargetType)
-		{
-			var key = Match(sourceType, targetConstrtaintType, actualTargetType);
-			mappins.GetOrAdd(key, CreateMapping);
-		}
-
 		public TTarget Convert<TTarget>(object source)
 		{
 			return ConvertWithArguments<TTarget>(source, null);
@@ -72,6 +64,13 @@
 			                     });
 		}
 
+		internal void RegisterMapping(MappingInfo mappingInfo)
+		{
+			// this is temporary (famous last words)
+			var key = Match(mappingInfo);
+			mappins.GetOrAdd(key, CreateMapping);
+		}
+
 		Delegate CreateMapping(MappingInfo mappingInfo)
 		{
 			var strategy = mappingStrategyBuilder.BuildMappingStrategy(mappingInfo);
@@ -81,6 +80,11 @@
 		MappingInfo Match(Type actualSourceType, Type targetConstrtaintType, Type actualTargetType)
 		{
 			var cacheKey = new MappingInfo(actualSourceType, targetConstrtaintType, actualTargetType);
+			return Match(cacheKey);
+		}
+
+		MappingInfo Match(MappingInfo cacheKey)
+		{
 			foreach (var matcher in typeMatchers)
 			{
 				if (matcher.Match(cacheKey))

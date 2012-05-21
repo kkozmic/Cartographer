@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
+	using System.Linq;
 	using System.Reflection;
 	using Cartographer.Compiler;
 	using Cartographer.Internal;
@@ -10,6 +11,8 @@
 
 	public class MapperBuilder
 	{
+		readonly List<IMappingCatalog> catalogs = new List<IMappingCatalog>();
+
 		IMapper mapper;
 
 		public MapperBuilder()
@@ -18,6 +21,20 @@
 		}
 
 		public MapperBuilderSettings Settings { get; set; }
+
+		public MapperBuilder AddCatalogs(params IMappingCatalog[] catalogs)
+		{
+			this.catalogs.AddRange(catalogs);
+			return this;
+		}
+
+		public MapperBuilder AddCatalogsFromAssembly(Assembly assembly)
+		{
+			var types = assembly.GetAvailableTypes()
+				.Where(t => t.IsClass && t.IsAbstract == false && typeof (IMappingCatalog).IsAssignableFrom(t));
+			var mappingCatalogs = types.Select(t => Activator.CreateInstance(t) as IMappingCatalog).ToArray();
+			return AddCatalogs(mappingCatalogs);
+		}
 
 		public virtual IMapper BuildMapper()
 		{
@@ -28,8 +45,19 @@
 			}
 			else
 			{
-				mapper = new Mapper(Settings.MappingStrategyBuilder = Settings.MappingStrategyBuilder ?? BuildMappingStrategyBuilder(),
-				                    Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler(), Settings.TypeMatchers = Settings.TypeMatchers ?? BuildTypeMatchers());
+				var mapperLocal = new Mapper(Settings.MappingStrategyBuilder = Settings.MappingStrategyBuilder ?? BuildMappingStrategyBuilder(),
+				                             Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler(), Settings.TypeMatchers = Settings.TypeMatchers ?? BuildTypeMatchers());
+				var mappings = new List<MappingInfo>();
+				var bag = new MappingBag(mappings);
+				foreach (var catalog in catalogs)
+				{
+					catalog.Collect(bag);
+				}
+				foreach (var mapping in mappings)
+				{
+					mapperLocal.RegisterMapping(mapping);
+				}
+				mapper = mapperLocal;
 			}
 			return mapper;
 		}

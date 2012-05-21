@@ -53,13 +53,17 @@
     <Compile Include="Compiler\IMappingStrategyBuilder.cs" />
     <Compile Include="Compiler\IRootConversionPattern.cs" />
     <Compile Include="Compiler\ITypeMatcher.cs" />
+    <Compile Include="Compiler\IIMappingBag.cs" />
+    <Compile Include="Compiler\MappingBag.cs" />
     <Compile Include="Compiler\MappingCompiler.cs" />
     <Compile Include="Compiler\MappingDescriptor.cs" />
     <Compile Include="Compiler\MappingInfo.cs" />
     <Compile Include="Compiler\MappingStrategy.cs" />
     <Compile Include="Compiler\MappingStrategyBuilder.cs" />
     <Compile Include="Helpers\CollectionConversionHelper.cs" />
+    <Compile Include="IMappingCatalog.cs" />
     <Compile Include="Internal\Arguments.cs" />
+    <Compile Include="Internal\AssemblyExtensions.cs" />
     <Compile Include="Internal\CollectionExtensions.cs" />
     <Compile Include="Internal\Expressions\ExpressionType.cs" />
     <Compile Include="Internal\Expressions\IReducingExpressionVisitor.cs" />
