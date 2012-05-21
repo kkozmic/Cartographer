@@ -53,6 +53,7 @@
 				{
 					catalog.Collect(bag);
 				}
+				mappings.Sort();
 				foreach (var mapping in mappings)
 				{
 					mapperLocal.RegisterMapping(mapping);

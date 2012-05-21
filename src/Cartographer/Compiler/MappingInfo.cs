@@ -2,7 +2,7 @@ namespace Cartographer.Compiler
 {
 	using System;
 
-	public sealed class MappingInfo
+	public sealed class MappingInfo: IComparable<MappingInfo>
 	{
 		readonly bool mapIntoExistingTargetInstance;
 
@@ -59,6 +59,30 @@ namespace Cartographer.Compiler
 		public override string ToString()
 		{
 			return string.Format("{0} -> {1}{2}", MappingSourceType, MappingTargetType, MapIntoExistingTargetInstance ? "*" : string.Empty);
+		}
+
+		public int CompareTo(MappingInfo other)
+		{
+			if (other == null)
+			{
+				return 1;
+			}
+			if (ReferenceEquals(other, this))
+			{
+				return 0;
+			}
+			var result = MappingSourceType.ToString().CompareTo(other.MappingSourceType.ToString());
+			if (result != 0)
+			{
+				return result;
+			}
+			result = MappingTargetType.ToString().CompareTo(other.MappingTargetType.ToString());
+			if (result != 0)
+			{
+				return result;
+			}
+			result = mapIntoExistingTargetInstance.CompareTo(other.mapIntoExistingTargetInstance);
+			return result;
 		}
 	}
 }
