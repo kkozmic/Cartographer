@@ -51,7 +51,6 @@
     <Compile Include="Compiler\IMappingDescriptor.cs" />
     <Compile Include="Compiler\IMappingPattern.cs" />
     <Compile Include="Compiler\IMappingStrategyBuilder.cs" />
-    <Compile Include="Compiler\IRootConversionPattern.cs" />
     <Compile Include="Compiler\ITypeMatcher.cs" />
     <Compile Include="Compiler\IIMappingBag.cs" />
     <Compile Include="Compiler\MappingBag.cs" />

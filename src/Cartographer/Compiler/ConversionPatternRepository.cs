@@ -4,9 +4,29 @@ namespace Cartographer.Compiler
 
 	public class ConversionPatternRepository: IConversionPatternRepository
 	{
-		public dynamic Lease(Type conversionPatternType)
+		readonly IConversionPatternGenericCloser conversionPatternGenericCloser;
+
+		readonly Type[] conversionPatterns;
+
+
+		public ConversionPatternRepository(IConversionPatternGenericCloser conversionPatternGenericCloser, params Type[] conversionPatterns)
 		{
-			return Activator.CreateInstance(conversionPatternType);
+			this.conversionPatterns = conversionPatterns;
+			this.conversionPatternGenericCloser = conversionPatternGenericCloser;
+		}
+
+		public dynamic LeaseConversionPatternFor(Type sourceValueType, Type targetValueType)
+		{
+			foreach (var patternType in conversionPatterns)
+			{
+				var type = conversionPatternGenericCloser.Close(patternType, sourceValueType, targetValueType);
+				if (type == null)
+				{
+					continue;
+				}
+				return Activator.CreateInstance(type);
+			}
+			return null;
 		}
 
 		public void Recycle(object conversionPattern)

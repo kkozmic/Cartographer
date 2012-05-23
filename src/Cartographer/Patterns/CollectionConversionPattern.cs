@@ -7,7 +7,7 @@ namespace Cartographer.Patterns
 	using Cartographer.Helpers;
 	using Cartographer.Steps;
 
-	public class CollectionConversionPattern<TTargetItem>: IConversionPattern<IEnumerable, TTargetItem[]>, IRootConversionPattern
+	public class CollectionConversionPattern<TTargetItem>: IConversionPattern<IEnumerable, TTargetItem[]>
 	{
 		public Expression<Func<IEnumerable, IMapper, MappingContext, TTargetItem[]>> BuildConversionExpression(MappingStep mapping)
 		{

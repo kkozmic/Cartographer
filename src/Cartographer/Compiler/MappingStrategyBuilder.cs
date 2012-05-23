@@ -4,30 +4,21 @@ namespace Cartographer.Compiler
 	using System.Linq;
 	using System.Linq.Expressions;
 	using Cartographer.Internal;
+	using Cartographer.Patterns;
 	using Cartographer.Steps;
 
 	public class MappingStrategyBuilder: IMappingStrategyBuilder
 	{
-		readonly IConversionPatternGenericCloser conversionPatternGenericCloser;
-
 		readonly IConversionPatternRepository conversionPatternRepository;
-
-		readonly Type[] conversionPatterns;
 
 		readonly IMappingDescriptor descriptor;
 
 		readonly IMappingPattern[] mappingPatterns;
 
-		readonly Type[] rootConversionPatterns;
-
-		public MappingStrategyBuilder(IMappingDescriptor descriptor, IConversionPatternGenericCloser conversionPatternGenericCloser, IConversionPatternRepository conversionPatternRepository,
-		                              Type[] conversionPatterns, params IMappingPattern[] mappingPatterns)
+		public MappingStrategyBuilder(IMappingDescriptor descriptor, IConversionPatternRepository conversionPatternRepository, params IMappingPattern[] mappingPatterns)
 		{
 			this.descriptor = descriptor;
-			this.conversionPatternGenericCloser = conversionPatternGenericCloser;
 			this.conversionPatternRepository = conversionPatternRepository;
-			this.conversionPatterns = conversionPatterns;
-			rootConversionPatterns = Array.FindAll(conversionPatterns, typeof (IRootConversionPattern).IsAssignableFrom);
 			this.mappingPatterns = mappingPatterns;
 		}
 
@@ -37,7 +28,7 @@ namespace Cartographer.Compiler
 
 			//first try to shortcircuit
 			var directMappingStep = new DirectMappingStep(strategy.Source, strategy.Target);
-			var converter = ApplyConverter(directMappingStep, rootConversionPatterns);
+			var converter = ApplyConverter(directMappingStep, withFallback: false);
 			if (converter != null)
 			{
 				directMappingStep.Conversion = converter;
@@ -50,7 +41,7 @@ namespace Cartographer.Compiler
 			}
 			foreach (var mappingStep in strategy.MappingSteps)
 			{
-				mappingStep.Conversion = ApplyConverter(mappingStep, conversionPatterns);
+				mappingStep.Conversion = ApplyConverter(mappingStep, withFallback: true);
 			}
 			if (strategy.HasTargetInstance)
 			{
@@ -64,38 +55,39 @@ namespace Cartographer.Compiler
 					{
 						throw new InvalidOperationException(string.Format("No mapping for constructor parameter {0} has been specified. All constructor parameters need value", mappingStep.Key));
 					}
-					mappingStep.Value.Conversion = ApplyConverter(mappingStep.Value, conversionPatterns);
+					mappingStep.Value.Conversion = ApplyConverter(mappingStep.Value, withFallback: true);
 				}
 				strategy.InitTargetStep = new SimpleStep(strategy.Target, strategy.Target, (s, _) => Expression.New(s.TargetConstructor, GetConstructorParameters(s)));
 			}
 			return strategy;
 		}
 
-		DelegatingConversionStep ApplyConverter(MappingStep mapping, Type[] patternTypes)
+		DelegatingConversionStep ApplyConverter(MappingStep mapping, bool withFallback)
 		{
-			foreach (var patternType in patternTypes)
+			dynamic instance = null;
+			try
 			{
-				var type = conversionPatternGenericCloser.Close(patternType, mapping.SourceValueType, mapping.TargetValueType);
-				if (type == null)
+				instance = conversionPatternRepository.LeaseConversionPatternFor(mapping.SourceValueType, mapping.TargetValueType);
+				if (ReferenceEquals((object)instance, null) == false)
 				{
-					continue;
-				}
-				dynamic instance = null;
-				try
-				{
-					instance = conversionPatternRepository.Lease(type);
 					var expression = instance.BuildConversionExpression(mapping) as LambdaExpression;
 					if (expression != null)
 					{
 						return new DelegatingConversionStep(expression);
 					}
 				}
-				finally
-				{
-					conversionPatternRepository.Recycle((object)instance);
-				}
 			}
-			return null;
+			finally
+			{
+				conversionPatternRepository.Recycle((object)instance);
+			}
+			if (withFallback == false || mapping.TargetValueType.IsAssignableFrom(mapping.SourceValueType))
+			{
+				return null;
+			}
+			// fallabck behavior
+			instance = Activator.CreateInstance(typeof (MapConversionPattern<>).MakeGenericType(mapping.TargetValueType));
+			return new DelegatingConversionStep(instance.BuildConversionExpression(mapping) as LambdaExpression);
 		}
 
 		static Expression BuildParameterExpression(MappingStep step, MappingStrategy strategy)

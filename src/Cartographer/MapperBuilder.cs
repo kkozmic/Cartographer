@@ -46,7 +46,8 @@
 			else
 			{
 				var mapperLocal = new Mapper(Settings.MappingStrategyBuilder = Settings.MappingStrategyBuilder ?? BuildMappingStrategyBuilder(),
-				                             Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler(), Settings.TypeMatchers = Settings.TypeMatchers ?? BuildTypeMatchers());
+				                             Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler(),
+				                             Settings.TypeMatchers = Settings.TypeMatchers ?? BuildTypeMatchers());
 				var mappings = new List<MappingInfo>();
 				var bag = new MappingBag(mappings);
 				foreach (var catalog in catalogs)
@@ -70,7 +71,8 @@
 
 		protected virtual IConversionPatternRepository BuildConversionPatternRepository()
 		{
-			return new ConversionPatternRepository();
+			return new ConversionPatternRepository(Settings.ConversionPatternGenericCloser = Settings.ConversionPatternGenericCloser ?? BuildConversionPatternGenericCloser(),
+			                                       Settings.ConversionPatternTypes);
 		}
 
 		protected virtual IMappingCompiler BuildMappingCompiler()
@@ -91,9 +93,7 @@
 		protected virtual IMappingStrategyBuilder BuildMappingStrategyBuilder()
 		{
 			return new MappingStrategyBuilder(Settings.MappingDescriptor = Settings.MappingDescriptor ?? BuildMappingDescriptor(),
-			                                  Settings.ConversionPatternGenericCloser ?? BuildConversionPatternGenericCloser(),
-			                                  Settings.ConversionPatternRepository ?? BuildConversionPatternRepository(),
-			                                  Settings.ConversionPatternTypes,
+			                                  Settings.ConversionPatternRepository = Settings.ConversionPatternRepository ?? BuildConversionPatternRepository(),
 			                                  Settings.MappingPatterns);
 		}
 
@@ -107,7 +107,7 @@
 			readonly List<Type> conversionPatterns = new List<Type>
 			                                         {
 			                                         	typeof (CollectionConversionPattern<>),
-			                                         	typeof (MapConversionPattern<>),
+			                                         	//typeof (MapConversionPattern<>),
 			                                         	typeof (NullableConversionPattern<>)
 			                                         };
 
