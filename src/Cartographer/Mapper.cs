@@ -28,38 +28,38 @@
 			this.mappingCompiler = mappingCompiler;
 		}
 
-		public TTarget Convert<TTarget>(object source)
+		public TTarget Convert<TTarget>(object sourceInstance)
 		{
-			return ConvertWithArguments<TTarget>(source, null);
+			return ConvertWithArguments<TTarget>(sourceInstance, null);
 		}
 
-		public TTarget Convert<TTarget>(object source, TTarget target)
+		public TTarget Convert<TTarget>(object sourceInstance, TTarget targetInstance)
 		{
-			return ConvertWithArguments(source, target, null);
+			return ConvertWithArguments(sourceInstance, targetInstance, null);
 		}
 
-		public TTarget ConvertWithArguments<TTarget>(object source, object inlineArgumentsAsAnonymousType)
+		public TTarget ConvertWithArguments<TTarget>(object sourceInstance, object inlineArgumentsAsAnonymousType)
 		{
-			var key = Match(source.GetType(), typeof (TTarget), null);
+			var key = Match(sourceInstance.GetType(), typeof (TTarget), null);
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
 			                     {
-			                     	SourceInstance = source,
+			                     	SourceInstance = sourceInstance,
 			                     	Mapper = this
 			                     });
 		}
 
 
-		public TTarget ConvertWithArguments<TTarget>(object source, TTarget target, object inlineArgumentsAsAnonymousType)
+		public TTarget ConvertWithArguments<TTarget>(object sourceInstance, TTarget targetInstance, object inlineArgumentsAsAnonymousType)
 		{
-			var key = Match(source.GetType(), typeof (TTarget), GetType(target));
+			var key = Match(sourceInstance.GetType(), typeof (TTarget), GetType(targetInstance));
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
 			                     {
-			                     	SourceInstance = source,
-			                     	TargetInstance = target,
+			                     	SourceInstance = sourceInstance,
+			                     	TargetInstance = targetInstance,
 			                     	Mapper = this
 			                     });
 		}
