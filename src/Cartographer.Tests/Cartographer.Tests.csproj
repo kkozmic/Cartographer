@@ -88,12 +88,14 @@
     <Compile Include="Types\Account4.cs" />
     <Compile Include="Types\Account3Dto.cs" />
     <Compile Include="Types\Account4Dto.cs" />
+    <Compile Include="Types\Account5Dto.cs" />
     <Compile Include="Types\AccountDto.cs" />
     <Compile Include="Types\AccountWithCtorDto.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Types\Address2.cs" />
     <Compile Include="Types\AddressDto.cs" />
     <Compile Include="Types\Customer.cs" />
+    <Compile Include="Types\IAccount5Dto.cs" />
     <Compile Include="Types\Identifier.cs" />
     <Compile Include="Types\IHasId.cs" />
     <Compile Include="Types\Order.cs" />
