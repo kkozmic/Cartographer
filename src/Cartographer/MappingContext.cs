@@ -27,5 +27,16 @@ namespace Cartographer
 		{
 			return (T)arguments.GetByType(typeof (T));
 		}
+
+		public bool TryGetArgument<T>(out T value)
+		{
+			value = default(T);
+			object obj;
+			if (!arguments.TryGetByType(typeof(T), out obj))
+				return false;
+
+			value = (T)obj;
+			return true;
+		}
 	}
 }
