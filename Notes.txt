@@ -1,3 +1,4 @@
+- add support for providing values for constructor paramteters via inline arguments
 - allow non-default constructors (partially implemented. To be revised)
 - add ability to map meta-types (collections, Lazy<T> etc) as root level-types. That is a mandatory feature
 - add support for pre-caching mappings
@@ -16,3 +17,5 @@
 	- based on that find elements to update
 	- add new ones
 	- remove unmatched (?) - optionally
+
+- for Windsor's intergration in conversion pattern repository utilise IGenericServiceStrategy
