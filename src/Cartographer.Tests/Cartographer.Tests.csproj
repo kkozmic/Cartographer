@@ -63,7 +63,8 @@
     <Compile Include="CollectionMappingTests.cs" />
     <Compile Include="ComplexMappingTests.cs" />
     <Compile Include="ContainerIntegration\CartographerFacility.cs" />
-    <Compile Include="ContainerIntegration\WindsorTests.cs" />
+    <Compile Include="ContainerIntegration\WindsorIntegrationSettingsTests.cs" />
+    <Compile Include="ContainerIntegration\WindsorMappingTests.cs" />
     <Compile Include="ConversionPatternGenericCloserTests.cs" />
     <Compile Include="ConversionPatterns\ConvertConversionPattern.cs" />
     <Compile Include="ConversionPatterns\DoubleNullableConversionPattern.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Types\Account3Dto.cs" />
     <Compile Include="Types\Account4Dto.cs" />
     <Compile Include="Types\Account5Dto.cs" />
+    <Compile Include="Types\Account6Dto.cs" />
     <Compile Include="Types\AccountDto.cs" />
     <Compile Include="Types\AccountWithCtorDto.cs" />
     <Compile Include="Types\Address.cs" />

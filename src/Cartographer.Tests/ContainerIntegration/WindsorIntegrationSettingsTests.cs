@@ -4,23 +4,26 @@ namespace CartographerTests.ContainerIntegration
 	using Cartographer;
 	using Cartographer.Compiler;
 	using CartographerTests.Types;
+	using Castle.Facilities.TypedFactory;
 	using Castle.MicroKernel.Registration;
 	using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 	using Castle.Windsor;
 	using NSubstitute;
 	using Xunit;
 
-	public class WindsorTests: IDisposable
+	public class WindsorIntegrationSettingsTests: IDisposable
 	{
 		readonly IWindsorContainer container;
 
-		public WindsorTests()
+		public WindsorIntegrationSettingsTests()
 		{
-			container = new WindsorContainer().AddFacility<CartographerFacility>();
+			container = new WindsorContainer()
+				.AddFacility<TypedFactoryFacility>()
+				.AddFacility<CartographerFacility>();
 			container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
 		}
 
-		[Fact]
+		[Fact(Skip = "This won't work, since in Windsor the closer is not used as component but as extension to handler.")]
 		public void Can_override_ConversionPatternGenericCloser_from_the_container()
 		{
 			var instance = Substitute.For<IConversionPatternGenericCloser>();

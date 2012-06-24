@@ -6,7 +6,7 @@ namespace CartographerTests.ConversionPatterns
 	using Cartographer.Compiler;
 	using Cartographer.Steps;
 
-	public class ConvertConversionPattern<TTarget, TSource>: IConversionPattern<TSource, TTarget>
+	public class ConvertConversionPattern<TTarget, TSource>: IConversionPattern<TSource, TTarget> where TSource: IConvertible
 	{
 		public Expression<Func<TSource, IMapper, MappingContext, TTarget>> BuildConversionExpression(MappingStep mapping)
 		{
