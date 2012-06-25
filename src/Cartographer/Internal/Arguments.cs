@@ -36,5 +36,11 @@
 			}
 			throw new ArgumentException(string.Format("No argument of type {0} was found.", type));
 		}
+
+
+		public bool TryGetByType(Type type, out object value)
+		{
+			return argumentsByType.TryGetValue(type, out value);
+		}
 	}
 }
