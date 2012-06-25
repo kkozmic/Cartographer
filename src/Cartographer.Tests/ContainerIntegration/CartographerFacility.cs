@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Linq;
-	using System.Reflection;
 	using Cartographer;
 	using Cartographer.Compiler;
 	using Castle.Core;
@@ -110,7 +109,7 @@
 		}
 	}
 
-	public class WindsorConversionPatternRepository : IConversionPatternRepository
+	public class WindsorConversionPatternRepository: IConversionPatternRepository
 	{
 		readonly IKernel kernel;
 
@@ -123,7 +122,7 @@
 		{
 			var actualType = typeof (IConversionPattern<,>).MakeGenericType(sourceValueType, targetValueType);
 			var handler = kernel.GetHandler(actualType);
-			if(handler!=null)
+			if (handler != null)
 			{
 				return kernel.Resolve(actualType);
 			}
