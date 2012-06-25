@@ -70,6 +70,7 @@
     <Compile Include="Internal\Expressions\PropertyIfNotNullInnerExpression.cs" />
     <Compile Include="Internal\Expressions\ReduceExpressionVisitor.cs" />
     <Compile Include="Internal\Expressions\ReducibleExpression.cs" />
+    <Compile Include="Internal\PropertyInfoExtenions.cs" />
     <Compile Include="Internal\TechnicalDebtAttribute.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />

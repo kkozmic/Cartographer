@@ -43,21 +43,21 @@
 		public void Can_map_collections()
 		{
 			var dto = mapper.Convert<OrderDto>(new Order
-			                                   {
-			                                   	OrderLines = new[]
-			                                   	             {
-			                                   	             	new OrderLine
-			                                   	             	{
-			                                   	             		ItemId = 1,
-			                                   	             		ItemName = "The Ring"
-			                                   	             	},
-			                                   	             	new OrderLine
-			                                   	             	{
-			                                   	             		ItemId = 2,
-			                                   	             		ItemName = "A dagger"
-			                                   	             	}
-			                                   	             }
-			                                   });
+			{
+				OrderLines = new[]
+				{
+					new OrderLine
+					{
+						ItemId = 1,
+						ItemName = "The Ring"
+					},
+					new OrderLine
+					{
+						ItemId = 2,
+						ItemName = "A dagger"
+					}
+				}
+			});
 
 			Assert.Equal(2, dto.OrderLines.Length);
 			Assert.Equal("A dagger", dto.OrderLines[1].ItemName);
@@ -84,20 +84,29 @@
 		public void Can_map_recoursively()
 		{
 			var dto = mapper.Convert<User2Dto>(new User2
-			                                   {
-			                                   	FirstName = "Stefan",
-			                                   	LastName = "Mucha",
-			                                   	Address = new Address
-			                                   	          {
-			                                   	          	AddressLine1 = "42 Some Street",
-			                                   	          	AddressLine2 = "Apartment 42",
-			                                   	          	City = "El Dorado",
-			                                   	          	ZipCode = "42-42"
-			                                   	          }
-			                                   });
+			{
+				FirstName = "Stefan",
+				LastName = "Mucha",
+				Address = new Address
+				{
+					AddressLine1 = "42 Some Street",
+					AddressLine2 = "Apartment 42",
+					City = "El Dorado",
+					ZipCode = "42-42"
+				}
+			});
 
 			Assert.Equal("Stefan", dto.FirstName);
 			Assert.Equal("42 Some Street", dto.Address.AddressLine1);
+		}
+
+		[Fact]
+		public void Can_map_to_type_with_non_accessible_setter()
+		{
+			var dto = mapper.Convert<Account7Dto>(new Account2 { Number = "abc123", Owner = new Person2 { Id = 42, Address = new Address2 { Zip = new ZipCode { Number = 4000 } } } });
+
+			Assert.Equal(42, dto.OwnerId);
+			Assert.Null(dto.OwnerAddressZipNumber);
 		}
 	}
 }

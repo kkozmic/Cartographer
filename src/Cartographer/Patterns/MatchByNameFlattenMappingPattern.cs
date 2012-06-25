@@ -5,6 +5,7 @@ namespace Cartographer.Patterns
 	using System.Linq;
 	using System.Reflection;
 	using Cartographer.Compiler;
+	using Cartographer.Internal;
 	using Cartographer.Steps;
 
 	public class MatchByNameFlattenMappingPattern: IMappingPattern
@@ -12,7 +13,7 @@ namespace Cartographer.Patterns
 		public void Contribute(MappingStrategy strategy)
 		{
 			var sourceProperties = strategy.Source.GetProperties();
-			foreach (var targetProperty in strategy.Target.GetProperties())
+			foreach (var targetProperty in strategy.Target.GetProperties().Where(p => p.IsWriteable()))
 			{
 				var sourcePropertyChain = BuildPropertyChain(targetProperty.Name, sourceProperties);
 				if (sourcePropertyChain.Length > 1)

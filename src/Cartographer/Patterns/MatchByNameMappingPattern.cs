@@ -1,7 +1,9 @@
 namespace Cartographer.Patterns
 {
 	using System;
+	using System.Linq;
 	using Cartographer.Compiler;
+	using Cartographer.Internal;
 	using Cartographer.Steps;
 
 	public class MatchByNameMappingPattern: IMappingPattern
@@ -9,7 +11,7 @@ namespace Cartographer.Patterns
 		public void Contribute(MappingStrategy strategy)
 		{
 			var properties = strategy.Source.GetProperties();
-			foreach (var targetProperty in strategy.Target.GetProperties())
+			foreach (var targetProperty in strategy.Target.GetProperties().Where(p => p.IsWriteable()))
 			{
 				var sourceProperty = Array.Find(properties, p => p.Name == targetProperty.Name);
 				if (sourceProperty != null)
