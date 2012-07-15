@@ -1,4 +1,4 @@
-﻿namespace Cartographer.Collections
+﻿namespace Cartographer.Internal.Collections
 {
 	using System;
 	using System.Collections;

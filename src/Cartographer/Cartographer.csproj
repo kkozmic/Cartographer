@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\OrderedKeyedCollection.cs" />
+    <Compile Include="Internal\Collections\OrderedKeyedCollection.cs" />
     <Compile Include="Compiler\ConversionPatternGenericCloser.cs" />
     <Compile Include="Compiler\ConversionPatternRepository.cs" />
     <Compile Include="Compiler\DescriptionVisitor.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="Internal\Expressions\PropertyIfNotNullInnerExpression.cs" />
     <Compile Include="Internal\Expressions\ReduceExpressionVisitor.cs" />
     <Compile Include="Internal\Expressions\ReducibleExpression.cs" />
+    <Compile Include="Internal\Mapper.cs" />
     <Compile Include="Internal\PropertyInfoExtenions.cs" />
     <Compile Include="Internal\TechnicalDebtAttribute.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
@@ -85,7 +86,6 @@
     <Compile Include="Steps\ConversionStep.cs" />
     <Compile Include="Steps\DelegatingConversionStep.cs" />
     <Compile Include="Steps\DelegatingConversionVisitor.cs" />
-    <Compile Include="Mapper.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="MappingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

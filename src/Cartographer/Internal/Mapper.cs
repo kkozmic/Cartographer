@@ -1,10 +1,9 @@
-﻿namespace Cartographer
+namespace Cartographer.Internal
 {
 	using System;
 	using System.Collections.Concurrent;
 	using System.ComponentModel;
 	using Cartographer.Compiler;
-	using Cartographer.Internal;
 
 	public class Mapper: IMapper
 	{

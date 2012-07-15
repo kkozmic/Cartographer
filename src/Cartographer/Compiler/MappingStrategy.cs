@@ -5,8 +5,8 @@ namespace Cartographer.Compiler
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Reflection;
-	using Cartographer.Collections;
 	using Cartographer.Internal;
+	using Cartographer.Internal.Collections;
 	using Cartographer.Steps;
 
 	public class MappingStrategy
