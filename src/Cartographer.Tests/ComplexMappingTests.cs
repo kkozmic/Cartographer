@@ -30,9 +30,9 @@
 			var mapper = BuildMapper();
 			var lastModified = DateTime.Now;
 			var dto = mapper.Convert<Order2Dto>(new Order2
-			                                    {
-			                                    	Customer = new Customer { ItemId = 42, LastModified = lastModified }
-			                                    });
+			{
+				Customer = new Customer { ItemId = 42, LastModified = lastModified }
+			});
 			Assert.NotNull(dto.CustomerIdentifier);
 			Assert.Equal(42, dto.CustomerIdentifier.Id);
 			Assert.Equal(lastModified, dto.CustomerIdentifier.Timestamp);
@@ -49,9 +49,9 @@
 			var utcOffset = TimeSpan.FromHours(10);
 			var timeZone = TimeZoneInfo.CreateCustomTimeZone("My time zone", utcOffset, "x", "x", "x", null, disableDaylightSavingTime: true);
 			var dto = mapper.ConvertWithArguments<Order3Dto>(new Order3
-			                                                 {
-			                                                 	OrderTime = dateTime
-			                                                 },
+			{
+				OrderTime = dateTime
+			},
 			                                                 new { TimeZone = timeZone });
 
 			var expectedDate = dateTime.Add(utcOffset).Date;

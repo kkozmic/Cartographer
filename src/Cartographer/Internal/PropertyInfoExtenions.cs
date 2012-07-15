@@ -7,7 +7,7 @@ namespace Cartographer.Internal
 		public static bool IsWriteable(this PropertyInfo property)
 		{
 			var setter = property.GetSetMethod(true);
-			if(setter == null)
+			if (setter == null)
 			{
 				return false;
 			}

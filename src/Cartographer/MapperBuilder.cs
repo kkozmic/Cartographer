@@ -105,17 +105,17 @@
 		public class MapperBuilderSettings
 		{
 			readonly List<Type> conversionPatterns = new List<Type>
-			                                         {
-			                                         	typeof (CollectionConversionPattern<>),
-			                                         	//typeof (MapConversionPattern<>),
-			                                         	typeof (NullableConversionPattern<>)
-			                                         };
+			{
+				typeof (CollectionConversionPattern<>),
+				//typeof (MapConversionPattern<>),
+				typeof (NullableConversionPattern<>)
+			};
 
 			readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
-			                                                 {
-			                                                 	new MatchByNameMappingPattern(),
-			                                                 	new MatchByNameFlattenMappingPattern()
-			                                                 };
+			{
+				new MatchByNameMappingPattern(),
+				new MatchByNameFlattenMappingPattern()
+			};
 
 			public MapperBuilderSettings()
 			{

@@ -31,8 +31,8 @@
 			}
 
 			Kernel.ComponentModelBuilder.AddContributor(new CloseConversionPatternContributor(
-			                                            	new CloseConversionPatternStrategy(ConversionPatternGenericCloser),
-			                                            	new ConversionPatterStrategy(ConversionPatternGenericCloser)));
+				                                            new CloseConversionPatternStrategy(ConversionPatternGenericCloser),
+				                                            new ConversionPatterStrategy(ConversionPatternGenericCloser)));
 			Kernel.Register(
 				Component.For<IConversionPatternRepository>().ImplementedBy<WindsorConversionPatternRepository>().LifestyleTransient(),
 				Component.For<MapperBuilder.MapperBuilderSettings>(),

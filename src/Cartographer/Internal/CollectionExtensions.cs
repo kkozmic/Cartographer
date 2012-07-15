@@ -9,11 +9,11 @@
 	public static class CollectionExtensions
 	{
 		static readonly Type[] SupportedGenericCollections = new[]
-		                                                     {
-		                                                     	typeof (IEnumerable<>),
-		                                                     	typeof (ICollection<>),
-		                                                     	typeof (IList<>),
-		                                                     };
+		{
+			typeof (IEnumerable<>),
+			typeof (ICollection<>),
+			typeof (IList<>),
+		};
 
 		public static bool Contains<T>(this T[] array, T item)
 		{

@@ -10,7 +10,7 @@ namespace CartographerTests.ConversionPatterns
 	{
 		public Expression<Func<T, IMapper, MappingContext, string>> BuildConversionExpression(MappingStep mapping)
 		{
-			if(typeof(T) == typeof(string))
+			if (typeof (T) == typeof (string))
 			{
 				// no need to convert
 				return null;

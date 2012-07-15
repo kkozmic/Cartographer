@@ -45,13 +45,13 @@
 		public override Expression Reduce()
 		{
 			var body = new Expression[]
-			           {
-			           	Assign(local, owner),
-			           	Condition(ReferenceNotEqual(local, Default(local.Type)),
-			           	          inner,
-			           	          Default(targetValueType),
-			           	          targetValueType)
-			           };
+			{
+				Assign(local, owner),
+				Condition(ReferenceNotEqual(local, Default(local.Type)),
+				          inner,
+				          Default(targetValueType),
+				          targetValueType)
+			};
 			return Block(targetValueType, new[] { local }, body);
 		}
 

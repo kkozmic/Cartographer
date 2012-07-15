@@ -43,10 +43,10 @@ namespace Cartographer.Internal
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
-			                     {
-			                     	SourceInstance = sourceInstance,
-			                     	Mapper = this
-			                     });
+			{
+				SourceInstance = sourceInstance,
+				Mapper = this
+			});
 		}
 
 
@@ -56,11 +56,11 @@ namespace Cartographer.Internal
 			var mapper = (Func<MappingContext, TTarget>)mappins.GetOrAdd(key, CreateMapping);
 
 			return mapper.Invoke(new MappingContext(new Arguments(inlineArgumentsAsAnonymousType))
-			                     {
-			                     	SourceInstance = sourceInstance,
-			                     	TargetInstance = targetInstance,
-			                     	Mapper = this
-			                     });
+			{
+				SourceInstance = sourceInstance,
+				TargetInstance = targetInstance,
+				Mapper = this
+			});
 		}
 
 		internal void RegisterMapping(MappingInfo mappingInfo)
