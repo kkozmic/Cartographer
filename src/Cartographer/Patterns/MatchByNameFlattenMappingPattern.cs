@@ -6,6 +6,7 @@ namespace Cartographer.Patterns
 	using System.Reflection;
 	using Cartographer.Compiler;
 	using Cartographer.Internal;
+	using Cartographer.Internal.Extensions;
 	using Cartographer.Steps;
 
 	public class MatchByNameFlattenMappingPattern: IMappingPattern

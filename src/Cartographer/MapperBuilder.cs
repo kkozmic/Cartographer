@@ -7,6 +7,7 @@
 	using System.Reflection;
 	using Cartographer.Compiler;
 	using Cartographer.Internal;
+	using Cartographer.Internal.Extensions;
 	using Cartographer.Patterns;
 
 	public class MapperBuilder

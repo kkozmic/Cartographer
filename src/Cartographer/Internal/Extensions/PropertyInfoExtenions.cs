@@ -1,4 +1,4 @@
-namespace Cartographer.Internal
+namespace Cartographer.Internal.Extensions
 {
 	using System.Reflection;
 

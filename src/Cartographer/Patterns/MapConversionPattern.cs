@@ -4,6 +4,7 @@ namespace Cartographer.Patterns
 	using System.Linq.Expressions;
 	using Cartographer.Compiler;
 	using Cartographer.Internal;
+	using Cartographer.Internal.Extensions;
 	using Cartographer.Steps;
 
 	public class MapConversionPattern<TTo>: IConversionPattern<object, TTo>
