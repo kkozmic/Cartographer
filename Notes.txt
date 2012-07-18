@@ -1,9 +1,5 @@
-- add support for providing values for constructor paramteters via inline arguments
-- allow non-default constructors (partially implemented. To be revised)
 - add ability to map meta-types (collections, Lazy<T> etc) as root level-types. That is a mandatory feature
-- add support for pre-caching mappings
 - add support for mapping A --> B where B has .ctor that takes A as argument. (not sure we need this OOTB?)
-- add an extension point to approve or reject mappings that weren't pre-cached (to ensure all mappings are precached, or almost all to allow for extensibility mapping scenarios etc)
 - add support for flattened mapping (and name it better). Make it easy to map Foo (and FooDetails) --> FooDto making it apppear to the mapper as if FooDetails properties were coming direectly from Foo (?)
 - add support for asynchronous multistep pre-caching (low priority)
 - add ability to provide configuration values
