@@ -2,7 +2,6 @@ namespace Cartographer.Compiler
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Reflection;
 	using Cartographer.Internal;
@@ -13,33 +12,22 @@ namespace Cartographer.Compiler
 	{
 		readonly IList<MappingStep> mappingSteps = new List<MappingStep>();
 
-		public MappingStrategy(MappingInfo mappingInfo, IMappingDescriptor descriptor)
+		public MappingStrategy(MappingInfo mappingInfo)
 		{
-			Descriptor = descriptor;
 			Source = mappingInfo.MappingSourceType;
 			Target = mappingInfo.MappingTargetType;
 			HasTargetInstance = mappingInfo.MapIntoExistingTargetInstance;
-			try
-			{
-				TargetConstructor = Target.GetConstructors().Single();
-				ConstructorParameterMappingSteps = new OrderedKeyedCollection<ParameterInfo, MappingStep>(TargetConstructor.GetParameters());
-			}
-			catch (InvalidOperationException)
-			{
-				throw new ArgumentException("Target type must have single public constructor. This is the only scenario supported at the moment.", "target");
-			}
-
 			ContextExpression = Expression.Parameter(typeof (MappingContext), "context");
 			SourceExpression = Expression.Variable(Source, "source");
 			TargetExpression = Expression.Variable(Target, "target");
 			MapperExpression = Expression.Property(ContextExpression, MappingContextMeta.Mapper);
 		}
 
-		public OrderedKeyedCollection<ParameterInfo, MappingStep> ConstructorParameterMappingSteps { get; private set; }
+		public OrderedKeyedCollection<ParameterInfo, MappingStep> ConstructorParameterMappingSteps { get; set; }
 
 		public ParameterExpression ContextExpression { get; private set; }
 
-		public IMappingDescriptor Descriptor { get; private set; }
+		public IMappingDescriptor Descriptor { get; set; }
 
 		public bool HasTargetInstance { get; private set; }
 
@@ -59,7 +47,7 @@ namespace Cartographer.Compiler
 
 		public Type Target { get; private set; }
 
-		public ConstructorInfo TargetConstructor { get; private set; }
+		public ConstructorInfo TargetConstructor { get; set; }
 
 		public ParameterExpression TargetExpression { get; private set; }
 

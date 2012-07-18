@@ -93,8 +93,7 @@
 
 		protected virtual IMappingStrategyBuilder BuildMappingStrategyBuilder()
 		{
-			return new MappingStrategyBuilder(Settings.MappingDescriptor = Settings.MappingDescriptor ?? BuildMappingDescriptor(),
-			                                  Settings.ConversionPatternRepository = Settings.ConversionPatternRepository ?? BuildConversionPatternRepository(),
+			return new MappingStrategyBuilder(Settings.ConversionPatternRepository = Settings.ConversionPatternRepository ?? BuildConversionPatternRepository(),
 			                                  Settings.MappingPatterns);
 		}
 

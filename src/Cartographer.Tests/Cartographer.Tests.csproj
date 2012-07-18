@@ -68,6 +68,7 @@
     <Compile Include="ContainerIntegration\WindsorIntegrationSettingsTests.cs" />
     <Compile Include="ContainerIntegration\WindsorMappingTests.cs" />
     <Compile Include="ConversionPatternGenericCloserTests.cs" />
+    <Compile Include="ConversionPatterns\AccountWith2ConstructorsMappingPattern.cs" />
     <Compile Include="ConversionPatterns\ConvertConversionPattern.cs" />
     <Compile Include="ConversionPatterns\DoubleNullableConversionPattern.cs" />
     <Compile Include="ConversionPatterns\IdentifierConversionPattern.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Types\Account6Dto.cs" />
     <Compile Include="Types\Account7Dto.cs" />
     <Compile Include="Types\AccountDto.cs" />
+    <Compile Include="Types\AccountWith2CtorsDto.cs" />
     <Compile Include="Types\AccountWithCtorDto.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Types\Address2.cs" />

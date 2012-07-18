@@ -5,7 +5,6 @@ namespace Cartographer.Patterns
 	using System.Linq;
 	using System.Reflection;
 	using Cartographer.Compiler;
-	using Cartographer.Internal;
 	using Cartographer.Internal.Extensions;
 	using Cartographer.Steps;
 
