@@ -1,7 +1,9 @@
 ﻿namespace CartographerTests
 {
 	using Cartographer;
+	using Cartographer.Compiler;
 	using CartographerTests.ConversionPatterns;
+	using CartographerTests.MappingPatterns;
 	using CartographerTests.Types;
 	using Xunit;
 
@@ -33,6 +35,28 @@
 		{
 			var mapper = new MapperBuilder().BuildMapper();
 			var dto = mapper.Convert(new Account { Number = "abc123", Owner = new Person { Id = 42 } }, new AccountWith3CtorsDto());
+			Assert.Equal(42, dto.OwnerId);
+			Assert.Equal("abc123", dto.Number);
+		}
+
+		[Fact(Skip = "Not implemented yet. We need strongly typed context support for that")]
+		public void Can_map_with_callsite_parameter()
+		{
+			var mapper = new MapperBuilder().BuildMapper();
+			var dto = mapper.ConvertWithArguments<AccountWithAdditionalParameterDto>(new Account { Number = "abc123", Owner = new Person { Id = 42 } }, new { language = "en-AU" });
+			Assert.Equal("en-AU", dto.Language);
+			Assert.Equal(42, dto.OwnerId);
+			Assert.Equal("abc123", dto.Number);
+		}
+
+		[Fact]
+		public void Can_map_with_callsite_parameter_via_custom_mapping_step()
+		{
+			var builder = new MapperBuilder();
+			builder.Settings.MappingPatterns = new IMappingPattern[] { new MapMissingCtorParametersFromCallSite(), };
+			var mapper = builder.BuildMapper();
+			var dto = mapper.ConvertWithArguments<AccountWithAdditionalParameterDto>(new Account { Number = "abc123", Owner = new Person { Id = 42 } }, new { language = "en-AU" });
+			Assert.Equal("en-AU", dto.Language);
 			Assert.Equal(42, dto.OwnerId);
 			Assert.Equal("abc123", dto.Number);
 		}

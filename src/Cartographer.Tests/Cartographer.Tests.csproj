@@ -86,6 +86,7 @@
     <Compile Include="Internal\DelegatingCatalog.cs" />
     <Compile Include="Internal\StringAssertEqualReporter.cs" />
     <Compile Include="MappingDescriptorTests.cs" />
+    <Compile Include="MappingPatterns\MapMissingCtorParametersFromCallSite.cs" />
     <Compile Include="MappingPatterns\TargetSuffixMappingPattern.cs" />
     <Compile Include="MappingToExistingObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Types\AccountDto.cs" />
     <Compile Include="Types\AccountWith2CtorsDto.cs" />
     <Compile Include="Types\AccountWith3CtorsDto.cs" />
+    <Compile Include="Types\AccountWithAdditionalParameterDto.cs" />
     <Compile Include="Types\AccountWithCtorDto.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Types\Address2.cs" />
