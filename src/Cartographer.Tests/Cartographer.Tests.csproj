@@ -101,6 +101,7 @@
     <Compile Include="Types\Account7Dto.cs" />
     <Compile Include="Types\AccountDto.cs" />
     <Compile Include="Types\AccountWith2CtorsDto.cs" />
+    <Compile Include="Types\AccountWith3CtorsDto.cs" />
     <Compile Include="Types\AccountWithCtorDto.cs" />
     <Compile Include="Types\Address.cs" />
     <Compile Include="Types\Address2.cs" />

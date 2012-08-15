@@ -27,5 +27,14 @@
 			Assert.Equal(42, dto.OwnerId);
 			Assert.Equal("abc123", dto.Number);
 		}
+
+		[Fact]
+		public void Can_map_when_target_exists()
+		{
+			var mapper = new MapperBuilder().BuildMapper();
+			var dto = mapper.Convert(new Account { Number = "abc123", Owner = new Person { Id = 42 } }, new AccountWith3CtorsDto());
+			Assert.Equal(42, dto.OwnerId);
+			Assert.Equal("abc123", dto.Number);
+		}
 	}
 }
