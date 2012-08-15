@@ -2,6 +2,7 @@
 {
 	using System;
 	using Cartographer;
+	using Cartographer.Compiler;
 	using CartographerTests.ConversionPatterns;
 	using CartographerTests.MappingPatterns;
 	using CartographerTests.Types;
@@ -25,7 +26,7 @@
 		public void Can_map_complex_property_to_new_object()
 		{
 			BuilderSettings.AddConversionPatternType(typeof (IdentifierConversionPattern));
-			BuilderSettings.AddMappingPattern(new TargetSuffixMappingPattern("Identifier"));
+			BuilderSettings.MappingPatterns = new IMappingPattern[] { new TargetSuffixMappingPattern("Identifier") };
 
 			var mapper = BuildMapper();
 			var lastModified = DateTime.Now;

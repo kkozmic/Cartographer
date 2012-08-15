@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Compiler\IMappingStrategyContributor.cs" />
     <Compile Include="Compiler\MappingStrategyBuildContext.cs" />
+    <Compile Include="Internal\Collections\KeyedValue.cs" />
     <Compile Include="Internal\Collections\OrderedKeyedCollection.cs" />
     <Compile Include="Compiler\ConversionPatternGenericCloser.cs" />
     <Compile Include="Compiler\ConversionPatternRepository.cs" />
@@ -78,8 +79,13 @@
     <Compile Include="Internal\Extensions\TypeExtensions.cs" />
     <Compile Include="Internal\MappingContextMeta.cs" />
     <Compile Include="MapperBuilder.cs" />
+    <Compile Include="Contributors\ApplyConverters.cs" />
+    <Compile Include="Contributors\ApplyMappingSteps.cs" />
     <Compile Include="Patterns\CollectionConversionPattern.cs" />
-    <Compile Include="Patterns\DescriptorContributor.cs" />
+    <Compile Include="Contributors\ConstructorContributor.cs" />
+    <Compile Include="Contributors\DescriptorContributor.cs" />
+    <Compile Include="Contributors\HarcodedMappingContributor.cs" />
+    <Compile Include="Contributors\InitTarget.cs" />
     <Compile Include="Patterns\MapConversionPattern.cs" />
     <Compile Include="Patterns\MatchByNameFlattenMappingPattern.cs" />
     <Compile Include="Patterns\MatchByNameMappingPattern.cs" />

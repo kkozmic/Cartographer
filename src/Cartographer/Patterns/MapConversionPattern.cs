@@ -3,7 +3,6 @@ namespace Cartographer.Patterns
 	using System;
 	using System.Linq.Expressions;
 	using Cartographer.Compiler;
-	using Cartographer.Internal;
 	using Cartographer.Internal.Extensions;
 	using Cartographer.Steps;
 

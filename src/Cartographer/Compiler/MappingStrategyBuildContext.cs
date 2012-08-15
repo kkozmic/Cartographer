@@ -14,14 +14,14 @@ namespace Cartographer.Compiler
 
 		public bool Completed { get; private set; }
 
-		public void MarkAsCompleted()
-		{
-			Completed = true;
-		}
-
 		public DelegatingConversionStep ApplyConverter(MappingStep mapping, bool withFallback)
 		{
 			return applyConverter(mapping, withFallback);
+		}
+
+		public void MarkAsCompleted()
+		{
+			Completed = true;
 		}
 	}
 }

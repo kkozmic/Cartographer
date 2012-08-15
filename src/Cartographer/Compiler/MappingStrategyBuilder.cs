@@ -7,10 +7,9 @@ namespace Cartographer.Compiler
 
 	public class MappingStrategyBuilder: IMappingStrategyBuilder
 	{
-		readonly IConversionPatternRepository conversionPatternRepository;
-
-		
 		readonly IMappingStrategyContributor[] contributors;
+
+		readonly IConversionPatternRepository conversionPatternRepository;
 
 		public MappingStrategyBuilder(IConversionPatternRepository conversionPatternRepository, IMappingStrategyContributor[] contributors)
 		{

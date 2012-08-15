@@ -3,7 +3,6 @@ namespace Cartographer.Compiler
 	using System;
 	using System.Diagnostics;
 	using System.Reflection;
-	using Cartographer.Internal;
 	using Cartographer.Internal.Extensions;
 
 	public class ConversionPatternGenericCloser: IConversionPatternGenericCloser

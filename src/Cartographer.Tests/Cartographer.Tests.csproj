@@ -65,6 +65,10 @@
     <Compile Include="CollectionMappingTests.cs" />
     <Compile Include="ComplexMappingTests.cs" />
     <Compile Include="ContainerIntegration\CartographerFacility.cs" />
+    <Compile Include="ContainerIntegration\CloseConversionPatternContributor.cs" />
+    <Compile Include="ContainerIntegration\CloseConversionPatternStrategy.cs" />
+    <Compile Include="ContainerIntegration\ConversionPatterStrategy.cs" />
+    <Compile Include="ContainerIntegration\WindsorConversionPatternRepository.cs" />
     <Compile Include="ContainerIntegration\WindsorIntegrationSettingsTests.cs" />
     <Compile Include="ContainerIntegration\WindsorMappingTests.cs" />
     <Compile Include="ConversionPatternGenericCloserTests.cs" />
@@ -82,7 +86,7 @@
     <Compile Include="Internal\DelegatingCatalog.cs" />
     <Compile Include="Internal\StringAssertEqualReporter.cs" />
     <Compile Include="MappingDescriptorTests.cs" />
-    <Compile Include="MappingPatterns\MatchByPatternConversionPattern.cs" />
+    <Compile Include="MappingPatterns\TargetSuffixMappingPattern.cs" />
     <Compile Include="MappingToExistingObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OneToOneMappingTests.cs" />

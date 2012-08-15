@@ -6,6 +6,7 @@
 	using System.Linq;
 	using System.Reflection;
 	using Cartographer.Compiler;
+	using Cartographer.Contributors;
 	using Cartographer.Internal;
 	using Cartographer.Internal.Extensions;
 	using Cartographer.Patterns;
@@ -48,7 +49,7 @@
 			{
 				var mapperLocal = new Mapper(Settings.MappingStrategyBuilder = Settings.MappingStrategyBuilder ?? BuildMappingStrategyBuilder(),
 				                             Settings.MappingCompiler = Settings.MappingCompiler ?? BuildMappingCompiler(),
-				                             Settings.TypeMatchers = Settings.TypeMatchers ?? BuildTypeMatchers());
+				                             BuildTypeMatchers(Settings.TypeMatchers));
 				var mappings = new List<MappingInfo>();
 				var bag = new MappingBag(mappings);
 				foreach (var catalog in catalogs)
@@ -91,15 +92,54 @@
 			return Console.Out;
 		}
 
+		protected virtual IMappingPattern[] BuildMappingPatterns(IMappingPattern[] customPatterns)
+		{
+			var patterns = new List<IMappingPattern>
+			{
+				new MatchByNameMappingPattern(),
+				new MatchByNameFlattenMappingPattern()
+			};
+			if (customPatterns != null && customPatterns.Length > 0)
+			{
+				patterns.AddRange(customPatterns);
+			}
+			return patterns.ToArray();
+		}
+
 		protected virtual IMappingStrategyBuilder BuildMappingStrategyBuilder()
 		{
 			return new MappingStrategyBuilder(Settings.ConversionPatternRepository = Settings.ConversionPatternRepository ?? BuildConversionPatternRepository(),
-			                                  Settings.MappingPatterns);
+			                                  BuildMappingStrategyContributors(Settings.MappingStategyContributors));
 		}
 
-		protected virtual ITypeMatcher[] BuildTypeMatchers()
+		protected virtual IMappingStrategyContributor[] BuildMappingStrategyContributors(IMappingStrategyContributor[] customContributors)
 		{
-			return new ITypeMatcher[0];
+			var contributors = new List<IMappingStrategyContributor>
+			{
+				new DescriptorContributor(Settings.MappingDescriptor = Settings.MappingDescriptor ?? BuildMappingDescriptor()),
+				new HarcodedMappingContributor(),
+				new ConstructorContributor(),
+				new ApplyMappingSteps(BuildMappingPatterns(Settings.MappingPatterns)),
+				new ApplyConverters(),
+				new InitTarget(),
+			};
+			if (customContributors != null && customContributors.Length > 0)
+			{
+				contributors.AddRange(customContributors);
+			}
+			return contributors.ToArray();
+		}
+
+		protected virtual ITypeMatcher[] BuildTypeMatchers(ITypeMatcher[] customMatchers)
+		{
+			var matchers = new List<ITypeMatcher>
+			{
+			};
+			if (customMatchers != null && customMatchers.Length > 0)
+			{
+				matchers.AddRange(customMatchers);
+			}
+			return matchers.ToArray();
 		}
 
 		public class MapperBuilderSettings
@@ -107,24 +147,8 @@
 			readonly List<Type> conversionPatterns = new List<Type>
 			{
 				typeof (CollectionConversionPattern<>),
-				//typeof (MapConversionPattern<>),
 				typeof (NullableConversionPattern<>)
 			};
-
-			readonly List<IMappingPattern> mappingPatterns = new List<IMappingPattern>
-			{
-				new MatchByNameMappingPattern(),
-				new MatchByNameFlattenMappingPattern()
-			};
-
-			public MapperBuilderSettings()
-			{
-			}
-
-			public MapperBuilderSettings(params IMappingPattern[] mappingPatterns)
-			{
-				this.mappingPatterns.InsertRange(0, mappingPatterns);
-			}
 
 			public IConversionPatternGenericCloser ConversionPatternGenericCloser { get; set; }
 
@@ -145,10 +169,9 @@
 
 			public TextWriter MappingDescriptorWriter { get; set; }
 
-			public IMappingPattern[] MappingPatterns
-			{
-				get { return mappingPatterns.ToArray(); }
-			}
+			public IMappingPattern[] MappingPatterns { get; set; }
+
+			public IMappingStrategyContributor[] MappingStategyContributors { get; set; }
 
 			public IMappingStrategyBuilder MappingStrategyBuilder { get; set; }
 
@@ -163,9 +186,12 @@
 				conversionPatterns.Insert(0, conversionPatternType);
 			}
 
-			public void AddMappingPattern(IMappingPattern pattern)
+			public void AddConversionPatternTypes(params Type[] conversionPatternTypes)
 			{
-				mappingPatterns.Insert(0, pattern);
+				foreach (var type in conversionPatternTypes)
+				{
+					AddConversionPatternType(type);
+				}
 			}
 		}
 	}

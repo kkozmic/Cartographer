@@ -21,6 +21,10 @@ namespace Cartographer.Patterns
 					strategy.AddMappingStep(new AssignChain(targetProperty, sourcePropertyChain));
 				}
 			}
+			if (strategy.HasTargetInstance)
+			{
+				return;
+			}
 			foreach (var mappingStep in strategy.ConstructorParameterMappingSteps.ByKey)
 			{
 				if (mappingStep.Value == null)

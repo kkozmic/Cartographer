@@ -3,7 +3,6 @@ namespace Cartographer.Patterns
 	using System;
 	using System.Linq;
 	using Cartographer.Compiler;
-	using Cartographer.Internal;
 	using Cartographer.Internal.Extensions;
 	using Cartographer.Steps;
 
@@ -21,6 +20,10 @@ namespace Cartographer.Patterns
 
 					strategy.AddMappingStep(assign);
 				}
+			}
+			if (strategy.HasTargetInstance)
+			{
+				return;
 			}
 			foreach (var mappingStep in strategy.ConstructorParameterMappingSteps.ByKey)
 			{

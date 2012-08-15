@@ -16,8 +16,8 @@ namespace Cartographer.Internal
 		readonly ITypeMatcher[] typeMatchers;
 
 		/// <summary>
-		///   It is not recommended to use the constructor directly. Use <see cref="MapperBuilder" /> instead to create your instance of <see
-		///    cref="Mapper" /> .
+		/// 	It is not recommended to use the constructor directly. Use <see cref="MapperBuilder" /> instead to create your instance of <see
+		/// 	 cref="Mapper" /> .
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public Mapper(IMappingStrategyBuilder mappingStrategyBuilder, IMappingCompiler mappingCompiler, ITypeMatcher[] typeMatchers)
