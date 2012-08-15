@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using System.Reflection;
@@ -149,6 +150,12 @@
 				typeof (CollectionConversionPattern<>),
 				typeof (NullableConversionPattern<>)
 			};
+
+			public MapperBuilderSettings()
+			{
+				ErrorLog = (t, e) => Trace.TraceError(t + ": {0}", e);
+				InfoLog = t => Trace.TraceInformation(t);
+			}
 
 			public IConversionPatternGenericCloser ConversionPatternGenericCloser { get; set; }
 
