@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Cartographer")]
-[assembly: AssemblyDescription("Cartographer")]
+[assembly: AssemblyDescription("Cartographer Alpha 2")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Krzysztof Kozmic")]
 [assembly: AssemblyProduct("Cartographer")]
@@ -35,6 +35,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("0.0.1.0")]
-[assembly: AssemblyInformationalVersion("0.0.1-alpha1")]
-[assembly: AssemblyFileVersion("0.0.1.0")]
+[assembly: AssemblyVersion("0.0.2.0")]
+[assembly: AssemblyInformationalVersion("0.0.2-alpha2")]
+[assembly: AssemblyFileVersion("0.0.2.0")]
