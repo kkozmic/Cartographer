@@ -12,6 +12,8 @@
     <AssemblyName>Cartographer.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,11 +66,6 @@
     <Compile Include="CloningTests.cs" />
     <Compile Include="CollectionMappingTests.cs" />
     <Compile Include="ComplexMappingTests.cs" />
-    <Compile Include="ContainerIntegration\CartographerFacility.cs" />
-    <Compile Include="ContainerIntegration\CloseConversionPatternContributor.cs" />
-    <Compile Include="ContainerIntegration\CloseConversionPatternStrategy.cs" />
-    <Compile Include="ContainerIntegration\ConversionPatterStrategy.cs" />
-    <Compile Include="ContainerIntegration\WindsorConversionPatternRepository.cs" />
     <Compile Include="ContainerIntegration\WindsorIntegrationSettingsTests.cs" />
     <Compile Include="ContainerIntegration\WindsorMappingTests.cs" />
     <Compile Include="ConversionPatternGenericCloserTests.cs" />
@@ -131,6 +128,10 @@
     <Compile Include="UsingCatalogsTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cartographer.WindsorFacility\ContainerIntegration-Castle.Windsor.csproj">
+      <Project>{91595F21-E42F-4AE8-AA38-72508C59DEAE}</Project>
+      <Name>ContainerIntegration-Castle.Windsor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cartographer\Cartographer.csproj">
       <Project>{07E1EBA2-D308-44D3-BBEF-B195BB2051F4}</Project>
       <Name>Cartographer</Name>
@@ -140,6 +141,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
