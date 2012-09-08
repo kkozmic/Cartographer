@@ -8,10 +8,10 @@ namespace CartographerTests.Types
 			Language = language;
 		}
 
+		public string Language { get; set; }
+
 		public string Number { get; set; }
 
 		public int OwnerId { get; set; }
-
-		public string Language { get; set; }
 	}
 }

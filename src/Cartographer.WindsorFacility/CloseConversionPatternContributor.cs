@@ -1,4 +1,4 @@
-namespace CartographerTests.ContainerIntegration
+namespace CartographerFacility
 {
 	using System.Linq;
 	using Cartographer.Compiler;

@@ -3,6 +3,7 @@ namespace CartographerTests.ContainerIntegration
 	using System;
 	using Cartographer;
 	using Cartographer.Compiler;
+	using CartographerFacility;
 	using CartographerTests.ConversionPatterns;
 	using CartographerTests.Types;
 	using Castle.Facilities.TypedFactory;
