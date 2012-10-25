@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartographer", "src\Cartographer\Cartographer.csproj", "{07E1EBA2-D308-44D3-BBEF-B195BB2051F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartographer.Tests", "src\Cartographer.Tests\Cartographer.Tests.csproj", "{892DAC45-3AD9-4E13-B630-C981792A3F1E}"
@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{837F5D
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartographer.PCL", "src\Cartographer\Cartographer.PCL.csproj", "{D6445C47-81A8-4A04-8F0F-1263892B2C4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{91595F21-E42F-4AE8-AA38-72508C59DEAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91595F21-E42F-4AE8-AA38-72508C59DEAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91595F21-E42F-4AE8-AA38-72508C59DEAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6445C47-81A8-4A04-8F0F-1263892B2C4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6445C47-81A8-4A04-8F0F-1263892B2C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6445C47-81A8-4A04-8F0F-1263892B2C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6445C47-81A8-4A04-8F0F-1263892B2C4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

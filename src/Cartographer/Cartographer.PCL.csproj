@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D6445C47-81A8-4A04-8F0F-1263892B2C4E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cartographer</RootNamespace>
+    <AssemblyName>Cartographer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile2</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compiler\IMappingStrategyContributor.cs" />
+    <Compile Include="Compiler\MappingStrategyBuildContext.cs" />
+    <Compile Include="Internal\Collections\KeyedValue.cs" />
+    <Compile Include="Internal\Collections\OrderedKeyedCollection.cs" />
+    <Compile Include="Compiler\ConversionPatternGenericCloser.cs" />
+    <Compile Include="Compiler\ConversionPatternRepository.cs" />
+    <Compile Include="Compiler\DescriptionVisitor.cs" />
+    <Compile Include="Compiler\IConversionPattern.cs" />
+    <Compile Include="Compiler\IConversionPatternGenericCloser.cs" />
+    <Compile Include="Compiler\IConversionPatternRepository.cs" />
+    <Compile Include="Compiler\IMappingCompiler.cs" />
+    <Compile Include="Compiler\IMappingDescriptor.cs" />
+    <Compile Include="Compiler\IMappingPattern.cs" />
+    <Compile Include="Compiler\IMappingStrategyBuilder.cs" />
+    <Compile Include="Compiler\ITypeMatcher.cs" />
+    <Compile Include="Compiler\IIMappingBag.cs" />
+    <Compile Include="Compiler\MappingBag.cs" />
+    <Compile Include="Compiler\MappingCompiler.cs" />
+    <Compile Include="Compiler\MappingDescriptor.cs" />
+    <Compile Include="Compiler\MappingInfo.cs" />
+    <Compile Include="Compiler\MappingStrategy.cs" />
+    <Compile Include="Compiler\MappingStrategyBuilder.cs" />
+    <Compile Include="Helpers\CollectionConversionHelper.cs" />
+    <Compile Include="IMappingCatalog.cs" />
+    <Compile Include="Internal\Arguments.cs" />
+    <Compile Include="Internal\Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Internal\Extensions\CollectionExtensions.cs" />
+    <Compile Include="Internal\Expressions\ExpressionType.cs" />
+    <Compile Include="Internal\Expressions\IReducingExpressionVisitor.cs" />
+    <Compile Include="Internal\Expressions\PropertyIfNotNullExpression.cs" />
+    <Compile Include="Internal\Expressions\PropertyIfNotNullInnerExpression.cs" />
+    <Compile Include="Internal\Expressions\ReduceExpressionVisitor.cs" />
+    <Compile Include="Internal\Expressions\ReducibleExpression.cs" />
+    <Compile Include="Internal\Mapper.cs" />
+    <Compile Include="Internal\Extensions\PropertyInfoExtenions.cs" />
+    <Compile Include="Internal\TechnicalDebtAttribute.cs" />
+    <Compile Include="Internal\Extensions\TypeExtensions.cs" />
+    <Compile Include="Internal\MappingContextMeta.cs" />
+    <Compile Include="MapperBuilder.cs" />
+    <Compile Include="Contributors\ApplyConverters.cs" />
+    <Compile Include="Contributors\ApplyMappingSteps.cs" />
+    <Compile Include="Patterns\CollectionConversionPattern.cs" />
+    <Compile Include="Contributors\ConstructorContributor.cs" />
+    <Compile Include="Contributors\DescriptorContributor.cs" />
+    <Compile Include="Contributors\HarcodedMappingContributor.cs" />
+    <Compile Include="Contributors\InitTarget.cs" />
+    <Compile Include="Patterns\MapConversionPattern.cs" />
+    <Compile Include="Patterns\MatchByNameFlattenMappingPattern.cs" />
+    <Compile Include="Patterns\MatchByNameMappingPattern.cs" />
+    <Compile Include="Patterns\NullableConversionPattern.cs" />
+    <Compile Include="Steps\ConstructorAssign.cs" />
+    <Compile Include="Steps\ConstructorAssignChain.cs" />
+    <Compile Include="Steps\ConversionStep.cs" />
+    <Compile Include="Steps\DelegatingConversionStep.cs" />
+    <Compile Include="Steps\DelegatingConversionVisitor.cs" />
+    <Compile Include="IMapper.cs" />
+    <Compile Include="MappingContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\Assign.cs" />
+    <Compile Include="Steps\AssignChain.cs" />
+    <Compile Include="Steps\DirectMappingStep.cs" />
+    <Compile Include="Steps\MappingStep.cs" />
+    <Compile Include="Steps\SimpleStep.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
