@@ -13,7 +13,7 @@ namespace CartographerFacility
 			this.kernel = kernel;
 		}
 
-		public dynamic LeaseConversionPatternFor(Type sourceValueType, Type targetValueType)
+		public object LeaseConversionPatternFor(Type sourceValueType, Type targetValueType)
 		{
 			var actualType = typeof (IConversionPattern<,>).MakeGenericType(sourceValueType, targetValueType);
 			var handler = kernel.GetHandler(actualType);

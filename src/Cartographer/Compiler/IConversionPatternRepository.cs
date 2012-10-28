@@ -4,7 +4,7 @@ namespace Cartographer.Compiler
 
 	public interface IConversionPatternRepository
 	{
-		dynamic LeaseConversionPatternFor(Type sourceValueType, Type targetValueType);
+		object LeaseConversionPatternFor(Type sourceValueType, Type targetValueType);
 
 		void Recycle(object conversionPattern);
 	}

@@ -34,13 +34,13 @@ namespace Cartographer.Compiler
 
 		DelegatingConversionStep ApplyConverter(MappingStep mapping, bool withFallback)
 		{
-			dynamic instance = null;
+			object instance = null;
 			try
 			{
 				instance = conversionPatternRepository.LeaseConversionPatternFor(mapping.SourceValueType, mapping.TargetValueType);
-				if (((object)instance) != null)
+				if (instance != null)
 				{
-					var expression = instance.BuildConversionExpression(mapping) as LambdaExpression;
+					var expression = BuildConversionExpression(instance, mapping);
 					if (expression != null)
 					{
 						return new DelegatingConversionStep(expression);
@@ -49,7 +49,7 @@ namespace Cartographer.Compiler
 			}
 			finally
 			{
-				conversionPatternRepository.Recycle((object)instance);
+				conversionPatternRepository.Recycle(instance);
 			}
 			if (withFallback == false || mapping.TargetValueType.IsAssignableFrom(mapping.SourceValueType))
 			{
@@ -57,7 +57,14 @@ namespace Cartographer.Compiler
 			}
 			// fallabck behavior
 			instance = Activator.CreateInstance(typeof (MapConversionPattern<>).MakeGenericType(mapping.TargetValueType));
-			return new DelegatingConversionStep(instance.BuildConversionExpression(mapping) as LambdaExpression);
+			return new DelegatingConversionStep(BuildConversionExpression(instance, mapping));
+		}
+
+		static LambdaExpression BuildConversionExpression(object instance, MappingStep mapping)
+		{
+			var buildConversionExpression = instance.GetType().GetMethod("BuildConversionExpression");
+			var expression = (LambdaExpression)buildConversionExpression.Invoke(instance, new object[] { mapping });
+			return expression;
 		}
 	}
 }

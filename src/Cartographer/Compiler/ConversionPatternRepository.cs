@@ -15,7 +15,7 @@ namespace Cartographer.Compiler
 			this.conversionPatternGenericCloser = conversionPatternGenericCloser;
 		}
 
-		public dynamic LeaseConversionPatternFor(Type sourceValueType, Type targetValueType)
+		public object LeaseConversionPatternFor(Type sourceValueType, Type targetValueType)
 		{
 			foreach (var patternType in conversionPatterns)
 			{

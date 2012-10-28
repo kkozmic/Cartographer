@@ -312,8 +312,15 @@ namespace Cartographer.Compiler
 
 		protected override Expression VisitExtension(Expression node)
 		{
-			dynamic custom = node;
-			return VisitCustom(custom);
+			if (node is PropertyIfNotNullInnerExpression)
+			{
+				VisitCustom((PropertyIfNotNullInnerExpression)node);
+			}
+			if (node is PropertyIfNotNullExpression)
+			{
+				VisitCustom((PropertyIfNotNullExpression)node);
+			}
+			return VisitCustom(node);
 		}
 
 		protected override Expression VisitGoto(GotoExpression node)
