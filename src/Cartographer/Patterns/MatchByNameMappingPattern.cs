@@ -13,7 +13,7 @@ namespace Cartographer.Patterns
 			var properties = strategy.Source.GetProperties();
 			foreach (var targetProperty in strategy.Target.GetProperties().Where(p => p.IsWriteable()))
 			{
-				var sourceProperty = Array.Find(properties, p => p.Name == targetProperty.Name);
+				var sourceProperty = properties.FirstOrDefault(p => p.Name == targetProperty.Name);
 				if (sourceProperty != null)
 				{
 					var assign = new Assign(targetProperty, sourceProperty);
@@ -29,7 +29,7 @@ namespace Cartographer.Patterns
 			{
 				if (mappingStep.Value == null)
 				{
-					var sourceProperty = Array.Find(properties, p => string.Equals(p.Name, mappingStep.Key.Name, StringComparison.OrdinalIgnoreCase));
+					var sourceProperty = properties.FirstOrDefault(p => string.Equals(p.Name, mappingStep.Key.Name, StringComparison.OrdinalIgnoreCase));
 					if (sourceProperty != null)
 					{
 						var assign = new ConstructorAssign(mappingStep.Key, sourceProperty);

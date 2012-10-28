@@ -2,6 +2,7 @@ namespace Cartographer.Compiler
 {
 	using System;
 	using System.Diagnostics;
+	using System.Linq;
 	using System.Reflection;
 	using Cartographer.Internal.Extensions;
 
@@ -10,7 +11,7 @@ namespace Cartographer.Compiler
 		// this has been through red and green phase, it has yet to see it's refactor phase
 		public Type Close(Type conversionPatternType, Type sourceType, Type targetType)
 		{
-			var @interface = conversionPatternType.GetInterface(typeof (IConversionPattern<,>).Name);
+			var @interface = conversionPatternType.GetInterface(typeof (IConversionPattern<,>));
 			if (@interface == null)
 			{
 				throw new ArgumentException(string.Format("Type {0} doesn't implement {1} and therefore is invalid for this operation.", conversionPatternType, typeof (IConversionPattern<,>)));
@@ -36,11 +37,11 @@ namespace Cartographer.Compiler
 			{
 				return null;
 			}
-			if (Array.TrueForAll(parameters, p => p != null))
+			if (parameters.Any(p => p == null))
 			{
-				return conversionPatternType.MakeGenericType(parameters);
+				return null;
 			}
-			return null;
+			return conversionPatternType.MakeGenericType(parameters);
 		}
 
 		Type EnsureMeetsGenericConstraints(Type type, Type genericParameter)
@@ -86,7 +87,7 @@ namespace Cartographer.Compiler
 				return true;
 			}
 
-			var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
+			var defaultConstructor = type.GetConstructor(TypeExtensions.EmptyTypes);
 			return defaultConstructor != null;
 		}
 

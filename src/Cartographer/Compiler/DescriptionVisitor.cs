@@ -10,6 +10,7 @@ namespace Cartographer.Compiler
 	using System.Reflection;
 	using System.Runtime.CompilerServices;
 	using Cartographer.Internal.Expressions;
+	using Cartographer.Internal.Extensions;
 	using ExpressionType = System.Linq.Expressions.ExpressionType;
 
 	sealed class DescriptionVisitor: ExpressionVisitor
@@ -247,7 +248,7 @@ namespace Cartographer.Compiler
 		{
 			if (node.Value != null)
 			{
-				string sValue = node.Value.ToString();
+				var sValue = node.Value.ToString();
 				if (node.Value is string)
 				{
 					Append("\"");
@@ -274,7 +275,7 @@ namespace Cartographer.Compiler
 
 		protected override Expression VisitDebugInfo(DebugInfoExpression node)
 		{
-			string s = String.Format(
+			var s = String.Format(
 				CultureInfo.CurrentCulture,
 				"<DebugInfo({0}: {1}, {2}, {3}, {4})>",
 				node.Document.FileName,
@@ -317,7 +318,7 @@ namespace Cartographer.Compiler
 
 		protected override Expression VisitGoto(GotoExpression node)
 		{
-			Append(node.Kind.ToString().ToLower(CultureInfo.CurrentCulture));
+			Append(node.Kind.ToString().ToLower());
 			DumpLabel(node.Target);
 			if (node.Value != null)
 			{
@@ -438,7 +439,7 @@ namespace Cartographer.Compiler
 			Append(" {");
 			for (int i = 0, n = node.Bindings.Count; i < n; i++)
 			{
-				MemberBinding b = node.Bindings[i];
+				var b = node.Bindings[i];
 				if (i > 0)
 				{
 					Append(", ");
@@ -483,8 +484,8 @@ namespace Cartographer.Compiler
 
 		protected override Expression VisitMethodCall(MethodCallExpression node)
 		{
-			int start = 0;
-			Expression ob = node.Object;
+			var start = 0;
+			var ob = node.Object;
 
 			if (Attribute.GetCustomAttribute(node.Method, typeof (ExtensionAttribute)) != null)
 			{
@@ -515,7 +516,7 @@ namespace Cartographer.Compiler
 		{
 			Append("new " + node.Type.Name);
 			Append("(");
-			for (int i = 0; i < node.Arguments.Count; i++)
+			for (var i = 0; i < node.Arguments.Count; i++)
 			{
 				if (i > 0)
 				{
@@ -558,7 +559,7 @@ namespace Cartographer.Compiler
 			}
 			if (String.IsNullOrEmpty(node.Name))
 			{
-				int id = GetParamId(node);
+				var id = GetParamId(node);
 				Append("Param_" + id);
 			}
 			else
@@ -747,7 +748,7 @@ namespace Cartographer.Compiler
 			}
 			else
 			{
-				int labelId = GetLabelId(target);
+				var labelId = GetLabelId(target);
 				Append("UnamedLabel_" + labelId);
 			}
 		}
@@ -844,8 +845,7 @@ namespace Cartographer.Compiler
 		Expression VisitCustom(Expression node)
 		{
 			// Prefer an overriden ToString, if available. 
-			var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.ExactBinding;
-			var toString = node.GetType().GetMethod("ToString", flags, null, Type.EmptyTypes, null);
+			var toString = node.GetType().GetMethod("ToString", TypeExtensions.EmptyTypes);
 			if (toString.DeclaringType != typeof (Expression))
 			{
 				Append(node.ToString());
@@ -872,8 +872,8 @@ namespace Cartographer.Compiler
 			Append(open);
 			if (expressions != null)
 			{
-				bool isFirst = true;
-				foreach (T e in expressions)
+				var isFirst = true;
+				foreach (var e in expressions)
 				{
 					if (isFirst)
 					{

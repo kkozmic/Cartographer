@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using System.Reflection;
@@ -44,7 +43,7 @@
 			if (mapper != null)
 			{
 				// log
-				Settings.InfoLog.Invoke(MethodBase.GetCurrentMethod().Name + " Invoked more than once. Returning cached instance! Make sure you do not call this method multiple times.");
+				Settings.InfoLog.Invoke("MapperBuilder.BuildMapper() invoked more than once. Returning cached instance! Make sure you do not call this method multiple times.");
 			}
 			else
 			{
@@ -90,7 +89,13 @@
 
 		protected virtual TextWriter BuildMappingDescriptorWriter()
 		{
-			return Console.Out;
+			var console = typeof (Object).Assembly.GetType("System.Console");
+			if (console == null)
+			{
+				return TextWriter.Null;
+			}
+			var consoleOut = console.GetProperty("Out", BindingFlags.Public | BindingFlags.Static);
+			return (TextWriter)consoleOut.GetValue(null, null);
 		}
 
 		protected virtual IMappingPattern[] BuildMappingPatterns(IMappingPattern[] customPatterns)
@@ -153,8 +158,8 @@
 
 			public MapperBuilderSettings()
 			{
-				ErrorLog = (t, e) => Trace.TraceError(t + ": {0}", e);
-				InfoLog = t => Trace.TraceInformation(t);
+				ErrorLog = (t, e) => { };
+				InfoLog = t => { };
 			}
 
 			public IConversionPatternGenericCloser ConversionPatternGenericCloser { get; set; }

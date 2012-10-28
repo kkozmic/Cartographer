@@ -1,6 +1,7 @@
 ﻿namespace Cartographer.Internal.Extensions
 {
 	using System;
+	using System.Linq;
 	using System.Reflection;
 
 	public static class AssemblyExtensions
@@ -13,7 +14,7 @@
 			}
 			catch (ReflectionTypeLoadException e)
 			{
-				return Array.FindAll(e.Types, t => t != null);
+				return e.Types.Where(t => t != null).ToArray();
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 namespace Cartographer.Internal
 {
 	using System;
-	using System.Collections.Concurrent;
+	using System.Collections.Generic;
 	using System.ComponentModel;
 	using Cartographer.Compiler;
 
@@ -11,13 +11,13 @@ namespace Cartographer.Internal
 
 		readonly IMappingStrategyBuilder mappingStrategyBuilder;
 
-		readonly ConcurrentDictionary<MappingInfo, Delegate> mappins = new ConcurrentDictionary<MappingInfo, Delegate>();
+		readonly IDictionary<MappingInfo, Delegate> mappins = new Dictionary<MappingInfo, Delegate>();
 
 		readonly ITypeMatcher[] typeMatchers;
 
 		/// <summary>
-		/// 	It is not recommended to use the constructor directly. Use <see cref="MapperBuilder" /> instead to create your instance of <see
-		/// 	 cref="Mapper" /> .
+		///   It is not recommended to use the constructor directly. Use <see cref="MapperBuilder" /> instead to create your instance of <see
+		///    cref="Mapper" /> .
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public Mapper(IMappingStrategyBuilder mappingStrategyBuilder, IMappingCompiler mappingCompiler, ITypeMatcher[] typeMatchers)
@@ -102,6 +102,24 @@ namespace Cartographer.Internal
 				return null;
 			}
 			return item.GetType();
+		}
+	}
+
+	static class ThreadSafeDictionaryExtensions
+	{
+		public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory)
+		{
+			lock (dictionary)
+			{
+				TValue value;
+				if (dictionary.TryGetValue(key, out value))
+				{
+					return value;
+				}
+				value = valueFactory(key);
+				dictionary.Add(key, value);
+				return value;
+			}
 		}
 	}
 }

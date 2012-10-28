@@ -1,9 +1,9 @@
 ﻿namespace Cartographer.Internal.Collections
 {
-	using System;
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Cartographer.Internal.Extensions;
 
 	public class OrderedKeyedCollection<TKey, TValue>: IEnumerable<TValue>
 	{
@@ -11,7 +11,7 @@
 
 		public OrderedKeyedCollection(TKey[] keys)
 		{
-			items = Array.ConvertAll(keys, k => new KeyedValue<TKey, TValue>(k));
+			items = CollectionsUtil.ConvertAll(keys, k => new KeyedValue<TKey, TValue>(k));
 		}
 
 		public IEnumerable<KeyedValue<TKey, TValue>> ByKey
